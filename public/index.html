@@ -3,7 +3,7 @@
 <body>
 <script src="http://d3js.org/d3.v3.min.js"></script>
 <script src="http://d3js.org/topojson.v0.min.js"></script>
-<link rel="stylesheet" href="/stylesheets/style.css"/>
+<link rel="stylesheet" href="/assets/stylesheets/style.css"/>
 <script>
 
     var width = 500, height = 800;
@@ -12,7 +12,7 @@
             .attr("width", width)
             .attr("height", height);
 
-    d3.json("data/argentina.json", function(error, argentina) {
+    d3.json("/assets/data/argentina.json", function(error, argentina) {
         var country = topojson.object(argentina, argentina.objects.country);
 
         // Map projection
