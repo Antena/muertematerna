@@ -6,8 +6,7 @@
 <link rel="stylesheet" href="/stylesheets/style.css"/>
 <script>
 
-    var width = 500,
-            height = 1160;
+    var width = 500, height = 800;
 
     var svg = d3.select("body").append("svg")
             .attr("width", width)
@@ -17,10 +16,9 @@
         var country = topojson.object(argentina, argentina.objects.country);
 
         // Map projection
-        //TODO(gb): use albers equal-area projection instead !!!
-        var projection = d3.geo.mercator()
+        var projection = d3.geo.mercator()             //TODO(gb): use albers equal-area projection instead !!!
                 .scale(6000)
-                .center([-65, -48])
+                .center([-65, -41])
                 .translate([width / 2, height / 2])
 
         // Paths
@@ -32,12 +30,21 @@
                 .datum(country)
                 .attr("d", path);
 
+        // Departments
+        svg.selectAll(".department")
+                .data(topojson.object(argentina, argentina.objects.departments).geometries)
+                .enter().append("path")
+                .attr("class", function(d) {
+                    var val = Math.floor((Math.random()*9));
+                    return "q" + val + "-9";
+                })
+                .attr("d", path);
+
         // Provinces
         svg.selectAll(".province")
                 .data(topojson.object(argentina, argentina.objects.provinces).geometries)
                 .enter().append("path")
                 .attr("class", function(d) {
-                    console.log(d);
                     return "province";
                 })
                 .attr("d", path);
