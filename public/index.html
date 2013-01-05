@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+
+    .province { fill: #ddc; }
+
+</style>
+<body>
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script src="http://d3js.org/topojson.v0.min.js"></script>
+<script>
+
+    var width = 500,
+            height = 1160;
+
+    var svg = d3.select("body").append("svg")
+            .attr("width", width)
+            .attr("height", height);
+
+    d3.json("data/argentina.json", function(error, argentina) {
+        var country = topojson.object(argentina, argentina.objects.country);
+
+        // Map projection
+        //TODO(gb): use albers equal-area projection instead !!!
+        var projection = d3.geo.mercator()
+                .scale(6000)
+                .center([-65, -48])
+                .translate([width / 2, height / 2])
+
+        // Paths
+        var path = d3.geo.path()
+                .projection(projection);
+
+        // Render map
+        svg.append("path")
+                .datum(country)
+                .attr("d", path);
+
+        // Provinces
+        svg.selectAll(".province")
+                .data(topojson.object(argentina, argentina.objects.provinces).geometries)
+                .enter().append("path")
+                .attr("class", function(d) {
+                    console.log(d);
+                    return "province";
+                })
+                .attr("d", path);
+    });
+
+</script>
