@@ -1,7 +1,21 @@
+#country-map {
+    float: left;
+}
+
+#province-map {
+    width: 200px;
+    height: 300px;
+    background: #aaa;
+}
+
 .province {
     fill-opacity: 0;
-    stroke: #888;
+    stroke: #333;
     stroke-width: 1;
+}
+
+.province:hover {
+    cursor: pointer;
 }
 
 .department {
