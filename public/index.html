@@ -1,12 +1,18 @@
 <!DOCTYPE html>
-<meta charset="utf-8">
+<html>
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="/assets/stylesheets/style.css"/>
+    <link rel="stylesheet" href="/assets/stylesheets/d3-bootstrap-plugins.min.css"/>
+
+</head>
 <body>
 <div id="country-map"></div>
-</body>
+
+<script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
 <script src="http://d3js.org/d3.v3.min.js"></script>
 <script src="http://d3js.org/topojson.v0.min.js"></script>
-<script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
-<link rel="stylesheet" href="/assets/stylesheets/style.css"/>
+<script src="/assets/javascripts/d3-bootstrap-plugins.js"></script>
 <script>
 
     var width = 500, height = 800;
@@ -22,7 +28,7 @@
         var projection = d3.geo.mercator()             //TODO(gb): use albers equal-area projection instead !!!
                 .scale(6000)
                 .center([-65, -41])
-                .translate([width / 2, height / 2])
+                .translate([width / 2, height / 2]);
 
         // Paths
         var path = d3.geo.path()
@@ -50,12 +56,29 @@
                 .attr("class", function(d) { return "province"; })
                 .attr("data-id", function(d) { return d.properties.ID_1 })
                 .attr("data-name", function(d) { return d.properties.NAME_1 })
-                .attr("d", path);
-
-        // Click events
-        $(".province").click(function(){
-            console.log("name= " + $(this).attr("data-name") + ", id= " + $(this).attr("data-id"));        //TODO(gb): Remove trace!!!
-        })
+                .attr("d", path)
+                .popover(function(d, i) {
+                    var id, container, g;
+                    id = +d3.select(this).attr('data-id');
+                    container = d3.select(document.createElement("svg")).attr("height", 50);
+                    g = container.append("g");
+                    g.append("rect").attr("width", id * 10).attr("height", 10);
+                    g.append("text").text("ID: " + id).attr("dy", "25");
+                    var bbox = d3.select(this)[0][0].getBBox();
+                    return {
+                        title : d.properties.NAME_1,
+                        content: container,
+                        detection: "shape",
+                        placement: "fixed",
+                        position : [bbox.x,bbox.y],
+                        gravity: "right",
+                        displacement: [bbox.width, -25],
+                        mousemove: false
+                    };
+                });
     });
-
 </script>
+</body>
+
+
+</html>
