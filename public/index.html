@@ -8,11 +8,16 @@
 </head>
 <body>
 <div id="country-map"></div>
+<div id="test">
+    <span>Muertes por año</span>
+</div>
 
 <script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
 <script src="http://d3js.org/d3.v3.min.js"></script>
 <script src="http://d3js.org/topojson.v0.min.js"></script>
 <script src="/assets/javascripts/d3-bootstrap-plugins.js"></script>
+<script src="/assets/javascripts/crossfilter.js"></script>
+<script src="/assets/javascripts/dc.js"></script>
 <script>
 
     var width = 500, height = 800;
@@ -77,6 +82,36 @@
                     };
                 });
     });
+
+    d3.csv("/assets/data/muertes.csv", function(data) {
+        // format dates
+        var dateFormat = d3.time.format("%d/%m/%Y");
+        data.forEach(function(e) {
+            e.dd = dateFormat.parse(e.fecdef.replace("__","01").replace("00/","01/"));
+        });
+
+        // feed it through crossfilter
+        var ndx = crossfilter(data);
+
+        // define group all for counting
+        var all = ndx.groupAll();
+
+        var yearlyDimension = ndx.dimension(function(d) {
+            var year = d3.time.year(d.dd);
+            return year;
+        });
+
+        var deathCountByYear = yearlyDimension.group().reduceCount();
+
+        var deathCountByYearChart = dc.lineChart("#test")
+                .width(700)
+                .dimension(yearlyDimension)
+                .group(deathCountByYear)
+                .x(d3.time.scale().range([dateFormat.parse("2005-01-01"), dateFormat.parse("2010-01-01")]).nice(d3.time.year))
+                .brushOn(false);
+
+        dc.renderAll();
+    })
 </script>
 </body>
 
