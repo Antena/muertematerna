@@ -94,58 +94,25 @@
 
 
     d3.csv("/assets/data/muertes.csv", function(data) {
-        // format dates
-        var dateFormat = d3.time.format("%d/%m/%Y");
+        // Process data
         data.forEach(function(d) {
             d.cause = causes[Math.floor((Math.random()*8))];
             d.count = 0;
         });
 
-        // feed it through crossfilter
-        var ndx = crossfilter(data);
-
-        // define group all for counting
-        var all = ndx.groupAll();
-
-        // yearly dimension
-        yearlyDimension = ndx.dimension(function(d) {
-            return d.year;
-        });
-
-        var denominator = {
-            "2006" : 80,
-            "2007" : 100,
-            "2008" : 50,
-            "2009" : 80,
-            "2010" : 80
-        }
-
-        // death count by year
-        var deathCountByYear = yearlyDimension.group().reduce(
-                function(p,v) {
-                    return (p + 1);
-                },
-                function(p,v) {
-                    return (p - 1);
-                },
-                function() {
-                    return 0;
-                }
-        )
-
+        // Death by year by cause
         var deathsByYearbyCause = d3.nest()
-                .key(function(d) { return d.anio })
                 .key(function(d) { return d.cause })
+                .key(function(d) { return d.anio })
+                .rollup(function(leaves) { return leaves.length })
                 .entries(data);
-
 
         // Build the chart
         var margin = {top: 20, right: 30, bottom: 30, left: 40},
                 width = 960 - margin.left - margin.right,
                 height = 500 - margin.top - margin.bottom;
 
-        var x = d3.time.scale()
-                .range([0, width]);
+        var x =  d3.scale.linear().range([0, width]);
 
         var y = d3.scale.linear()
                 .range([height, 0]);
@@ -155,7 +122,8 @@
         var xAxis = d3.svg.axis()
                 .scale(x)
                 .orient("bottom")
-                .ticks(d3.time.days);
+                .ticks(5)
+                .tickFormat(d3.format("0f"));
 
         var yAxis = d3.svg.axis()
                 .scale(y)
@@ -167,21 +135,21 @@
                     return d.values;
                 })
                 .x(function(d) {
-                    return d.values[0].anio;
+                    return d.key;
                 })
                 .y(function(d) {
-                    return d.values.length;
+                    return d.values;
                 });
 
         var area = d3.svg.area()
-                .interpolate("cardinal")
                 .x(function(d) {
-                    console.log(d);        //TODO(gb): Remove trace!!!
-                    return x(d.values[0].anio);
+                    return x(d.key);
                 })
-                .y0(function(d) { return y(d.y0); })
+                .y0(function(d) {
+                    return d.y0;
+                })
                 .y1(function(d) {
-                    return y(d.y0 + d.y);
+                    return d.y0 + d.y;
                 });
 
         var svg = d3.select("#causesByYear").append("svg")
@@ -192,16 +160,20 @@
 
         var layers = stack(deathsByYearbyCause);
 
-        x.domain([2006,2010]);
+        x.domain([2006, 2010]);
         y.domain([0, d3.max(data, function(d) { return d.y0 + d.y; })]);
-
 
         svg.selectAll(".layer")
                 .data(layers)
                 .enter().append("path")
                 .attr("class", "layer")
-                .attr("d", function(d) { return area(d.values); })
-                .style("fill", function(d, i) { return z(i); });
+                .attr("d", function(d) {
+                    return area(d.values);
+                })
+                .style("fill", function(d, i) { return z(i); })
+                .on("click", function(d) {
+                    console.log(d);        //TODO(gb): Remove trace!!!
+                })
 
         svg.append("g")
                 .attr("class", "x axis")
