@@ -41,7 +41,8 @@
         // Render map
         svg.append("path")
                 .datum(country)
-                .attr("d", path);
+                .attr("d", path)
+                .attr("class", "country");
 
         // Departments
 //        svg.selectAll(".department")
@@ -113,12 +114,13 @@
                 .group(deathCountByYear)
                 .x(d3.scale.ordinal().domain(["2006", "2007", "2008", "2009","2010"]))
                 .xUnits(dc.units.ordinal)
-//                .elasticY(true)
-//                .yAxisPadding(50)
-//                .elasticX(true)
-//                .xAxisPadding(50)
-//                .renderHorizontalGridLines(true)
-//                .xAxis().ticks(5);
+                .brushOn(false)
+                .elasticY(true)
+                .yAxisPadding(50)
+                .elasticX(true)
+                .xAxisPadding(50)
+                .renderHorizontalGridLines(true)
+                .xAxis().ticks(5);
 
         dc.renderAll();
     })

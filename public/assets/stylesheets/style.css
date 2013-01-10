@@ -15,26 +15,23 @@ body {
     background: #aaa;
 }
 
-.province {
-    fill: #DEDEDE;
-    fill-opacity: 1;
-    stroke: #333;
-    stroke-width: 1;
+.country {
+    fill: none;
 }
 
-.province.dimmed {
-    fill: #DEDEDE;
-    fill-opacity: 1;
+.province {
+    fill: grey;
+    fill-opacity: 0.5;
+    stroke: white;
+    stroke-width: 1;
 }
 
 .province:hover {
-    cursor: pointer;
+    fill-opacity: 0.8;
 }
 
 .department {
-    fill: #ddc;
-    stroke: #ccc;
-    stroke-width: 1;
+    fill: none;
 }
 
 .q0-9 { fill:rgb(247,251,255); }
