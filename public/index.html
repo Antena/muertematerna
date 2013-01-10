@@ -11,6 +11,9 @@
 <div id="test">
     <span>Muertes por año</span>
 </div>
+<div id="testStacked">
+    <span>Muertes por año</span>
+</div>
 
 <script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
 <script src="http://d3js.org/d3.v3.min.js"></script>
@@ -88,6 +91,8 @@
         var dateFormat = d3.time.format("%d/%m/%Y");
         data.forEach(function(e) {
             e.dd = dateFormat.parse(e.fecdef.replace("__","01").replace("00/","01/"));
+            e.year = new Date(e.dd).getFullYear();
+            
         });
 
         // feed it through crossfilter
@@ -97,18 +102,31 @@
         var all = ndx.groupAll();
 
         var yearlyDimension = ndx.dimension(function(d) {
-            var year = d3.time.year(d.dd);
-            return year;
+            // var year = d3.time.year(d.dd);
+            // console.log(year);
+            // console.log(d.dd);
+            return d.year;
         });
 
-        var deathCountByYear = yearlyDimension.group().reduceCount();
+        // var deathCountByYear = yearlyDimension.group().reduceCount();
+        var deathCountByYear = yearlyDimension.group();
 
-        var deathCountByYearChart = dc.lineChart("#test")
-                .width(700)
+
+
+        var deathCountByYearChart = dc.barChart("#test")
+                .width(1000)
                 .dimension(yearlyDimension)
                 .group(deathCountByYear)
-                .x(d3.time.scale().range([dateFormat.parse("2005-01-01"), dateFormat.parse("2010-01-01")]).nice(d3.time.year))
-                .brushOn(false);
+                .x(d3.scale.ordinal().domain(["2005", "2006", "2007", "2008", "2009","2010"]))
+                .xUnits(dc.units.ordinal)
+                .centerBar(true);
+
+
+                // .x(d3.time.scale().range([dateFormat.parse("2005-01-01"), dateFormat.parse("2010-01-01")]).nice(d3.time.year))
+                // .x(d3.scale.ordinal().domain(['2006','2007','2008','2009','2010','2011','2012']))
+                // .centerBar(true)
+                // .brushOn(false)
+                // .xUnits(dc.units.ordinal)
 
         dc.renderAll();
     })
