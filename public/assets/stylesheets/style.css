@@ -17,6 +17,8 @@ body {
 
 .country {
     fill: none;
+    stroke: grey;
+    stroke-width: 1;
 }
 
 .province {
@@ -43,6 +45,11 @@ body {
 .q6-9 { fill:rgb(33,113,181); }
 .q7-9 { fill:rgb(8,81,156); }
 .q8-9 { fill:rgb(8,48,107); }
+
+.q0-4 { fill:rgb(222,235,247); }
+.q1-4 { fill:rgb(158,202,225); }
+.q2-4 { fill:rgb(8,81,156); }
+.q3-4 { fill:rgb(8,48,107); }
 
 /* CHARTS */
 .layer {

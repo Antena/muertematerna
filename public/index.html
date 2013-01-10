@@ -107,9 +107,16 @@
                 .rollup(function(leaves) { return leaves.length })
                 .entries(data);
 
+        // Deaths by province by cause
+        var deathsByProvinceByCause = d3.nest()
+                .key(function(d) { return d.cause })
+                .key(function(d) { return d.provre })
+                .rollup(function(leaves) { return leaves.length })
+                .entries(data);
+
         // Build the chart
         var margin = {top: 20, right: 30, bottom: 30, left: 40},
-                width = 960 - margin.left - margin.right,
+                width = 500 - margin.left - margin.right,
                 height = 500 - margin.top - margin.bottom;
 
         var x =  d3.scale.linear().range([0, width]);
@@ -172,7 +179,13 @@
                 })
                 .style("fill", function(d, i) { return z(i); })
                 .on("click", function(d) {
-                    console.log(d);        //TODO(gb): Remove trace!!!
+                    var cause = deathsByProvinceByCause.filter(function(cause) { return cause.key == d.key})[0];
+                    $(".province").each(function(index, path) {
+                        var provre = $(path).attr("data-id");
+                        var value = cause.values[provre] ? cause.values[provre].values : 0;
+                        var quartile = Math.floor((Math.random()*4));
+                        $(path).attr("class", "province " + "q" + quartile + "-4")
+                    });
                 })
 
         svg.append("g")
