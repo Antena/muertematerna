@@ -8,15 +8,12 @@
 </head>
 <body>
 <div id="country-map"></div>
-<div id="mortalityRate">
-</div>
 
-<script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
-<script src="http://d3js.org/d3.v3.min.js"></script>
-<script src="http://d3js.org/topojson.v0.min.js"></script>
+<script src="/assets/javascripts/jquery-1.8.3.min.js"></script>
+<script src="/assets/javascripts/d3.v3.min.js"></script>
 <script src="/assets/javascripts/d3-bootstrap-plugins.js"></script>
+<script src="assets/javascripts/topojson.v0.min.js"></script>
 <script src="/assets/javascripts/crossfilter.js"></script>
-<script src="/assets/javascripts/dc.js"></script>
 <script>
 
     var width = 500, height = 800;
@@ -98,7 +95,7 @@
         var all = ndx.groupAll();
 
         // yearly dimension
-        var yearlyDimension = ndx.dimension(function(d) {
+        yearlyDimension = ndx.dimension(function(d) {
             return d.year;
         });
 
@@ -122,28 +119,6 @@
                     return 0;
                 }
         )
-
-        // death rate chart
-        var deathCountByYearChart = dc.lineChart("#mortalityRate")
-                .width(500)
-                .height(150)
-                .margins({top: 50, right: 50, bottom: 30, left: 30})
-                .dimension(yearlyDimension)
-                .group(deathCountByYear)
-                .x(d3.scale.ordinal().domain(["2006", "2007", "2008", "2009","2010"]))
-                .y(d3.scale.linear().domain([0, 6]))
-                .xUnits(dc.units.ordinal)
-                .brushOn(false)
-                .yAxisPadding(50)
-                .xAxisPadding(50)
-                .renderHorizontalGridLines(true)
-                .valueAccessor(function(p){
-                    console.log(p.value / denominator[p.key]);        //TODO(gb): Remove trace!!!
-                    return p.value / denominator[p.key];
-                })
-                .xAxis().ticks(5);
-
-        dc.renderAll();
     })
 </script>
 </body>
