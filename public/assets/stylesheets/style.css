@@ -7,6 +7,7 @@ body {
 
 #country-map {
     float: left;
+    border: solid 1px #aaa;
 }
 
 #province-map {
@@ -15,17 +16,22 @@ body {
     background: #aaa;
 }
 
-.country {
-    fill: none;
-    stroke: grey;
-    stroke-width: 1;
-}
-
 .province {
     fill: grey;
     fill-opacity: 0.5;
     stroke: white;
     stroke-width: 1;
+    cursor: pointer;
+}
+
+#provinces .active {
+    fill: steelblue;
+    fill-opacity: 1;
+}
+
+.background {
+    fill: none;
+    pointer-events: all;
 }
 
 .province:hover {

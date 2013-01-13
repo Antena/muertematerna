@@ -17,9 +17,11 @@
 <script src="/assets/javascripts/crossfilter.js"></script>
 <script>
 
-    var width = 500, height = 800;
+    var width = 500,
+            height = 800,
+            centered;
 
-    var svg = d3.select("#country-map").append("svg")
+    var g, path, svg = d3.select("#country-map").append("svg")
             .attr("width", width)
             .attr("height", height);
 
@@ -29,31 +31,29 @@
         // Map projection
         var projection = d3.geo.mercator()             //TODO(gb): use albers equal-area projection instead !!!
                 .scale(6000)
-                .center([-65, -41])
+                .center([-49, -56])
                 .translate([width / 2, height / 2]);
 
         // Paths
-        var path = d3.geo.path()
+        path = d3.geo.path()
                 .projection(projection);
 
         // Render map
-        svg.append("path")
-                .datum(country)
-                .attr("d", path)
-                .attr("class", "country");
+        svg.append("rect")
+                .attr("class", "background")
+                .attr("width", width)
+                .attr("height", height)
+                .on("click", zoomToProvince);
 
-        // Departments
-//        svg.selectAll(".department")
-//                .data(topojson.object(argentina, argentina.objects.departments).geometries)
-//                .enter().append("path")
-//                .attr("class", function(d) {
-//                    var val = Math.floor((Math.random()*9));
-//                    return "q" + val + "-9";
-//                })
-//                .attr("d", path);
+        g = svg.append("g")
+                .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")")
+                .append("g")
+                .attr("id", "provinces");
+
+
 
         // Provinces
-        svg.selectAll(".province")
+        g.selectAll(".province")
                 .data(topojson.object(argentina, argentina.objects.provinces).geometries)
                 .enter().append("path")
                 .attr("class", function(d) { return "province"; })
@@ -78,7 +78,8 @@
                         displacement: [bbox.width, -25],
                         mousemove: false
                     };
-                });
+                })
+                .on("click", zoomToProvince);
     });
 
     var causes = [
@@ -124,7 +125,7 @@
         var y = d3.scale.linear()
                 .range([height, 0]);
 
-        var z = d3.scale.category20c();
+        var z = d3.scale.category10();
 
         var xAxis = d3.svg.axis()
                 .scale(x)
@@ -198,6 +199,31 @@
                 .call(yAxis);
 
     })
+
+    function zoomToProvince(d) {
+        console.log("zoomToProvince");        //TODO(gb): Remove trace!!!
+        var x = 0,
+                y = 0,
+                k = 1;
+
+        if (d && centered !== d) {
+            var centroid = path.centroid(d);
+            x = -centroid[0];
+            y = -centroid[1];
+            k = 4;
+            centered = d;
+        } else {
+            centered = null;
+        }
+
+        g.selectAll("path")
+                .classed("active", centered && function(d) { return d === centered; });
+
+        g.transition()
+                .duration(1000)
+                .attr("transform", "scale(" + k + ")translate(" + x + "," + y + ")")
+                .style("stroke-width", 1.5 / k + "px");
+    }
 </script>
 </body>
 
