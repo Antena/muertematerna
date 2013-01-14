@@ -35,6 +35,7 @@
 <script src="/assets/javascripts/topojson.v0.min.js"></script>
 <script src="/assets/javascripts/colorbrewer.js"></script>
 <script src="/assets/javascripts/d3choropleth.js"></script>
+<script src="assets/javascripts/causeOfDeathAreaChart.js"></script>
 <script>
 
     // Location typeahead
@@ -45,8 +46,13 @@
     // Zoom out
     $('#zoomout').click(d3choropleth.zoomOut);
 
+    // Cause of death area chart
+    causeOfDeathAreaChart.draw('causesByYear', {
+        width: 380,
+        margin : {left: 30}
+    });
 
-
+    // Map
     d3choropleth.map("map", {
         width : 300,
         height: 500,
@@ -97,121 +103,6 @@
 //                })
 //                .on("click", zoomToProvince);
 //    });
-
-    var causes = [
-        "Embarazo terminado en aborto",
-        "Causas obstétricas directas|Trastornos hipertensivos",
-        "Causas obstétricas directas|Trastornos de placenta y hemorragias preparto",
-        "Causas obstétricas directas|Hemorragia postparto",
-        "Causas obstétricas directas|Sepsis",
-        "Causas obstétricas directas|Otras causas directas",
-        "Causas obstétricas indirectas|Enfermedad por virus de la inmunodeficiencia humana",
-        "Causas obstétricas indirectas|Otras causas indirectas"
-    ];
-
-
-    d3.csv("/assets/data/muertes.csv", function(data) {
-        // Process data
-        data.forEach(function(d) {
-            d.cause = causes[Math.floor((Math.random()*8))];
-            d.count = 0;
-        });
-
-        // Death by year by cause
-        var deathsByYearbyCause = d3.nest()
-                .key(function(d) { return d.cause })
-                .key(function(d) { return d.anio })
-                .rollup(function(leaves) { return leaves.length })
-                .entries(data);
-
-        // Deaths by province by cause
-        var deathsByProvinceByCause = d3.nest()
-                .key(function(d) { return d.cause })
-                .key(function(d) { return d.provre })
-                .rollup(function(leaves) { return leaves.length })
-                .entries(data);
-
-        // Build the chart
-        var margin = {top: 20, right: 30, bottom: 30, left: 40},
-                width = 380 - margin.left - margin.right,
-                height = 380 - margin.top - margin.bottom;
-
-        var x =  d3.scale.linear().range([0, width]);
-
-        var y = d3.scale.linear()
-                .range([height, 0]);
-
-        var z = d3.scale.category10();
-
-        var xAxis = d3.svg.axis()
-                .scale(x)
-                .orient("bottom")
-                .ticks(5)
-                .tickFormat(d3.format("0f"));
-
-        var yAxis = d3.svg.axis()
-                .scale(y)
-                .orient("left");
-
-        var stack = d3.layout.stack()
-                .offset("zero")
-                .values(function(d) {
-                    return d.values;
-                })
-                .x(function(d) {
-                    return d.key;
-                })
-                .y(function(d) {
-                    return d.values;
-                });
-
-        var area = d3.svg.area()
-                .x(function(d) {
-                    return x(d.key);
-                })
-                .y0(function(d) {
-                    return d.y0;
-                })
-                .y1(function(d) {
-                    return d.y0 + d.y;
-                });
-
-        var svg = d3.select("#causesByYear").append("svg")
-                .attr("width", width + margin.left + margin.right)
-                .attr("height", height + margin.top + margin.bottom)
-                .append("g")
-                .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-        var layers = stack(deathsByYearbyCause);
-
-        x.domain([2006, 2010]);
-        y.domain([0, d3.max(data, function(d) { return d.y0 + d.y; })]);
-
-        svg.selectAll(".layer")
-                .data(layers)
-                .enter().append("path")
-                .attr("class", "layer")
-                .attr("d", function(d) {
-                    return area(d.values);
-                })
-                .style("fill", function(d, i) { return z(i); })
-                .on("click", function(d) {
-                    var cause = deathsByProvinceByCause.filter(function(cause) { return cause.key == d.key})[0];
-                    d3choropleth.colorize("provinces", "Purples", function() {
-                        return Math.floor(Math.random() * 4);
-                    });
-                })
-
-        svg.append("g")
-                .attr("class", "x axis")
-                .attr("transform", "translate(0," + height + ")")
-                .call(xAxis);
-
-        svg.append("g")
-                .attr("class", "y axis")
-                .call(yAxis);
-
-    })
 </script>
 </body>
 

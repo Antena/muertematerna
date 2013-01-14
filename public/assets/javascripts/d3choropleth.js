@@ -16,13 +16,13 @@
         }
     };
 
-    d3choropleth.map = function(containerDivId, defaultOptions) {
+    d3choropleth.map = function(containerDivId, customOptions) {
         var self = this;
 
         // Gather map options
         self.options.selector = '#' + containerDivId;
         self.container = $(self.options.selector);
-        $.extend(self.options, defaultOptions);
+        $.extend(self.options, customOptions);
 
         // Load map data
         if (self.options.dataType == 'json') {
