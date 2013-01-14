@@ -14,28 +14,38 @@
     </p>
     <div class="row">
         <div class="span5">
-            <div id="causesByYear"></div>
+            <h5>Evolución de tasas de muerte materna por causa</h5>
+         <div id="causesByYear"></div>
         </div>
         <div class="span4">
+            <h5>Evolución de tasas de muerte materna por causa</h5>
+            <input type="text" class="typeahead span4" id="locationTypeahead" placeholder="Buscar provincia o departamento">
+            <a href="#" id="zoomout" style="font-size: 11px" class="pull-right">Zoom out</a>
             <div id="map"></div>
         </div>
         <div class="span3">
-
         </div>
     </div>
 </div>
 
-
-
-
-
 <script src="/assets/javascripts/jquery-1.8.3.min.js"></script>
 <script src="/assets/javascripts/d3.v3.min.js"></script>
 <script src="/assets/javascripts/d3-bootstrap-plugins.js"></script>
+<script src="/assets/javascripts/bootstrap.min.js"></script>
 <script src="/assets/javascripts/topojson.v0.min.js"></script>
 <script src="/assets/javascripts/colorbrewer.js"></script>
 <script src="/assets/javascripts/d3choropleth.js"></script>
 <script>
+
+    // Location typeahead
+    $('#locationTypeahead').typeahead({
+        source : ["Buenos Aires"]
+    });
+
+    // Zoom out
+    $('#zoomout').click(d3choropleth.zoomOut);
+
+
 
     d3choropleth.map("map", {
         width : 300,
@@ -44,6 +54,7 @@
         center : [-48, -55.5],
         dataUrl : '/assets/data/argentina.json',
         dataType : 'json',
+        zoomOutControlId : 'zoomout',
         layers : {
             provinces : {
                 geometriesClass : 'province',
@@ -112,7 +123,6 @@
                 .key(function(d) { return d.anio })
                 .rollup(function(leaves) { return leaves.length })
                 .entries(data);
-        console.log(deathsByYearbyCause);        //TODO(gb): Remove trace!!!
 
         // Deaths by province by cause
         var deathsByProvinceByCause = d3.nest()

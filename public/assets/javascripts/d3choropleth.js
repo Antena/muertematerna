@@ -2,7 +2,7 @@
 
     var layers = {};
     var g, path;
-    var centered, zoomedGroup;
+    var background, centered, zoomedGroup;
     var legend;
 
     d3choropleth = {
@@ -56,7 +56,7 @@
             .attr("height", self.options.height);
 
         // Map background
-        self.svg.append("rect")
+        background = self.svg.append("rect")
             .attr("class", "background")
             .attr("width", self.options.width)
             .attr("height", self.options.height)
@@ -95,7 +95,6 @@
             .attr("dy", ".35em")
             .style("text-anchor", "end")
             .text(function(d) {
-                console.log(d);        //TODO(gb): Remove trace!!!
                 return d;
             });
 
@@ -142,6 +141,10 @@
             .style('fill', d3.scale.ordinal().range(legendColors));
     };
 
+    d3choropleth.zoomOut = function() {
+        zoomToObject(null);
+    };
+
     function zoomToObject(d) {
         var x = 0,
             y = 0,
@@ -153,8 +156,12 @@
             y = -centroid[1];
             k = 4;
             centered = d;
+            if (self.options.zoomOutControlId)
+                $('#' + self.options.zoomOutControlId).css("visibility", "visible");
         } else {
             centered = null;
+            if (self.options.zoomOutControlId)
+                $('#' + self.options.zoomOutControlId).css("visibility", "hidden");
         }
 
         zoomedGroup.selectAll("path")
