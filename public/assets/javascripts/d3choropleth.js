@@ -90,8 +90,9 @@
                     zoomedGroup = layers[name].g;
                     zoomToObject(d);
                 }
-
             });
+
+        layerOptions.colorize.call(layers[name].g);
     }
 
     function zoomToObject(d) {

@@ -9,7 +9,7 @@
 <body>
 <div id="country-map"></div>
 
-<!--<div id="causesByYear"></div>-->
+<div id="causesByYear"></div>
 
 <script src="/assets/javascripts/jquery-1.8.3.min.js"></script>
 <script src="/assets/javascripts/d3.v3.min.js"></script>
@@ -28,7 +28,11 @@
         layers : {
             provinces : {
                 geometriesClass : 'province',
-                clickToZoom : true
+                clickToZoom : true,
+                colorize : function() {
+                    console.log("colorize");        //TODO(gb): Remove trace!!!
+                    console.log(this);        //TODO(gb): Remove trace!!!
+                }
             }
         }
     });
