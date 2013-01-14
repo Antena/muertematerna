@@ -8,79 +8,60 @@
 </head>
 <body>
 <div id="country-map"></div>
-<div id="causesByYear"></div>
+
+<!--<div id="causesByYear"></div>-->
 
 <script src="/assets/javascripts/jquery-1.8.3.min.js"></script>
 <script src="/assets/javascripts/d3.v3.min.js"></script>
 <script src="/assets/javascripts/d3-bootstrap-plugins.js"></script>
-<script src="assets/javascripts/topojson.v0.min.js"></script>
-<script src="/assets/javascripts/crossfilter.js"></script>
+<script src="/assets/javascripts/topojson.v0.min.js"></script>
+<script src="/assets/javascripts/d3choropleth.js"></script>
 <script>
 
-    var width = 500,
-            height = 800,
-            centered;
-
-    var g, path, svg = d3.select("#country-map").append("svg")
-            .attr("width", width)
-            .attr("height", height);
-
-    d3.json("/assets/data/argentina.json", function(error, argentina) {
-        var country = topojson.object(argentina, argentina.objects.country);
-
-        // Map projection
-        var projection = d3.geo.mercator()             //TODO(gb): use albers equal-area projection instead !!!
-                .scale(6000)
-                .center([-49, -56])
-                .translate([width / 2, height / 2]);
-
-        // Paths
-        path = d3.geo.path()
-                .projection(projection);
-
-        // Render map
-        svg.append("rect")
-                .attr("class", "background")
-                .attr("width", width)
-                .attr("height", height)
-                .on("click", zoomToProvince);
-
-        g = svg.append("g")
-                .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")")
-                .append("g")
-                .attr("id", "provinces");
-
-
+    d3choropleth.map("country-map", {
+        width : 500,
+        height: 800,
+        scale : 6000,
+        center : [-49, -56],
+        dataUrl : '/assets/data/argentina.json',
+        dataType : 'json',
+        layers : {
+            provinces : {
+                geometriesClass : 'province',
+                clickToZoom : true
+            }
+        }
+    });
 
         // Provinces
-        g.selectAll(".province")
-                .data(topojson.object(argentina, argentina.objects.provinces).geometries)
-                .enter().append("path")
-                .attr("class", function(d) { return "province"; })
-                .attr("data-id", function(d) { return d.properties.ID_1 })
-                .attr("data-name", function(d) { return d.properties.NAME_1 })
-                .attr("d", path)
-                .popover(function(d, i) {
-                    var id, container, g;
-                    id = +d3.select(this).attr('data-id');
-                    container = d3.select(document.createElement("svg")).attr("height", 50);
-                    g = container.append("g");
-                    g.append("rect").attr("width", id * 10).attr("height", 10);
-                    g.append("text").text("ID: " + id).attr("dy", "25");
-                    var bbox = d3.select(this)[0][0].getBBox();
-                    return {
-                        title : d.properties.NAME_1,
-                        content: container,
-                        detection: "shape",
-                        placement: "fixed",
-                        position : [bbox.x,bbox.y],
-                        gravity: "right",
-                        displacement: [bbox.width, -25],
-                        mousemove: false
-                    };
-                })
-                .on("click", zoomToProvince);
-    });
+//        g.selectAll(".province")
+//                .data(topojson.object(argentina, argentina.objects.provinces).geometries)
+//                .enter().append("path")
+//                .attr("class", function(d) { return "province"; })
+//                .attr("data-id", function(d) { return d.properties.ID_1 })
+//                .attr("data-name", function(d) { return d.properties.NAME_1 })
+//                .attr("d", path)
+//                .popover(function(d, i) {
+//                    var id, container, g;
+//                    id = +d3.select(this).attr('data-id');
+//                    container = d3.select(document.createElement("svg")).attr("height", 50);
+//                    g = container.append("g");
+//                    g.append("rect").attr("width", id * 10).attr("height", 10);
+//                    g.append("text").text("ID: " + id).attr("dy", "25");
+//                    var bbox = d3.select(this)[0][0].getBBox();
+//                    return {
+//                        title : d.properties.NAME_1,
+//                        content: container,
+//                        detection: "shape",
+//                        placement: "fixed",
+//                        position : [bbox.x,bbox.y],
+//                        gravity: "right",
+//                        displacement: [bbox.width, -25],
+//                        mousemove: false
+//                    };
+//                })
+//                .on("click", zoomToProvince);
+//    });
 
     var causes = [
         "Embarazo terminado en aborto",
