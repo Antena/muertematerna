@@ -1,7 +1,9 @@
 (function() {
 
     var layers = {};
-    var g, path, centered, zoomedGroup;
+    var g, path;
+    var centered, zoomedGroup;
+    var legend;
 
     d3choropleth = {
         version : "0.1",
@@ -67,6 +69,35 @@
             self.addLayer(name, topology.objects[name]);
         }
 
+        // Map legend
+        var legendColors = d3.scale.ordinal()
+            .range(colorbrewer.Blues[4]);
+
+        legend = self.svg
+            .append("g")
+            .attr("id", "legend")
+            .selectAll(".legend-box")
+            .data(colorbrewer.Blues[4])
+            .enter().append("g")
+            .attr("class", "legend-box")
+            .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
+
+        legend.append("rect")
+            .attr("x", self.options.width - 18)
+            .attr("width", 18)
+            .attr("height", 18)
+            .style("fill", legendColors);
+
+        legend.append("text")
+            .attr("x", self.options.width - 24)
+            .attr("y", 9)
+            .attr("dy", ".35em")
+            .style("text-anchor", "end")
+            .text(function(d) {
+                console.log(d);        //TODO(gb): Remove trace!!!
+                return d;
+            });
+
         self.options.onLoad.call();
     };
 
@@ -95,18 +126,19 @@
             });
     };
 
-    d3choropleth.colorize = function(layerName, color, calculateClass) {
+    d3choropleth.colorize = function(layerName, color, calculateQuartile) {
         var self = this;
 
         var layerOptions = self.options.layers[layerName];
-
-        layers[layerName].g
-            .attr("class", color);
+        var legendColors = colorbrewer[color][4];
 
         layers[layerName].g.selectAll('.' + layerOptions.geometriesClass)
-            .attr("class", function(d) {
-                return calculateClass.call(d);
+            .style("fill", function(d) {
+                return legendColors[calculateQuartile(d)];
             })
+
+        legend.selectAll('rect')
+            .style('fill', d3.scale.ordinal().range(legendColors));
     };
 
     function zoomToObject(d) {

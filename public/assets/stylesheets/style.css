@@ -16,6 +16,10 @@ body {
     pointer-events: all;
 }
 
+#legend {
+    background: #ffffff;
+}
+
 #map .province {
     stroke: white;
     stroke-width: 1;
@@ -27,7 +31,7 @@ body {
 }
 
 #provinces .active, #departments .active {
-    fill: red;
+
 }
 
 .department {
