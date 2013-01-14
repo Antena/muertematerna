@@ -76,6 +76,7 @@
         legend = self.svg
             .append("g")
             .attr("id", "legend")
+            .attr("transform", "translate(0," + (self.options.height - 4 * 20) + ")")
             .selectAll(".legend-box")
             .data(colorbrewer.Blues[4])
             .enter().append("g")
