@@ -5,57 +5,35 @@ body {
     color: #333;
 }
 
-#country-map {
+#map {
     float: left;
     border: solid 1px #aaa;
+    background: #dddddd;
 }
 
-#province-map {
-    width: 200px;
-    height: 300px;
-    background: #aaa;
+#map .background {
+    fill: none;
+    pointer-events: all;
 }
 
-.province {
-    fill: grey;
-    fill-opacity: 0.5;
+#map .province {
     stroke: white;
     stroke-width: 1;
     cursor: pointer;
 }
 
-#provinces .active {
-    fill: steelblue;
-    fill-opacity: 1;
-}
-
-.background {
-    fill: none;
-    pointer-events: all;
-}
-
-.province:hover {
+#map .province:hover {
     fill-opacity: 0.8;
+}
+
+#provinces .active, #departments .active {
+    fill: red;
 }
 
 .department {
     fill: none;
+    stroke: none;
 }
-
-.q0-9 { fill:rgb(247,251,255); }
-.q1-9 { fill:rgb(222,235,247); }
-.q2-9 { fill:rgb(198,219,239); }
-.q3-9 { fill:rgb(158,202,225); }
-.q4-9 { fill:rgb(107,174,214); }
-.q5-9 { fill:rgb(66,146,198); }
-.q6-9 { fill:rgb(33,113,181); }
-.q7-9 { fill:rgb(8,81,156); }
-.q8-9 { fill:rgb(8,48,107); }
-
-.q0-4 { fill:rgb(66,146,198); }
-.q1-4 { fill:rgb(33,113,181); }
-.q2-4 { fill:rgb(8,81,156); }
-.q3-4 { fill:rgb(8,48,107); }
 
 /* CHARTS */
 .layer {

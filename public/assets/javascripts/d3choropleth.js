@@ -1,7 +1,7 @@
 (function() {
 
     var layers = {};
-    var path, centered, zoomedGroup;
+    var g, path, centered, zoomedGroup;
 
     d3choropleth = {
         version : "0.1",
@@ -66,6 +66,8 @@
         for (name in self.options.layers) {
             self.addLayer(name, topology.objects[name]);
         }
+
+        self.options.onLoad.call();
     };
 
     d3choropleth.addLayer = function(name, topology) {
@@ -91,9 +93,21 @@
                     zoomToObject(d);
                 }
             });
+    };
 
-        layerOptions.colorize.call(layers[name].g);
-    }
+    d3choropleth.colorize = function(layerName, color, calculateClass) {
+        var self = this;
+
+        var layerOptions = self.options.layers[layerName];
+
+        layers[layerName].g
+            .attr("class", color);
+
+        layers[layerName].g.selectAll('.' + layerOptions.geometriesClass)
+            .attr("class", function(d) {
+                return calculateClass.call(d);
+            })
+    };
 
     function zoomToObject(d) {
         var x = 0,
