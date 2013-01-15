@@ -94,9 +94,7 @@
             .attr("y", 9)
             .attr("dy", ".35em")
             .style("text-anchor", "end")
-            .text(function(d) {
-                return d;
-            });
+            .text(function(d) { return d; });
 
         self.options.onLoad.call();
     };
@@ -143,7 +141,8 @@
             .style('fill', d3.scale.ordinal().range(legendColors));
     };
 
-    d3choropleth.zoomOut = function() {
+    d3choropleth.zoomOut = function(e) {
+        e.preventDefault();
         zoomToObject(null);
     };
 

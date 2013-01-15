@@ -1,26 +1,15 @@
 (function() {
-    var svg;
-
-    var causes = [
-        "Embarazo terminado en aborto",
-        "Causas obstétricas directas|Trastornos hipertensivos",
-        "Causas obstétricas directas|Trastornos de placenta y hemorragias preparto",
-        "Causas obstétricas directas|Hemorragia postparto",
-        "Causas obstétricas directas|Sepsis",
-        "Causas obstétricas directas|Otras causas directas",
-        "Causas obstétricas indirectas|Enfermedad por virus de la inmunodeficiencia humana",
-        "Causas obstétricas indirectas|Otras causas indirectas"
-    ];
+    var svg, directLegend, indirectLegend;
 
     var causesArray = [
-        { key : 'Aborto_P', color:'#9467bd', colorGroup:'Purples' },
-        { key : 'T_Hipert_P', color:'#1f77b4', colorGroup:'Blues' },
-        { key : 'T_Placenta_P', color:'#2ca02c', colorGroup:'Greens' },
-        { key : 'Otras_directas_P', color:'#ff7f0e', colorGroup:'Oranges'},
-        { key : 'Hemorragia_post_P', color:'#d62728', colorGroup:'Reds'},
-        { key : 'Sepsis_y_O_P', color:'#CE1256', colorGroup:'PuRd'},
-        { key : 'Enf_por_VIH_P', color:'#d62728', colorGroup:'YlOrBr'},
-        { key : 'Otras_ind_P', color:'#7f7f7f', colorGroup:'Greys'}
+        { key:'Aborto_P', color:'#9467bd', colorGroup:'Purples', type:'direct', text:'Embarazo terminado en aborto' },
+        { key:'T_Hipert_P', color:'#1f77b4', colorGroup:'Blues', type:'direct', text:'Trastornos hipertensivos' },
+        { key:'T_Placenta_P', color:'#2ca02c', colorGroup:'Greens', type:'direct', text:'Trastornos de placenta y hemorragias' },
+        { key:'Otras_directas_P', color:'#ff7f0e', colorGroup:'Oranges', type:'direct', text:'Otras causas directas' },
+        { key:'Hemorragia_post_P', color:'#d62728', colorGroup:'Reds', type:'direct', text:'Hemorragia postparto' },
+        { key:'Sepsis_y_O_P', color:'#CE1256', colorGroup:'PuRd', type:'direct', text:'Sepsis' },
+        { key:'Enf_por_VIH_P', color:'#d62728', colorGroup:'YlOrBr', type:'indirect', text:'Enfermedad por VIH' },
+        { key:'Otras_ind_P', color:'#7f7f7f', colorGroup:'Greys', type:'indirect', text:'Otras causas indirectas' }
     ];
 
     causeOfDeathAreaChart = {
@@ -82,6 +71,8 @@
             var layers = stack(deathByProvince[27].values);
 
             // Build the chart
+            buildLegends(self);
+
             var margin = self.options.margin,
                 width = self.options.width - margin.left - margin.right,
                 height = self.options.height - margin.top - margin.bottom;
@@ -134,17 +125,7 @@
                     return area(d.values);
                 })
                 .style("fill", function(d, i) { return z(i); })
-                .on("click", function(d, i) {
-                    var cause = causesArray.filter(function(elem) { return elem.key == d.key})[0];
-                    svg.selectAll(".cause")
-                        .transition()
-                        .style("fill", function(d) {
-                            return d.key == cause.key ? cause.color : "#aaa";
-                        });
-                    d3choropleth.colorize("provinces", cause.colorGroup, function() {
-                        return Math.floor(Math.random() * 4);
-                    })
-                })
+                .on("click", causeOfDeathAreaChart.setCause);
 
             svg.append("g")
                 .attr("class", "x axis")
@@ -158,12 +139,108 @@
         })
     }
 
-    causeOfDeathAreaChart.reset = function() {
+    causeOfDeathAreaChart.reset = function(e) {
+        e.preventDefault();
+
+        // Cause area
         svg.selectAll(".cause")
             .transition()
             .style("fill", function(d, i) {
                 var cause = causesArray.filter(function(elem) { return elem.key == d.key})[0];
                 return cause.color;
             });
+
+        // Direct legend
+        directLegend.selectAll('.legend-box rect')
+            .transition()
+            .style('fill', function(d) {
+                return d.color;
+            });
+        directLegend.selectAll('.legend-box text')
+            .transition()
+            .style('fill', '#333');
+
+        // Indirect legend
+        indirectLegend.selectAll('.legend-box rect')
+            .transition()
+            .style('fill', function(d) {
+                return d.color;
+            });
+        indirectLegend.selectAll('.legend-box text')
+            .transition()
+            .style('fill', '#333');
+    }
+
+    causeOfDeathAreaChart.setCause = function(d) {
+        var cause = causesArray.filter(function(elem) { return elem.key == d.key})[0];
+
+        // Cause area
+        svg.selectAll(".cause")
+            .transition()
+            .style("fill", function(d) {
+                return d.key == cause.key ? cause.color : "#aaa";
+            });
+
+        // Direct cause legend
+        directLegend.selectAll('.legend-box rect')
+            .transition()
+            .style('fill', function(d) {
+                return d.key == cause.key ? cause.color : "#aaa";
+            });
+        directLegend.selectAll('.legend-box text')
+            .transition()
+            .style('fill', function(d) {
+                return d.key == cause.key ? '#333' : "#aaa";
+            });
+
+        // Indirect cause legend
+        indirectLegend.selectAll('.legend-box rect')
+            .transition()
+            .style('fill', function(d) {
+                return d.key == cause.key ? cause.color : "#aaa";
+            });
+        indirectLegend.selectAll('.legend-box text')
+            .transition()
+            .style('fill', function(d) {
+                return d.key == cause.key ? '#333' : "#aaa";
+            });
+
+        d3choropleth.colorize("provinces", cause.colorGroup, function() {
+            return Math.floor(Math.random() * 4);
+        })
+    }
+
+    function buildLegends(self) {
+        directLegend = drawLegend(self.options.directCausesLegendDivId, 'direct');
+        indirectLegend = drawLegend(self.options.indirectCausesLegendDivId, 'indirect');
+    }
+
+    function drawLegend(divId, type) {
+        var legend = d3.select('#' + divId).append('svg')
+            .attr('width', 140)
+            .attr('height', 120)
+            .append('g')
+            .selectAll('.legend-box')
+            .data(causesArray.filter(function(cause) { return cause.type == type }))
+            .enter()
+            .append('g')
+            .attr("class", "legend-box")
+            .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
+
+        legend.append("rect")
+            .attr("x", 0)
+            .attr("width", 18)
+            .attr("height", 18)
+            .style("fill", function(d) { return d.color })
+            .on("click", causeOfDeathAreaChart.setCause);
+
+        legend.append("text")
+            .attr("x", 24)
+            .attr("y", 9)
+            .attr("dy", ".35em")
+            .text(function(d) { return d.text; })
+            .on("click", causeOfDeathAreaChart.setCause);
+
+        return legend;
     }
 })()

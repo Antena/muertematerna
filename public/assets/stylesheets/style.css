@@ -52,6 +52,24 @@
 /***********************************************************************************************************************
  * CHARTS
  **********************************************************************************************************************/
+.legend-title {
+    font-size: 11px;
+    color: #999;
+    text-transform: uppercase;
+    font-weight: bold;
+    line-height: 13px;
+}
+
+#direct-causes-legend rect, #direct-causes-legend text,
+#indirect-causes-legend rect, #indirect-causes-legend text{
+    cursor: pointer;
+}
+
+#direct-causes-legend text, #indirect-causes-legend text {
+    font-size: 11px;
+    fill: #333;
+}
+
 .cause {
     cursor: pointer;
     stroke: none;
