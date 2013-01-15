@@ -16,6 +16,8 @@
         }
     };
 
+    d3choropleth.currentColorGorup = "Blues";
+
     d3choropleth.map = function(containerDivId, customOptions) {
         var self = this;
 
@@ -137,6 +139,7 @@
         var self = this;
 
         var layerOptions = self.options.layers[layerName];
+        d3choropleth.currentColorGorup = color;
         var legendColors = colorbrewer[color][4];
 
         layers[layerName].g.selectAll('.' + layerOptions.geometriesClass)
@@ -149,6 +152,8 @@
             .transition()
             .style('fill', d3.scale.ordinal().range(legendColors));
     };
+
+
 
     d3choropleth.zoomOut = function(e) {
         e.preventDefault();
