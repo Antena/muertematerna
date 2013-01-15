@@ -15,12 +15,13 @@
     <div class="row">
         <div class="span5">
             <h5>Evolución de tasas de muerte materna por causa</h5>
+            <a href="#" id="resetarea" style="font-size: 11px; margin-right: 30px" class="pull-right">Reset</a>
          <div id="causesByYear"></div>
         </div>
         <div class="span4">
             <h5>Evolución de tasas de muerte materna por causa</h5>
             <input type="text" class="typeahead span4" id="locationTypeahead" placeholder="Buscar provincia o departamento">
-            <a href="#" id="zoomout" style="font-size: 11px" class="pull-right">Zoom out</a>
+            <a href="#" id="zoomout" style="font-size: 11px" class="pull-right">Reset</a>
             <div id="map"></div>
         </div>
         <div class="span3">
@@ -45,6 +46,9 @@
 
     // Zoom out
     $('#zoomout').click(d3choropleth.zoomOut);
+
+    // Reset area chart
+    $('#resetarea').click(causeOfDeathAreaChart.reset);
 
     // Cause of death area chart
     causeOfDeathAreaChart.draw('causesByYear', {

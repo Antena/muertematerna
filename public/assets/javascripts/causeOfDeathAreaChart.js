@@ -1,4 +1,5 @@
 (function() {
+    var svg;
 
     var causes = [
         "Embarazo terminado en aborto",
@@ -116,7 +117,7 @@
                     return y(d.y0 + d.y);
                 });
 
-            var svg = d3.select("#" + containerDivId).append("svg")
+            svg = d3.select("#" + containerDivId).append("svg")
                 .attr("width", width + margin.left + margin.right)
                 .attr("height", height + margin.top + margin.bottom)
                 .append("g")
@@ -135,6 +136,11 @@
                 .style("fill", function(d, i) { return z(i); })
                 .on("click", function(d, i) {
                     var cause = causesArray.filter(function(elem) { return elem.key == d.key})[0];
+                    svg.selectAll(".cause")
+                        .transition()
+                        .style("fill", function(d) {
+                            return d.key == cause.key ? cause.color : "#aaa";
+                        });
                     d3choropleth.colorize("provinces", cause.colorGroup, function() {
                         return Math.floor(Math.random() * 4);
                     })
@@ -150,5 +156,14 @@
                 .call(yAxis);
 
         })
+    }
+
+    causeOfDeathAreaChart.reset = function() {
+        svg.selectAll(".cause")
+            .transition()
+            .style("fill", function(d, i) {
+                var cause = causesArray.filter(function(elem) { return elem.key == d.key})[0];
+                return cause.color;
+            });
     }
 })()
