@@ -17,8 +17,8 @@
         { key : 'T_Placenta_P', color:'#2ca02c', colorGroup:'Greens' },
         { key : 'Otras_directas_P', color:'#ff7f0e', colorGroup:'Oranges'},
         { key : 'Hemorragia_post_P', color:'#d62728', colorGroup:'Reds'},
-        { key : 'Sepsis_y_O_P', color:'#d62728', colorGroup:'YlOrBr'},
-        { key : 'Enf_por_VIH_P', color:'#CE1256', colorGroup:'PuRd'},
+        { key : 'Sepsis_y_O_P', color:'#CE1256', colorGroup:'PuRd'},
+        { key : 'Enf_por_VIH_P', color:'#d62728', colorGroup:'YlOrBr'},
         { key : 'Otras_ind_P', color:'#7f7f7f', colorGroup:'Greys'}
     ];
 
@@ -128,7 +128,7 @@
             svg.selectAll(".layer")
                 .data(layers)
                 .enter().append("path")
-                .attr("class", "layer")
+                .attr("class", "cause")
                 .attr("d", function(d) {
                     return area(d.values);
                 })

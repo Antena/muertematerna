@@ -10,11 +10,16 @@
     pointer-events: all;
 }
 
-#legend {
+#legend rect {
     background: #ffffff;
 }
 
+#legend .legend-box rect {
+    stroke: #999;
+}
+
 #map .province {
+    fill: white;
     stroke: #aaa;
     stroke-width: 1;
     cursor: pointer;
@@ -25,7 +30,7 @@
 }
 
 #provinces .active, #departments .active {
-
+    stroke-width: 2;
 }
 
 .department {
@@ -47,7 +52,7 @@
 /***********************************************************************************************************************
  * CHARTS
  **********************************************************************************************************************/
-.layer {
+.cause {
     cursor: pointer;
 }
 .axis path, .axis line {

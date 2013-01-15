@@ -133,11 +133,13 @@
         var legendColors = colorbrewer[color][4];
 
         layers[layerName].g.selectAll('.' + layerOptions.geometriesClass)
+            .transition()
             .style("fill", function(d) {
                 return legendColors[calculateQuartile(d)];
             })
 
         legend.selectAll('rect')
+            .transition()
             .style('fill', d3.scale.ordinal().range(legendColors));
     };
 
