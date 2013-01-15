@@ -16,6 +16,7 @@
         }
     };
 
+    d3choropleth.defaultColorGorup = "Blues";
     d3choropleth.currentColorGorup = "Blues";
 
     d3choropleth.map = function(containerDivId, customOptions) {

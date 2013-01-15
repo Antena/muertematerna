@@ -85,6 +85,11 @@
     fill: #333;
 }
 
+#causesByYear {
+    font-size: 11px;
+    fill: #333;
+}
+
 .cause {
     cursor: pointer;
     stroke: none;

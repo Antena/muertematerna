@@ -205,6 +205,11 @@
         indirectLegend.selectAll('.legend-box text')
             .transition()
             .style('fill', '#333');
+
+        d3choropleth.currentColorGorup = d3choropleth.defaultColorGorup;
+        d3choropleth.colorize("provinces", d3choropleth.currentColorGorup, function() {
+            return Math.floor(Math.random() * 4);
+        });
     }
 
     causeOfDeathAreaChart.setCause = function(d) {
