@@ -94,3 +94,34 @@
     stroke: #000;
     shape-rendering: crispEdges;
 }
+
+/***********************************************************************************************************************
+ * RIGHT PANE
+ **********************************************************************************************************************/
+.context-data li {
+    min-height: 30px;
+    margin-bottom: 5px;
+    color: #666;
+    text-transform: uppercase;
+    font-size: 11px;
+    line-height: 13px;
+    font-weight: bold;
+}
+
+.context-data li .number {
+    clear: both;
+    float: left;
+    margin-right: 5px;
+    font-size: 16px;
+    font-weight: bolder;
+    color: #000;
+    line-height: 20px;
+    min-width: 40px;
+    text-align: center;
+}
+
+#deathRate .line {
+    fill: none;
+    stroke: steelblue;
+    stroke-width: 2;
+}

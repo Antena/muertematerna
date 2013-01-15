@@ -2,6 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
+    <title>Muerte Materna en Argentina</title>
     <link rel="stylesheet" href="/assets/stylesheets/style.css"/>
     <link rel="stylesheet" href="/assets/stylesheets/d3-bootstrap-plugins.min.css"/>
     <link rel="stylesheet" href="/assets/stylesheets/bootstrap.min.css"/>
@@ -46,6 +47,27 @@
             <div id="map"></div>
         </div>
         <div class="span3">
+            <div class="well well-small">
+                <h5>Contexto Nacional</h5>
+                <ul class="context-data unstyled">
+                    <li>
+                        <div class="number">142</div>
+                        Mujeres mueren en un año
+                    </li>
+                    <li>
+                        <div class="number">12%</div>
+                        <span>Son muertes evitables</span>
+                    </li>
+                    <li>
+                        <div class="number">3.4</div>
+                        Es la tasa de mortalidad materna
+                    </li>
+                </ul>
+                <br/>
+                <h5>Evolución de la tasa de muerte materna país</h5>
+                <div id="deathRate"></div>
+            </div>
+
         </div>
     </div>
 </div>
@@ -59,6 +81,7 @@
 <script src="/assets/javascripts/colorbrewer.js"></script>
 <script src="/assets/javascripts/d3choropleth.js"></script>
 <script src="/assets/javascripts/causeOfDeathAreaChart.js"></script>
+<script src="/assets/javascripts/deathRateLineChart.js"></script>
 <script>
 
     // Location typeahead
@@ -113,6 +136,11 @@
                 return Math.floor(Math.random() * 4);
             });
         }
+    });
+
+    // Death rate line chart
+    deathRateLineChart.draw("deathRate", {
+        margin : {top: 10, left : 30, right: 20}
     });
 
     // Provinces
