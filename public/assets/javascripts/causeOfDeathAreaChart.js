@@ -3,14 +3,14 @@
     var xAxis, yAxis;
 
     var causesArray = [
-        { key:'Otras_ind_P', color:'#7f7f7f', colorGroup:'Greys', type:'indirect', text:'Otras causas indirectas' },
-        { key:'Enf_por_VIH_P', color:'#d62728', colorGroup:'YlOrBr', type:'indirect', text:'Enfermedad por VIH' },
-        { key:'Otras_directas_P', color:'#ff7f0e', colorGroup:'Oranges', type:'direct', text:'Otras causas directas' },
-        { key:'Sepsis_y_O_P', color:'#CE1256', colorGroup:'PuRd', type:'direct', text:'Sepsis' },
-        { key:'Hemorragia_post_P', color:'#d62728', colorGroup:'Reds', type:'direct', text:'Hemorragia postparto' },
-        { key:'T_Placenta_P', color:'#2ca02c', colorGroup:'Greens', type:'direct', text:'Trastornos de placenta y hemorragias' },
-        { key:'T_Hipert_P', color:'#1f77b4', colorGroup:'Blues', type:'direct', text:'Trastornos hipertensivos' },
-        { key:'Aborto_P', color:'#9467bd', colorGroup:'Purples', type:'direct', text:'Embarazo terminado en aborto' }
+        { key:'Otras_ind_P', color:'#bf66b1', colorGroup:'PuRd', type:'indirect', text:'Otras causas indirectas' },
+        { key:'Enf_por_VIH_P', color:'#ad5000', colorGroup:'YlOrBr', type:'indirect', text:'Enfermedad por VIH' },
+        { key:'Otras_directas_P', color:'#789b41', colorGroup:'Greens', type:'direct', text:'Otras causas directas' },
+        { key:'Sepsis_y_O_P', color:'#e6a827', colorGroup:'YlOrRd', type:'direct', text:'Sepsis' },
+        { key:'Hemorragia_post_P', color:'#b74c00', colorGroup:'Oranges', type:'direct', text:'Hemorragia postparto' },
+        { key:'T_Placenta_P', color:'#6151a5', colorGroup:'Purples', type:'direct', text:'Trastornos de placenta y hemorragias' },
+        { key:'T_Hipert_P', color:'#486fb7', colorGroup:'Blues', type:'direct', text:'Trastornos hipertensivos' },
+        { key:'Aborto_P', color:'#a8251d', colorGroup:'Reds', type:'direct', text:'Embarazo terminado en aborto' }
     ];
 
     causeOfDeathAreaChart = {
