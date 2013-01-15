@@ -117,8 +117,17 @@
             .attr("class", layerOptions.geometriesClass)
             .attr("d", path)
             .on("click", function(d) {
+
                 if (layerOptions.clickToZoom) {
                     zoomedGroup = layers[name].g;
+
+                    console.log(d.properties.ID_1);
+                    causeOfDeathAreaChart.draw(d.properties.ID_1,{
+                        width: 380,
+                        margin : {left: 30},
+                        directCausesLegendDivId : 'direct-causes-legend',
+                        indirectCausesLegendDivId : 'indirect-causes-legend'
+                    });
                     zoomToObject(d);
                 }
             });

@@ -1,5 +1,6 @@
 (function() {
     var svg, directLegend, indirectLegend;
+    var xAxis, yAxis;
 
     var causesArray = [
         { key:'Aborto_P', color:'#9467bd', colorGroup:'Purples', type:'direct', text:'Embarazo terminado en aborto' },
@@ -20,10 +21,25 @@
         }
     };
 
-    causeOfDeathAreaChart.draw = function(containerDivId, customOptions) {
+
+    causeOfDeathAreaChart.filter= function(provinceId){
+        svg.selectAll('.cause')
+            .style('fill','black')
+
+    }
+
+    causeOfDeathAreaChart.draw = function(areaId,containerDivId, customOptions) {
         var self = this;
 
         $.extend(true, self.options, customOptions);
+
+        var choosenArea = null;
+
+        if(areaId=='total'){
+               choosenArea = 27;
+        }else{
+            choosenArea = areaId;
+        }
 
         d3.csv("/assets/data/tasas_por_causa.csv", function(data) {
             var revisedData = [];
@@ -68,7 +84,8 @@
                 });
 
 
-            var layers = stack(deathByProvince[27].values);
+            var layers = stack(deathByProvince[choosenArea].values);
+
 
             // Build the chart
             buildLegends(self);
@@ -86,13 +103,13 @@
                 return causesArray[i].color;
             }
 
-            var xAxis = d3.svg.axis()
+            xAxis = d3.svg.axis()
                 .scale(x)
                 .orient("bottom")
                 .ticks(5)
                 .tickFormat(d3.format("0f"));
 
-            var yAxis = d3.svg.axis()
+            yAxis = d3.svg.axis()
                 .scale(y)
                 .orient("left");
 
@@ -108,17 +125,27 @@
                     return y(d.y0 + d.y);
                 });
 
-            svg = d3.select("#" + containerDivId).append("svg")
-                .attr("width", width + margin.left + margin.right)
-                .attr("height", height + margin.top + margin.bottom)
-                .append("g")
-                .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+            if (!svg) {
+                svg = d3.select("#" + containerDivId).append("svg")
+                    .attr("width", width + margin.left + margin.right)
+                    .attr("height", height + margin.top + margin.bottom)
+                    .append("g")
+                    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+                svg.append("g")
+                    .attr("class", "x axis")
+                    .attr("transform", "translate(0," + height + ")");
+
+                svg.append("g")
+                    .attr("class", "y axis");
+            }
             x.domain([2006, 2010]);
-            y.domain([0,6]);
 
-            svg.selectAll(".layer")
-                .data(layers)
+            y.domain([0,getMax(layers)]);
+
+            var paths = svg.selectAll(".cause")
+                .data(layers);
+                paths
                 .enter().append("path")
                 .attr("class", "cause")
                 .attr("d", function(d) {
@@ -127,14 +154,23 @@
                 .style("fill", function(d, i) { return z(i); })
                 .on("click", causeOfDeathAreaChart.setCause);
 
-            svg.append("g")
-                .attr("class", "x axis")
-                .attr("transform", "translate(0," + height + ")")
-                .call(xAxis);
+            paths.transition().attr("d",function(d) {
+                return area(d.values);
+            }).style("fill", function(d, i) { return z(i); })
 
+
+            paths.exit().selectAll(".cause").transition().duration(2000).remove();
+
+
+            svg.select('.x.axis').call(xAxis);
+            svg.select('.y.axis').call(yAxis);
+           /* svg.append("g")
+                .attr("class","x axis")
+                .call(xAxis);
+*//*
             svg.append("g")
                 .attr("class", "y axis")
-                .call(yAxis);
+                .call(yAxis);*/
 
         })
     }
@@ -144,7 +180,7 @@
 
         // Cause area
         svg.selectAll(".cause")
-            .transition()
+            .transition().duration(200)
             .style("fill", function(d, i) {
                 var cause = causesArray.filter(function(elem) { return elem.key == d.key})[0];
                 return cause.color;
@@ -211,8 +247,13 @@
     }
 
     function buildLegends(self) {
-        directLegend = drawLegend(self.options.directCausesLegendDivId, 'direct');
-        indirectLegend = drawLegend(self.options.indirectCausesLegendDivId, 'indirect');
+        //FIX legends
+        if(!directLegend){
+            directLegend = drawLegend(self.options.directCausesLegendDivId, 'direct');
+        }
+        if(!indirectLegend){
+            indirectLegend = drawLegend(self.options.indirectCausesLegendDivId, 'indirect');
+        }
     }
 
     function drawLegend(divId, type) {
@@ -242,5 +283,25 @@
             .on("click", causeOfDeathAreaChart.setCause);
 
         return legend;
+    }
+
+    function getMax(layers){
+        if(!layers ||layers.length==0 ){
+            return 0.0;
+        }
+
+        var max = 0.0;
+
+        for(var i=0;i<layers.length;i++){
+            var lastElements = layers[layers.length-1];
+            var lastPoint = lastElements.values[lastElements.values.length-1];
+            console.log(lastElements.values[lastElements.values.length - 1]);
+            if (lastPoint.y0 + lastPoint.y > max) {
+                max = lastPoint.y0 + lastPoint.y;
+            };
+
+        }
+
+        return max*1.5;
     }
 })()
