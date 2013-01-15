@@ -120,6 +120,10 @@
     text-align: center;
 }
 
+#deathRate {
+    font-size: 10px;
+}
+
 #deathRate .line {
     fill: none;
     stroke: steelblue;
