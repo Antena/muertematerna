@@ -179,13 +179,23 @@
                 $('#' + self.options.zoomOutControlId).css("visibility", "hidden");
         }
 
-        zoomedGroup.selectAll("path")
+        var layersSelector = "#" + Object.keys(layers).join(", #");
+
+        self.svg.selectAll(layersSelector).selectAll("path")
             .classed("active", centered && function(d) { return d === centered; });
 
-        zoomedGroup.transition()
+        self.svg.selectAll(layersSelector)
+            .transition()
             .duration(1000)
             .attr("transform", "scale(" + k + ")translate(" + x + "," + y + ")")
-            .style("stroke-width", 1.5 / k + "px");
+            .style("stroke-width", 1.5 / k + "px")
+            .each("end", function() {
+                var layerID = $(this).attr("id");
+                if (centered && self.options.layers[layerID].onZoomIn)
+                    self.options.layers[layerID].onZoomIn.call(self.svg.selectAll("#"+layerID));
+                else if (!centered && self.options.layers[layerID].onZoomOut)
+                    self.options.layers[layerID].onZoomOut.call(self.svg.selectAll("#"+layerID));
+            })
     }
 
 })()
