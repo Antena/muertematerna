@@ -97,7 +97,7 @@
             .attr("y", 9)
             .attr("dy", ".35em")
             .style("text-anchor", "end")
-            .text(function(d) { return d; });
+            .text(function(d, i) { return "Q" + i; });
 
         self.options.onLoad.call();
     };
@@ -124,7 +124,6 @@
                 if (layerOptions.clickToZoom) {
                     zoomedGroup = layers[name].g;
 
-                    console.log(d.properties.ID_1);
                     causeOfDeathAreaChart.draw(d.properties.ID_1,{
                         width: 380,
                         margin : {left: 30},
