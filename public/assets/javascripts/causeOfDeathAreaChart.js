@@ -154,7 +154,7 @@
                 .style("fill", function(d, i) { return z(i); })
                 .on("click", causeOfDeathAreaChart.setCause);
 
-            paths.transition().attr("d",function(d) {
+            paths.transition().duration(1000).attr("d",function(d) {
                 return area(d.values);
             }).style("fill", function(d, i) { return z(i); })
 
@@ -295,17 +295,13 @@
             return 0.0;
         }
 
-        var max = 0.0;
+        var max = 0;
+        layers[layers.length-1].values.map(function(year) {
+            if ((year.y0 + year.y) > max) {
+                max = year.y0 + year.y;
+            }
+        });
 
-        for(var i=0;i<layers.length;i++){
-            var lastElements = layers[layers.length-1];
-            var lastPoint = lastElements.values[lastElements.values.length-1];
-            if (lastPoint.y0 + lastPoint.y > max) {
-                max = lastPoint.y0 + lastPoint.y;
-            };
-
-        }
-
-        return max*1.5;
+        return max * 1.1;
     }
 })()
