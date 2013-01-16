@@ -103,7 +103,10 @@
     })
 
     // Zoom out
-    $('#zoomout').click(d3choropleth.zoomOut);
+    $('#zoomout').click(function(e){
+        d3choropleth.zoomOut(e);
+        causeOfDeathAreaChart.draw('total','causesByYear',{});
+    });
 
     // Reset area chart
     $('#resetarea').click(causeOfDeathAreaChart.reset);
