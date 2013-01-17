@@ -2,17 +2,17 @@
     var svg, directLegend, indirectLegend;
     var xAxis, yAxis, deathByProvinces,containerDiv;
 
-    var defaultProvinceId = 27;
+    var defaultProvinceId = 24;
 
     var causesArray = [
-        { key:'Otras_ind_P', color:'#bf66b1', colorGroup:'PuRd', type:'indirect', text:'Otras causas indirectas' },
-        { key:'Enf_por_VIH_P', color:'#ad5000', colorGroup:'YlOrBr', type:'indirect', text:'Enfermedad por VIH' },
-        { key:'Otras_directas_P', color:'#789b41', colorGroup:'Greens', type:'direct', text:'Otras causas directas' },
-        { key:'Sepsis_y_O_P', color:'#e6a827', colorGroup:'YlOrRd', type:'direct', text:'Sepsis' },
-        { key:'Hemorragia_post_P', color:'#b74c00', colorGroup:'Oranges', type:'direct', text:'Hemorragia postparto' },
-        { key:'T_Placenta_P', color:'#6151a5', colorGroup:'Purples', type:'direct', text:'Trastornos de placenta y hemorragias' },
-        { key:'T_Hipert_P', color:'#486fb7', colorGroup:'Blues', type:'direct', text:'Trastornos hipertensivos' },
-        { key:'Aborto_P', color:'#a8251d', colorGroup:'Reds', type:'direct', text:'Embarazo terminado en aborto' }
+        { key:'otras_ind_razon', color:'#bf66b1', colorGroup:'PuRd', type:'indirect', text:'Otras causas indirectas' },
+        { key:'vih_razon', color:'#ad5000', colorGroup:'YlOrBr', type:'indirect', text:'Enfermedad por VIH' },
+        { key:'otras_directas_razon', color:'#789b41', colorGroup:'Greens', type:'direct', text:'Otras causas directas' },
+        { key:'sepsis_razon', color:'#e6a827', colorGroup:'YlOrRd', type:'direct', text:'Sepsis' },
+        { key:'hemorragias_razon', color:'#b74c00', colorGroup:'Oranges', type:'direct', text:'Hemorragia postparto' },
+        { key:'placenta_razon', color:'#6151a5', colorGroup:'Purples', type:'direct', text:'Trastornos de placenta y hemorragias' },
+        { key:'hipert_razon', color:'#486fb7', colorGroup:'Blues', type:'direct', text:'Trastornos hipertensivos' },
+        { key:'aborto_razon', color:'#a8251d', colorGroup:'Reds', type:'direct', text:'Embarazo terminado en aborto' }
     ];
 
     causeOfDeathAreaChart = {
@@ -28,7 +28,7 @@
 
 
         if(!choosenArea){
-            choosenArea =  27;
+            choosenArea =  defaultProvinceId;
         }
 
         var stack = d3.layout.stack()
@@ -42,7 +42,6 @@
             .y(function(d) {
                 return d.values;
             });
-
 
         var layers = stack(deathByProvinces[choosenArea].values);
 
@@ -136,7 +135,7 @@
 
     causeOfDeathAreaChart.loadData = function (callback) {
         var self = this;
-        d3.csv("/assets/data/tasas_por_causa.csv", function (data) {
+        d3.csv("/assets/data/razon_muertes.csv", function (data) {
             var revisedData = [];
             // Process data
             causesArray.reverse();
