@@ -120,16 +120,11 @@
             .attr("class", layerOptions.geometriesClass)
             .attr("d", path)
             .on("click", function(d) {
-
+                if (layerOptions.onClick) {
+                    layerOptions.onClick.call(d);
+                }
                 if (layerOptions.clickToZoom) {
                     zoomedGroup = layers[name].g;
-
-                    causeOfDeathAreaChart.draw(d.properties.ID_1,{
-                        width: 380,
-                        margin : {left: 30},
-                        directCausesLegendDivId : 'direct-causes-legend',
-                        indirectCausesLegendDivId : 'indirect-causes-legend'
-                    });
                     zoomToObject(d);
                 }
             });
