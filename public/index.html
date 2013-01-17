@@ -91,6 +91,7 @@
 <script>
 
     var ratesData;
+    var currentIndex = 24;
 
 
     d3.csv("/assets/data/razon_muertes.csv", function(data) {
@@ -149,7 +150,6 @@
             onLoad : function() {
                 d3choropleth.colorize("provinces", d3choropleth.currentColorGorup, function() {
                     var provinceId = this.properties.ID_1;
-                    console.log(provinceId);        //TODO(gb): Remove trace!!!
                     return Math.floor(Math.random() * 4);
                 });
             }
@@ -177,10 +177,10 @@
 
         var deathByProvincesByYearByCause = d3.nest()
                 .key(function (d) {
-                    return d.provincia
+                    return d.cause
                 })
                 .key(function (d) {
-                    return d.cause
+                    return d.provincia
                 })
                 .key(function (d) {
                     return d.anio
@@ -190,6 +190,22 @@
                     return val ? val : 0.0;
                 })
                 .entries(revisedData);
+
+        var total = {};
+        total.key = "total";
+        total.values = deathByProvincesByYearByCause[0].values;
+
+        for (var i=1; i<deathByProvincesByYearByCause.length; i++) {
+            var cause = deathByProvincesByYearByCause[i];
+            for (var j=0; j<cause.values.length; j++) {
+                var year = cause.values[j].values;
+                var totalYear = total.values[j].values;
+                for (var k=0; k<year.length; k++) {
+                    totalYear[k].values += year[k].values;
+                }
+            }
+        }
+        deathByProvincesByYearByCause.push(total);
 
         return deathByProvincesByYearByCause;
     }
