@@ -4,6 +4,17 @@
 
     var defaultProvinceId = 25;
 
+    var causesArray = [
+        { key:'otras_ind_razon', color:'#bf66b1', colorGroup:'PuRd', type:'indirect', text:'Otras causas indirectas' },
+        { key:'vih_razon', color:'#ad5000', colorGroup:'YlOrBr', type:'indirect', text:'Enfermedad por VIH' },
+        { key:'otras_directas_razon', color:'#789b41', colorGroup:'Greens', type:'direct', text:'Otras causas directas' },
+        { key:'sepsis_razon', color:'#e6a827', colorGroup:'YlOrRd', type:'direct', text:'Sepsis' },
+        { key:'hemorragias_razon', color:'#b74c00', colorGroup:'Oranges', type:'direct', text:'Hemorragia postparto' },
+        { key:'placenta_razon', color:'#6151a5', colorGroup:'Purples', type:'direct', text:'Trastornos de placenta y hemorragias' },
+        { key:'hipert_razon', color:'#486fb7', colorGroup:'Blues', type:'direct', text:'Trastornos hipertensivos' },
+        { key:'aborto_razon', color:'#a8251d', colorGroup:'Reds', type:'direct', text:'Embarazo terminado en aborto' }
+    ];
+
     causeOfDeathAreaChart = {
         options : {
             width : 500,
@@ -12,7 +23,8 @@
         }
     };
 
-    causeOfDeathAreaChart.filter= function(choosenArea, self){
+
+    causeOfDeathAreaChart.filter= function(choosenArea,self){
 
 
         if(!choosenArea){
@@ -126,6 +138,7 @@
         d3.csv("/assets/data/razon_muertes.csv", function (data) {
             var revisedData = [];
             // Process data
+            causesArray.reverse();
             data.forEach(function (d) {
                 /*keys [anio, cod_prov ,provincia ,Aborto_P ,T_Hipert_P ,T_Placenta_P ,Otras_directas_P ,Hemorragia_post_P ,Sepsis_y_O_P ,Enf_por_VIH_P ,Otras_ind_P];
                  */
@@ -145,7 +158,7 @@
             deathByProvinces = d3.nest()
                 .key(function (d) {
                     return d.provincia
-                })
+                }).sortKeys(d3.ascending)
                 .key(function (d) {
                     return d.cause
                 })
@@ -170,7 +183,9 @@
 
         if (!containerDiv) { containerDiv = containerDivId; }
 
-        var choosenArea = app.selection.province ? app.selection.province : defaultProvinceId;
+
+        var choosenArea = app.selection.province ? app.selection.province: defaultProvinceId;
+
 
         if(!deathByProvinces){
             causeOfDeathAreaChart.loadData(causeOfDeathAreaChart.filter);
@@ -257,7 +272,7 @@
 
         d3choropleth.colorize("provinces", cause.colorGroup, function() {
             return Math.floor(Math.random() * 4);
-        })
+        });
     }
 
     causeOfDeathAreaChart.causesArray = function() {
@@ -317,4 +332,4 @@
 
         return max * 1.1;
     }
-})()
+})();

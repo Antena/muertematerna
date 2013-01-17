@@ -156,6 +156,7 @@
     };
 
     function zoomToObject(d) {
+
         var x = 0,
             y = 0,
             k = 1;
@@ -174,6 +175,12 @@
                 $('#' + self.options.zoomOutControlId).css("visibility", "hidden");
         }
 
+        d3choropleth.doZoom(x,y,k);
+
+
+    }
+
+    d3choropleth.doZoom= function(x,y,k){
         var layersSelector = "#" + Object.keys(layers).join(", #");
 
         self.svg.selectAll(layersSelector).selectAll("path")
@@ -191,6 +198,7 @@
                 else if (!centered && self.options.layers[layerID].onZoomOut)
                     self.options.layers[layerID].onZoomOut.call(self.svg.selectAll("#"+layerID));
             })
+
     }
 
 })()
