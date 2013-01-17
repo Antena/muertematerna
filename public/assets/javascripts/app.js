@@ -15,6 +15,8 @@
         { key:'otras_ind_razon', color:'#bf66b1', colorGroup:'PuRd', type:'indirect', text:'Otras causas indirectas' }
     ];
 
+    app.quartiles = [];
+
     app.selection = {
         cause : null,
         province : null,
@@ -37,9 +39,11 @@
                 min : 2006,
                 max : 2010,
                 step : 1,
-                slide : function() {
+                slide : function(event, ui) {
+                    app.selection.year = ui.value;
+                    calculateQuartiles(ratesData[getRatesIndex()]);
                     d3choropleth.colorize("provinces", d3choropleth.currentColorGorup, function() {
-                        return Math.floor(Math.random() * 4);
+                        return quartile(this.properties.ID_1);
                     });
                 }
             })
@@ -89,12 +93,35 @@
 
                 onLoad : function() {
                     d3choropleth.colorize("provinces", d3choropleth.currentColorGorup, function() {
-                        var provinceId = this.properties.ID_1;
-                        return Math.floor(Math.random() * 4);
+                        return quartile(this.properties.ID_1);
                     });
                 }
             });
         });
+
+        // Death rate line chart
+        deathRateLineChart.draw("deathRate", {
+            margin : {top: 5, left : 25, right: 15}
+        });
+
+        function getRatesIndex() {
+            return app.selection.cause ? 0 : 8;
+        }
+
+        function quartile(provinceId) {
+            var yearIndex = app.selection.year-2006;
+            var ratesIndex = getRatesIndex();
+            var rate = ratesData[ratesIndex].values[provinceId-1].values[yearIndex].values;
+//            console.log("Provincia: " + this.properties.NAME_1 + ", rate: " + rate + ", q: " + quartile);        //TODO(gb): Remove trace!!!
+
+            for (var i=0; i<app.quartiles.length; i++) {
+                if (rate < app.quartiles[i]) {
+                    return i;
+                }
+            }
+
+            return app.quartiles.length;
+        }
 
         function processRateData(data) {
             var revisedData = [];
@@ -145,12 +172,25 @@
             }
             deathByProvincesByYearByCause.push(total);
 
+            calculateQuartiles(total);
+
             return deathByProvincesByYearByCause;
         }
 
-        // Death rate line chart
-        deathRateLineChart.draw("deathRate", {
-            margin : {top: 5, left : 25, right: 15}
-        });
+        function calculateQuartiles(rates) {
+            var ratesArray = [];
+
+            for (var i=0; i<(rates.values.length - 1); i++) {
+                ratesArray.push(rates.values[i].values[app.selection.year-2006].values);
+            }
+            ratesArray.sort(function(a, b) { return (a-b) });
+
+            app.quartiles = [];
+            app.quartiles[0] = ratesArray[ratesArray.length/4];
+            app.quartiles[1] = ratesArray[ratesArray.length/4*2];
+            app.quartiles[2] = ratesArray[ratesArray.length/4*3];
+        }
+
+
     };
 })()
