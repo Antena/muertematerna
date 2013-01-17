@@ -115,8 +115,8 @@
         paths.exit().selectAll(".cause").transition().duration(2000).remove();
 
 
-        svg.select('.x.axis').call(xAxis);
-        svg.select('.y.axis').call(yAxis);
+        svg.select('.x.axis').transition().duration(1000).call(xAxis);
+        svg.select('.y.axis').transition().duration(1000).call(yAxis);
 
     }
 
