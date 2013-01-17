@@ -183,8 +183,6 @@
     causeOfDeathAreaChart.reset = function(e) {
         e.preventDefault();
 
-        app.selection.cause = null;
-
         // Cause area
         svg.selectAll(".cause")
             .transition().duration(200)
@@ -214,15 +212,16 @@
             .style('fill', '#333');
 
         d3choropleth.currentColorGorup = d3choropleth.defaultColorGorup;
+
+        app.selection.cause = null;
+        app.calculateQuartiles(app.ratesData[app.getRatesIndex()]);
         d3choropleth.colorize("provinces", d3choropleth.currentColorGorup, function() {
-            return Math.floor(Math.random() * 4);
+            return app.quartile(this.properties.ID_1);
         });
     }
 
     causeOfDeathAreaChart.setCause = function(d) {
         var cause = app.causesArray.filter(function(elem) { return elem.key == d.key})[0];
-
-        app.selection.cause = cause;
 
         // Cause area
         svg.selectAll(".cause")
@@ -255,8 +254,10 @@
                 return d.key == cause.key ? '#333' : "#aaa";
             });
 
+        app.selection.cause = cause;
+        app.calculateQuartiles(app.ratesData[app.getRatesIndex()]);
         d3choropleth.colorize("provinces", cause.colorGroup, function() {
-            return Math.floor(Math.random() * 4);
+            return app.quartile(this.properties.ID_1);
         })
     }
 

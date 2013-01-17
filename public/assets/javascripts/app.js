@@ -1,5 +1,5 @@
 (function() {
-    var ratesData;
+
     var currentIndex = 24;
 
     app = {};
@@ -23,6 +23,8 @@
         year : 2010
     };
 
+    app.ratesData = null;
+
     app.init = function() {
         var self = this;
 
@@ -41,9 +43,9 @@
                 step : 1,
                 slide : function(event, ui) {
                     app.selection.year = ui.value;
-                    calculateQuartiles(ratesData[getRatesIndex()]);
+                    self.calculateQuartiles(app.ratesData[app.getRatesIndex()]);
                     d3choropleth.colorize("provinces", d3choropleth.currentColorGorup, function() {
-                        return quartile(this.properties.ID_1);
+                        return self.quartile(this.properties.ID_1);
                     });
                 }
             })
@@ -67,7 +69,7 @@
             });
 
             // Map
-            ratesData = processRateData(data);
+            app.ratesData = processRateData(data);
             d3choropleth.map("map", {
                 width : 300,
                 height: 500,
@@ -92,8 +94,9 @@
                 },
 
                 onLoad : function() {
+                    app.calculateQuartiles();
                     d3choropleth.colorize("provinces", d3choropleth.currentColorGorup, function() {
-                        return quartile(this.properties.ID_1);
+                        return self.quartile(this.properties.ID_1);
                     });
                 }
             });
@@ -104,15 +107,23 @@
             margin : {top: 5, left : 25, right: 15}
         });
 
-        function getRatesIndex() {
-            return app.selection.cause ? 0 : 8;
+        app.getRatesIndex = function() {
+            var ratesIndex = app.selection.cause ? getCauseIndex() : 8;
+            return ratesIndex;
         }
 
-        function quartile(provinceId) {
+        function getCauseIndex() {
+            for (var i=0; i<app.causesArray.length; i++) {
+                if (app.causesArray[i].key == app.selection.cause.key) {
+                    return i;
+                }
+            }
+        }
+
+        app.quartile = function(provinceId) {
             var yearIndex = app.selection.year-2006;
-            var ratesIndex = getRatesIndex();
-            var rate = ratesData[ratesIndex].values[provinceId-1].values[yearIndex].values;
-//            console.log("Provincia: " + this.properties.NAME_1 + ", rate: " + rate + ", q: " + quartile);        //TODO(gb): Remove trace!!!
+            var ratesIndex = app.getRatesIndex();       //TODO(gb): optimize: this shouldn't be calle don every quartile call
+            var rate = app.ratesData[ratesIndex].values[provinceId-1].values[yearIndex].values;
 
             for (var i=0; i<app.quartiles.length; i++) {
                 if (rate < app.quartiles[i]) {
@@ -172,12 +183,11 @@
             }
             deathByProvincesByYearByCause.push(total);
 
-            calculateQuartiles(total);
-
             return deathByProvincesByYearByCause;
         }
 
-        function calculateQuartiles(rates) {
+        app.calculateQuartiles = function() {
+            var rates = app.ratesData[app.getRatesIndex()];
             var ratesArray = [];
 
             for (var i=0; i<(rates.values.length - 1); i++) {
