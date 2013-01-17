@@ -96,6 +96,7 @@
             .attr("x", self.options.width - 24)
             .attr("y", 9)
             .attr("dy", ".35em")
+            .attr("id", function(d, i) { return "q" + i; })
             .style("text-anchor", "end")
             .text(function(d, i) { return "Q" + i; });
 
