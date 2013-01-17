@@ -111,15 +111,14 @@
             }
         },
         updater: function(item){
-            app.selection.province = app.provinceMap[item].value;
+            app.selection.province = app.provinceMap[item];
             causeOfDeathAreaChart.draw();
             var location = app.zoomLocationsMap[item];
             if(location!=null){
-                d3choropleth.doZoom(location.x,location.y,location.k);
+                d3choropleth.doZoom(location.x,location.y,location.k,true);
             }
 
             return item;
-
         }
 
     });

@@ -176,12 +176,12 @@
                 $('#' + self.options.zoomOutControlId).css("visibility", "hidden");
         }
 
-        d3choropleth.doZoom(x,y,k);
+        d3choropleth.doZoom(x,y,k,false);
 
 
     }
 
-    d3choropleth.doZoom= function(x,y,k){
+    d3choropleth.doZoom= function(x,y,k,uiOnly){
         var layersSelector = "#" + Object.keys(layers).join(", #");
 
         self.svg.selectAll(layersSelector).selectAll("path")
@@ -196,8 +196,9 @@
                 var layerID = $(this).attr("id");
                 if (centered && self.options.layers[layerID].onZoomIn)
                     self.options.layers[layerID].onZoomIn.call(self.svg.selectAll("#"+layerID));
-                else if (!centered && self.options.layers[layerID].onZoomOut)
+                else if (!uiOnly && !centered && self.options.layers[layerID].onZoomOut){
                     self.options.layers[layerID].onZoomOut.call(self.svg.selectAll("#"+layerID));
+                }
             })
 
     }
