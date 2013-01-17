@@ -200,7 +200,7 @@
             app.quartiles[1] = ratesArray[ratesArray.length/4*2];
             app.quartiles[2] = ratesArray[ratesArray.length/4*3];
 
-            $("#q0").text("0.0 -" + app.quartiles[0].toFixed(1));
+            $("#q0").text("0.0 - " + app.quartiles[0].toFixed(1));
             $("#q1").text(app.quartiles[0].toFixed(1) + " - " + app.quartiles[1].toFixed(1));
             $("#q2").text(app.quartiles[1].toFixed(1) + " - " + app.quartiles[2].toFixed(1));
             $("#q3").text(app.quartiles[2].toFixed(1) + " - " + ratesArray[ratesArray.length-1].toFixed(1));
