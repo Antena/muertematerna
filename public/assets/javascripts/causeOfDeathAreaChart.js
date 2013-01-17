@@ -1,6 +1,8 @@
 (function() {
     var svg, directLegend, indirectLegend;
-    var xAxis, yAxis;
+    var xAxis, yAxis, deathByProvinces,containerDiv;
+
+    var defaultProvinceId = 27;
 
     var causesArray = [
         { key:'Otras_ind_P', color:'#bf66b1', colorGroup:'PuRd', type:'indirect', text:'Otras causas indirectas' },
@@ -22,26 +24,117 @@
     };
 
 
-    causeOfDeathAreaChart.filter= function(provinceId){
-        svg.selectAll('.cause')
-            .style('fill','black')
+    causeOfDeathAreaChart.filter= function(choosenArea,self){
+
+
+        if(!choosenArea){
+            choosenArea =  27;
+        }
+
+        var stack = d3.layout.stack()
+            .offset("zero")
+            .values(function(d) {
+                return d.values;
+            })
+            .x(function(d) {
+                return d.key;
+            })
+            .y(function(d) {
+                return d.values;
+            });
+
+
+        var layers = stack(deathByProvinces[choosenArea].values);
+
+        // Build the chart
+        buildLegends(self);
+
+        var margin = self.options.margin,
+            width = self.options.width - margin.left - margin.right,
+            height = self.options.height - margin.top - margin.bottom;
+
+        var x = d3.scale.linear().range([0, width]);
+
+        var y = d3.scale.linear()
+            .range([height, 0]);
+
+        var z = function (i) {
+            return causesArray[i].color;
+        }
+
+        xAxis = d3.svg.axis()
+            .scale(x)
+            .orient("bottom")
+            .ticks(5)
+            .tickFormat(d3.format("0f"));
+
+        yAxis = d3.svg.axis()
+            .scale(y)
+            .orient("left");
+
+
+        var area = d3.svg.area()
+            .x(function (d) {
+                return x(d.key);
+            })
+            .y0(function (d) {
+                return y(d.y0);
+            })
+            .y1(function (d) {
+                return y(d.y0 + d.y);
+            });
+
+        if (!svg) {
+
+            svg = d3.select("#" + containerDiv).append("svg")
+                .attr("width", width + margin.left + margin.right)
+                .attr("height", height + margin.top + margin.bottom)
+                .append("g")
+                .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+            svg.append("g")
+                .attr("class", "x axis")
+                .attr("transform", "translate(0," + height + ")");
+
+            svg.append("g")
+                .attr("class", "y axis");
+        }
+
+        x.domain([2006, 2010]);
+
+        y.domain([0, getMax(layers)]);
+
+        var paths = svg.selectAll(".cause")
+            .data(layers);
+        paths
+            .enter().append("path")
+            .attr("class", "cause")
+            .attr("d", function (d) {
+                return area(d.values);
+            })
+            .style("fill", function (d, i) {
+                return z(i);
+            })
+            .on("click", causeOfDeathAreaChart.setCause);
+
+        paths.transition().attr("d",function (d) {
+            return area(d.values);
+        }).style("fill", function (d, i) {
+                return z(i);
+            })
+
+
+        paths.exit().selectAll(".cause").transition().duration(2000).remove();
+
+
+        svg.select('.x.axis').call(xAxis);
+        svg.select('.y.axis').call(yAxis);
 
     }
 
-    causeOfDeathAreaChart.draw = function(areaId, containerDivId, customOptions) {
+    causeOfDeathAreaChart.loadData = function (callback) {
         var self = this;
-
-        $.extend(true, self.options, customOptions);
-
-        var choosenArea = null;
-
-        if(areaId == 'total'){
-               choosenArea = 27;
-        }else{
-            choosenArea = areaId;
-        }
-
-        d3.csv("/assets/data/tasas_por_causa.csv", function(data) {
+        d3.csv("/assets/data/tasas_por_causa.csv", function (data) {
             var revisedData = [];
             // Process data
             causesArray.reverse();
@@ -61,118 +154,49 @@
                 }
             });
 
-            var deathByProvince = d3.nest()
-                .key(function(d){return d.provincia})
-                .key(function(d){ return d.cause})
-                .key(function(d){return d.anio})
-                .rollup(function(d){
+            deathByProvinces = d3.nest()
+                .key(function (d) {
+                    return d.provincia
+                })
+                .key(function (d) {
+                    return d.cause
+                })
+                .key(function (d) {
+                    return d.anio
+                })
+                .rollup(function (d) {
                     var val = parseFloat(d[0].value);
-                    return val?val:0.0;
+                    return val ? val : 0.0;
                 })
                 .entries(revisedData);
 
-            var stack = d3.layout.stack()
-                .offset("zero")
-                .values(function(d) {
-                    return d.values;
-                })
-                .x(function(d) {
-                    return d.key;
-                })
-                .y(function(d) {
-                    return d.values;
-                });
+            callback.call(self,null,self);
+        });
 
 
-            var layers = stack(deathByProvince[choosenArea].values);
+    }
+
+    causeOfDeathAreaChart.draw = function(areaId, containerDivId, customOptions) {
+        var self = this;
+        $.extend(true, self.options, customOptions);
+        containerDiv = containerDivId;
 
 
-            // Build the chart
-            buildLegends(self);
 
-            var margin = self.options.margin,
-                width = self.options.width - margin.left - margin.right,
-                height = self.options.height - margin.top - margin.bottom;
+        var choosenArea = null;
 
-            var x =  d3.scale.linear().range([0, width]);
+        if(areaId == 'total'){
+               choosenArea = defaultProvinceId;
+        }else{
+            choosenArea = areaId;
+        }
 
-            var y = d3.scale.linear()
-                .range([height, 0]);
+        if(!deathByProvinces){
+            causeOfDeathAreaChart.loadData(causeOfDeathAreaChart.filter);
+        }else{
+            causeOfDeathAreaChart.filter(choosenArea,self);
+        }
 
-            var z = function(i) {
-                return causesArray[i].color;
-            }
-
-            xAxis = d3.svg.axis()
-                .scale(x)
-                .orient("bottom")
-                .ticks(5)
-                .tickFormat(d3.format("0f"));
-
-            yAxis = d3.svg.axis()
-                .scale(y)
-                .orient("left");
-
-
-            var area = d3.svg.area()
-                .x(function(d) {
-                    return x(d.key);
-                })
-                .y0(function(d) {
-                    return y(d.y0);
-                })
-                .y1(function(d) {
-                    return y(d.y0 + d.y);
-                });
-
-            if (!svg) {
-                svg = d3.select("#" + containerDivId).append("svg")
-                    .attr("width", width + margin.left + margin.right)
-                    .attr("height", height + margin.top + margin.bottom)
-                    .append("g")
-                    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-                svg.append("g")
-                    .attr("class", "x axis")
-                    .attr("transform", "translate(0," + height + ")");
-
-                svg.append("g")
-                    .attr("class", "y axis");
-            }
-            x.domain([2006, 2010]);
-
-            y.domain([0,getMax(layers)]);
-
-            var paths = svg.selectAll(".cause")
-                .data(layers);
-                paths
-                .enter().append("path")
-                .attr("class", "cause")
-                .attr("d", function(d) {
-                    return area(d.values);
-                })
-                .style("fill", function(d, i) { return z(i); })
-                .on("click", causeOfDeathAreaChart.setCause);
-
-            paths.transition().attr("d",function(d) {
-                return area(d.values);
-            }).style("fill", function(d, i) { return z(i); })
-
-
-            paths.exit().selectAll(".cause").transition().duration(2000).remove();
-
-
-            svg.select('.x.axis').call(xAxis);
-            svg.select('.y.axis').call(yAxis);
-           /* svg.append("g")
-                .attr("class","x axis")
-                .call(xAxis);
-*//*
-            svg.append("g")
-                .attr("class", "y axis")
-                .call(yAxis);*/
-
-        })
     }
 
     causeOfDeathAreaChart.reset = function(e) {
@@ -252,11 +276,15 @@
     }
 
     function buildLegends(self) {
+        console.log('build legends');
+        console.log(self);
         //FIX legends
         if(!directLegend){
+            console.log(self.options.directCausesLegendDivId);
             directLegend = drawLegend(self.options.directCausesLegendDivId, 'direct');
         }
         if(!indirectLegend){
+            console.log(self.options.indirectCausesLegendDivId);
             indirectLegend = drawLegend(self.options.indirectCausesLegendDivId, 'indirect');
         }
     }
