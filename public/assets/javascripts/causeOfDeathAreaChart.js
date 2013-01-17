@@ -43,7 +43,7 @@
                 return d.values;
             });
 
-        var layers = stack(deathByProvinces[choosenArea].values);
+        var layers = stack(deathByProvinces[choosenArea-1].values);
 
         // Build the chart
         buildLegends(self);
@@ -274,6 +274,10 @@
         d3choropleth.colorize("provinces", cause.colorGroup, function() {
             return Math.floor(Math.random() * 4);
         })
+    }
+
+    causeOfDeathAreaChart.causesArray = function() {
+        return causesArray;
     }
 
     function buildLegends(self) {

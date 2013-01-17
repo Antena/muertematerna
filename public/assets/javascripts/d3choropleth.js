@@ -145,7 +145,7 @@
         layers[layerName].g.selectAll('.' + layerOptions.geometriesClass)
             .transition()
             .style("fill", function(d) {
-                return legendColors[calculateQuartile(d)];
+                return legendColors[calculateQuartile.call(d)];
             })
 
         legend.selectAll('rect')

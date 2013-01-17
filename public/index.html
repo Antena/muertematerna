@@ -92,8 +92,8 @@
 
     var ratesData;
 
+
     d3.csv("/assets/data/razon_muertes.csv", function(data) {
-        ratesData = data;
 
         // Location typeahead
         $('#locationTypeahead').typeahead({
@@ -131,6 +131,7 @@
         });
 
         // Map
+        ratesData = processRateData(data);
         d3choropleth.map("map", {
             width : 300,
             height: 500,
@@ -147,11 +148,51 @@
             },
             onLoad : function() {
                 d3choropleth.colorize("provinces", d3choropleth.currentColorGorup, function() {
+                    var provinceId = this.properties.ID_1;
+                    console.log(provinceId);        //TODO(gb): Remove trace!!!
                     return Math.floor(Math.random() * 4);
                 });
             }
         });
     });
+
+    function processRateData(data) {
+        var revisedData = [];
+        var causesArray = causeOfDeathAreaChart.causesArray();
+
+        // Process data
+        data.forEach(function (d) {
+            var i = 0;
+            for (i = 0; i < causesArray.length; i++) {
+                var cause = causesArray[i].key;
+                revisedData.push({
+                    'anio': d['anio'],
+                    'cod_prov': d['cod_prov'],
+                    'provincia': d['provincia'],
+                    'cause': cause,
+                    'value': d[cause]
+                });
+            }
+        });
+
+        var deathByProvincesByYearByCause = d3.nest()
+                .key(function (d) {
+                    return d.provincia
+                })
+                .key(function (d) {
+                    return d.cause
+                })
+                .key(function (d) {
+                    return d.anio
+                })
+                .rollup(function (d) {
+                    var val = parseFloat(d[0].value);
+                    return val ? val : 0.0;
+                })
+                .entries(revisedData);
+
+        return deathByProvincesByYearByCause;
+    }
 
     // Death rate line chart
     deathRateLineChart.draw("deathRate", {
