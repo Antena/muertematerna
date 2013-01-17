@@ -90,61 +90,67 @@
 <script src="/assets/javascripts/deathRateLineChart.js"></script>
 <script>
 
-    // Location typeahead
-    $('#locationTypeahead').typeahead({
-        source : ["Buenos Aires"]
-    });
+    var ratesData;
 
-    // Year slider
-    $('#slider').slider({
-        value : 2010,
-        min : 2006,
-        max : 2010,
-        step : 1,
-        slide : function() {
-            d3choropleth.colorize("provinces", d3choropleth.currentColorGorup, function() {
-                return Math.floor(Math.random() * 4);
-            });
-        }
-    })
+    d3.csv("/assets/data/razon_muertes.csv", function(data) {
+        ratesData = data;
 
-    // Zoom out
-    $('#zoomout').click(function(e){
-        d3choropleth.zoomOut(e);
-        causeOfDeathAreaChart.draw('total','causesByYear',{});
-    });
+        // Location typeahead
+        $('#locationTypeahead').typeahead({
+            source : ["Buenos Aires"]
+        });
 
-    // Reset area chart
-    $('#resetarea').click(causeOfDeathAreaChart.reset);
-
-    // Cause of death area chart
-    causeOfDeathAreaChart.draw('total','causesByYear', {
-        width: 380,
-        margin : {left: 25, right:15, top:5, bottom:20},
-        directCausesLegendDivId : 'direct-causes-legend',
-        indirectCausesLegendDivId : 'indirect-causes-legend'
-    });
-
-    // Map
-    d3choropleth.map("map", {
-        width : 300,
-        height: 500,
-        scale : 4000,
-        center : [-48, -55.5],
-        dataUrl : '/assets/data/argentina.json',
-        dataType : 'json',
-        zoomOutControlId : 'zoomout',
-        layers : {
-            provinces : {
-                geometriesClass : 'province',
-                clickToZoom : true
+        // Year slider
+        $('#slider').slider({
+            value : 2010,
+            min : 2006,
+            max : 2010,
+            step : 1,
+            slide : function() {
+                d3choropleth.colorize("provinces", d3choropleth.currentColorGorup, function() {
+                    return Math.floor(Math.random() * 4);
+                });
             }
-        },
-        onLoad : function() {
-            d3choropleth.colorize("provinces", d3choropleth.currentColorGorup, function() {
-                return Math.floor(Math.random() * 4);
-            });
-        }
+        })
+
+        // Zoom out
+        $('#zoomout').click(function(e){
+            d3choropleth.zoomOut(e);
+            causeOfDeathAreaChart.draw('total','causesByYear',{});
+        });
+
+        // Reset area chart
+        $('#resetarea').click(causeOfDeathAreaChart.reset);
+
+        // Cause of death area chart
+        causeOfDeathAreaChart.draw('total','causesByYear', {
+            width: 380,
+            margin : {left: 25, right:15, top:5, bottom:20},
+            directCausesLegendDivId : 'direct-causes-legend',
+            indirectCausesLegendDivId : 'indirect-causes-legend'
+        });
+
+        // Map
+        d3choropleth.map("map", {
+            width : 300,
+            height: 500,
+            scale : 4000,
+            center : [-48, -55.5],
+            dataUrl : '/assets/data/argentina.json',
+            dataType : 'json',
+            zoomOutControlId : 'zoomout',
+            layers : {
+                provinces : {
+                    geometriesClass : 'province',
+                    clickToZoom : true
+                }
+            },
+            onLoad : function() {
+                d3choropleth.colorize("provinces", d3choropleth.currentColorGorup, function() {
+                    return Math.floor(Math.random() * 4);
+                });
+            }
+        });
     });
 
     // Death rate line chart
