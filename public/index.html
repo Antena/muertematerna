@@ -11,11 +11,16 @@
 <body>
 <div class="container">
     <h1>Muerte Materna en Argentina</h1>
-    <p class="lead">Es una plataforma de monitoreo de la mortalidad materna para hacer visible un problema complejo y a la vez evitable que padecen muchas mujeres de nuestro país. Tiene el propósito el hacer pública la información reportada en las estadísticas oficiales y enriquecerla con otras fuentes y dimensiones de análisis.</p>
+
+    <p class="lead">Es una plataforma de monitoreo de la mortalidad materna para hacer visible un problema complejo y a
+        la vez evitable que padecen muchas mujeres de nuestro país. Tiene el propósito el hacer pública la información
+        reportada en las estadísticas oficiales y enriquecerla con otras fuentes y dimensiones de análisis.</p>
+
     <div class="row">
         <div class="span5">
             <h5>Evolución de la razón de muerte materna (RMM) por causa</h5>
             <a href="#" id="resetarea" style="font-size: 11px; margin-right: 30px" class="pull-right">Reset</a>
+
             <div class="row">
                 <div class="span2" id="direct-causes-legend">
                     <p class="legend-title">Causas de muerte directas</p>
@@ -28,7 +33,9 @@
         </div>
         <div class="span4">
             <h5>Razón de la muerte materna nacional (RMM)</h5>
-            <input type="text" class="typeahead span4" id="locationTypeahead" placeholder="Buscar provincia o departamento">
+            <input type="text" class="typeahead span4" id="locationTypeahead"
+                   placeholder="Buscar provincia o departamento">
+
             <div id="slider">
             </div>
             <div id="slider-labels">
@@ -42,6 +49,7 @@
             </div>
 
             <a href="#" id="zoomout" style="font-size: 11px" class="pull-right">Reset</a>
+
             <div id="map"></div>
         </div>
         <div class="span3">
@@ -90,6 +98,31 @@
 <script src="/assets/javascripts/deathRateLineChart.js"></script>
 <script src="/assets/javascripts/app.js"></script>
 <script>
+
+    // Location typeahead
+    $('#locationTypeahead').typeahead({
+        source: function(){
+            return app.provinceCodesArray.map(function(item){return item.key});
+        }
+    ,
+        matcher: function(item){
+            if (item.toLowerCase().indexOf(this.query.trim().toLowerCase()) != -1) {
+                return true;
+            }
+        },
+        updater: function(item){
+            app.selection.province = app.provinceMap[item].value;
+            causeOfDeathAreaChart.draw();
+            var location = app.zoomLocationsMap[item];
+            if(location!=null){
+                d3choropleth.doZoom(location.x,location.y,location.k);
+            }
+
+            return item;
+
+        }
+
+    });
 
     app.init();
 

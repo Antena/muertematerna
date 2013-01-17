@@ -12,8 +12,7 @@
         }
     };
 
-    causeOfDeathAreaChart.filter= function(choosenArea, self){
-
+    causeOfDeathAreaChart.filter= function(choosenArea,self){
 
         if(!choosenArea){
             choosenArea =  defaultProvinceId;
@@ -222,6 +221,8 @@
 
     causeOfDeathAreaChart.setCause = function(d) {
         var cause = app.causesArray.filter(function(elem) { return elem.key == d.key})[0];
+
+        app.selection.cause = cause;
 
         // Cause area
         svg.selectAll(".cause")
