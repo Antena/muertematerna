@@ -147,7 +147,7 @@
                 d3choropleth.zoomOut(e);
                 self.selection.province = null;
                 causeOfDeathAreaChart.draw();
-                app.drawChartLegends();
+                app.drawChartTitles();
             });
 
             // Reset area chart
@@ -178,7 +178,7 @@
                         onClick : function() {
                             self.selection.province = this.properties.ID_1;
                             causeOfDeathAreaChart.draw();
-                            app.drawChartLegends();
+                            app.drawChartTitles();
                         },
                         onZoomIn : function() {
                             app.setContext("province", this);
@@ -187,7 +187,7 @@
                             self.selection.province = null;
                             causeOfDeathAreaChart.draw();
                             app.setContext("national");
-                            app.drawChartLegends();
+                            app.drawChartTitles();
                         }
                     }
                 },
@@ -318,13 +318,13 @@
             $("#q3").text(app.quartiles[2].toFixed(1) + " - " + ratesArray[ratesArray.length-1].toFixed(1));
         }
 
-        app.drawChartLegends = function(){
+        app.drawChartTitles = function(){
 
 
             var location = app.selection.province?app.provinceMapByCode[app.selection.province]:null;
             var causa = app.selection.cause?app.selection.cause:null;
 
-            var razon_title='Razón de la muerte materna nacional (RMM)' + (app.selection.province==null?'': ' en ' + location) + (app.selection.cause!=null?' para muertes por ' + causa.text:'');
+            var razon_title='Razón de la muerte materna ' +  (app.selection.province==null?'nacional ':' ') + '(RMM)' + (app.selection.province==null?'': ' en ' + location) + (app.selection.cause!=null?' para muertes por ' + causa.text:'');
             var evolucion_title='Evolución de la razón de muerte materna (RMM) por causa' + (app.selection.province==null?'': ' en ' + location);
 
             $('#razon_title').text(razon_title);
