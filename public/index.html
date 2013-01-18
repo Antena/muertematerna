@@ -120,7 +120,7 @@
         },
         updater: function(item){
             app.selection.province = app.provinceMap[item];
-            app.drawChartLegends();
+            app.drawChartTitles();
             causeOfDeathAreaChart.draw();
             var location = app.zoomLocationsMap[item];
             if(location!=null){

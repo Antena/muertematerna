@@ -13,7 +13,6 @@
     };
 
     causeOfDeathAreaChart.filter= function(choosenArea,self){
-
         if(!choosenArea){
             choosenArea =  defaultProvinceId;
         }
@@ -99,7 +98,10 @@
                 return area(d.values);
             })
             .style("fill", function (d, i) {
-                return z(i);
+                if(app.selection.cause){
+                    return d.key == app.selection.cause.key ? app.selection.cause.color : "#aaa";
+                }else
+                    return z(i);
             })
             .on("click", causeOfDeathAreaChart.setCause);
 
@@ -108,8 +110,11 @@
             .attr("d",function (d) {
             return area(d.values);
         }).style("fill", function (d, i) {
-                return z(i);
-            })
+                if(app.selection.cause){
+                    return d.key == app.selection.cause.key ? app.selection.cause.color : "#aaa";
+                }else
+                    return z(i);
+            });
 
 
         paths.exit().selectAll(".cause").transition().duration(2000).remove();
@@ -117,6 +122,7 @@
 
         svg.select('.x.axis').transition().duration(1000).call(xAxis);
         svg.select('.y.axis').transition().duration(1000).call(yAxis);
+
 
     }
 
@@ -178,7 +184,6 @@
         }
 
 
-
     }
 
     causeOfDeathAreaChart.reset = function(e) {
@@ -219,17 +224,59 @@
         d3choropleth.colorize("provinces", d3choropleth.currentColorGorup, function() {
             return app.quartile(this.properties.ID_1);
         });
-        app.drawChartLegends();
+        app.drawChartTitles();
     }
 
     causeOfDeathAreaChart.setCause = function(d) {
         var cause = app.causesArray.filter(function(elem) { return elem.key == d.key})[0];
 
+
         app.selection.cause = cause;
-        app.drawChartLegends();
+        app.drawChartTitles();
 
+        //TODO: dnul refactor this
+        causeOfDeathAreaChart.paintCauses();
+/*        // Cause area
+        svg.selectAll(".cause")
+            .transition()
+            .style("fill", function(d) {
+                return d.key == cause.key ? cause.color : "#aaa";
+            });
 
-        // Cause area
+        // Direct cause legend
+        directLegend.selectAll('.legend-box rect')
+            .transition()
+            .style('fill', function(d) {
+                return d.key == cause.key ? cause.color : "#aaa";
+            });
+        directLegend.selectAll('.legend-box text')
+            .transition()
+            .style('fill', function(d) {
+                return d.key == cause.key ? '#333' : "#aaa";
+            });
+
+        // Indirect cause legend
+        indirectLegend.selectAll('.legend-box rect')
+            .transition()
+            .style('fill', function(d) {
+                return d.key == cause.key ? cause.color : "#aaa";
+            });
+        indirectLegend.selectAll('.legend-box text')
+            .transition()
+            .style('fill', function(d) {
+                return d.key == cause.key ? '#333' : "#aaa";
+            });*/
+
+        app.calculateQuartiles(app.ratesData[app.getRatesIndex()]);
+        d3choropleth.colorize("provinces", cause.colorGroup, function() {
+            return app.quartile(this.properties.ID_1);
+        })
+    }
+
+    causeOfDeathAreaChart.paintCauses= function(){
+
+        var cause = app.selection.cause;
+
         svg.selectAll(".cause")
             .transition()
             .style("fill", function(d) {
@@ -259,12 +306,6 @@
             .style('fill', function(d) {
                 return d.key == cause.key ? '#333' : "#aaa";
             });
-
-        app.selection.cause = cause;
-        app.calculateQuartiles(app.ratesData[app.getRatesIndex()]);
-        d3choropleth.colorize("provinces", cause.colorGroup, function() {
-            return app.quartile(this.properties.ID_1);
-        })
     }
 
     causeOfDeathAreaChart.causesArray = function() {
