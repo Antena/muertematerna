@@ -125,36 +125,6 @@
     });
 
     app.init();
-
-    // Provinces
-    //        g.selectAll(".province")
-    //                .data(topojson.object(argentina, argentina.objects.provinces).geometries)
-    //                .enter().append("path")
-    //                .attr("class", function(d) { return "province"; })
-    //                .attr("data-id", function(d) { return d.properties.ID_1 })
-    //                .attr("data-name", function(d) { return d.properties.NAME_1 })
-    //                .attr("d", path)
-    //                .popover(function(d, i) {
-    //                    var id, container, g;
-    //                    id = +d3.select(this).attr('data-id');
-    //                    container = d3.select(document.createElement("svg")).attr("height", 50);
-    //                    g = container.append("g");
-    //                    g.append("rect").attr("width", id * 10).attr("height", 10);
-    //                    g.append("text").text("ID: " + id).attr("dy", "25");
-    //                    var bbox = d3.select(this)[0][0].getBBox();
-    //                    return {
-    //                        title : d.properties.NAME_1,
-    //                        content: container,
-    //                        detection: "shape",
-    //                        placement: "fixed",
-    //                        position : [bbox.x,bbox.y],
-    //                        gravity: "right",
-    //                        displacement: [bbox.width, -25],
-    //                        mousemove: false
-    //                    };
-    //                })
-    //                .on("click", zoomToProvince);
-    //    });
 </script>
 </body>
 
