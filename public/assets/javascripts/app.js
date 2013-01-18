@@ -84,6 +84,14 @@
         }
     }
 
+    app.nationalRates = [
+        { year: 2006, rate: 4.8 },
+        { year: 2007, rate: 4.4 },
+        { year: 2008, rate: 4.0 },
+        { year: 2009, rate: 5.5 },
+        { year: 2010, rate: 4.4 }
+    ];
+
     app.quartiles = [];
 
     app.selection = {
@@ -167,6 +175,10 @@
                     d3choropleth.colorize("provinces", d3choropleth.currentColorGorup, function() {
                         return self.quartile(this.properties.ID_1);
                     });
+
+                    $('.province').tooltip({
+                        title : "hola"
+                    })
                 }
             });
         });

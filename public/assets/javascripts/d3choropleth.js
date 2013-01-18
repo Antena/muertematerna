@@ -128,7 +128,50 @@
                     zoomedGroup = layers[name].g;
                     zoomToObject(d);
                 }
-            });
+            })
+            .popover(function(d, i) {
+                var id, container, g;
+                id = d.properties.ID_1;
+                container = d3.select(document.createElement("svg")).attr("height", 50);
+                g = container.append("g");
+
+                // Province rate
+                var rate = app.ratesData[8].values[id-1].values[app.selection.year-2006].values.toFixed(1);
+                g.append("rect")
+                    .attr("width", rate * 10)
+                    .attr("height", 10)
+                    .attr("y", "5");
+                g.append("text")
+                    .attr("y", "15")
+                    .attr("x", rate * 10 + 5)
+                    .attr("font-size", 13)
+                    .text("RMM: " + rate);
+
+                // National rate
+                var nationalRate = app.nationalRates.filter(function(rate) { return rate.year == app.selection.year})[0].rate.toFixed(1);
+                g.append("rect")
+                    .attr("width", nationalRate * 10)
+                    .attr("y", "30")
+                    .attr("fill", "steelblue")
+                    .attr("height", 10);
+                g.append("text")
+                    .text("RMM Nación: " + nationalRate)
+                    .attr("y", "40")
+                    .attr("x", nationalRate * 10 + 5)
+                    .attr("font-size", 13);
+
+                var bbox = d3.select(this)[0][0].getBBox();
+                return {
+                    title : d.properties.NAME_1,
+                    content: container,
+                    detection: "shape",
+                    placement: "fixed",
+                    position : [bbox.x+160,bbox.y+270],
+                    gravity: "right",
+                    displacement: [bbox.width, -25],
+                    mousemove: false
+                };
+            })
     };
 
     d3choropleth.colorize = function(layerName, color, calculateQuartile) {

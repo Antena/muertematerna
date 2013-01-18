@@ -7,14 +7,6 @@
         }
     }
 
-    var data = [
-        { year: 2006, rate: 4.8 },
-        { year: 2007, rate: 4.4 },
-        { year: 2008, rate: 4.0 },
-        { year: 2009, rate: 5.5 },
-        { year: 2010, rate: 4.4 }
-    ];
-
     deathRateLineChart.draw = function(containerId, customOptions) {
         var self = this;
 
@@ -50,7 +42,7 @@
             .append("g")
             .attr("transform", "translate(" + self.options.margin.left + "," + self.options.margin.top + ")");
 
-        x.domain(d3.extent(data, function(d) { return d.year; }));
+        x.domain(d3.extent(app.nationalRates, function(d) { return d.year; }));
         y.domain([3,6]);
 
         svg.append("g")
@@ -68,7 +60,7 @@
             .style("text-anchor", "end");
 
         svg.append("path")
-            .datum(data)
+            .datum(app.nationalRates)
             .attr("class", "line")
             .attr("d", line);
     }
