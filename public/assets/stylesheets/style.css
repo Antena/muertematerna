@@ -4,7 +4,7 @@
 #map {
 }
 
-#map .background {
+#map .background, #province-map .background {
     fill: none;
     pointer-events: all;
 }
@@ -34,7 +34,7 @@
 
 .department {
     fill: none;
-    stroke: none;
+    stroke: #aaa;
 }
 
 #department .active {

@@ -218,8 +218,7 @@
                 })
             } else {
                 $("#nationalContext").fadeOut(function() {
-                    $("#provinceContext").fadeIn(function() {
-                    });
+                    $("#provinceContext").fadeIn();
                 })
             }
         };
