@@ -163,9 +163,13 @@
                             self.selection.province = this.properties.ID_1;
                             causeOfDeathAreaChart.draw();
                         },
+                        onZoomIn : function() {
+                            app.setContext("province", this);
+                        },
                         onZoomOut : function() {
                             self.selection.province = null;
                             causeOfDeathAreaChart.draw();
+                            app.setContext("national");
                         }
                     }
                 },
@@ -175,10 +179,6 @@
                     d3choropleth.colorize("provinces", d3choropleth.currentColorGorup, function() {
                         return self.quartile(this.properties.ID_1);
                     });
-
-                    $('.province').tooltip({
-                        title : "hola"
-                    })
                 }
             });
         });
@@ -192,6 +192,19 @@
             var ratesIndex = app.selection.cause ? getCauseIndex() : 8;
             return ratesIndex;
         }
+
+        app.setContext = function(dimension, path) {
+            if (dimension == "national") {
+                $("#provinceContext").fadeOut(function() {
+                    $("#nationalContext").fadeIn();
+                })
+            } else {
+                $("#nationalContext").fadeOut(function() {
+                    $("#provinceContext").fadeIn(function() {
+                    });
+                })
+            }
+        };
 
         function getCauseIndex() {
             for (var i=0; i<app.causesArray.length; i++) {
