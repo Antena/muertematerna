@@ -107,6 +107,16 @@
 
     app.ratesData = null;
 
+    app.medicalCenters = [
+        {x:15, y:-55, r:30},                // Buenos Aires
+        {x:25, y:-120, r:25},               // Entre Rios
+        {x:40, y:-160, r:18},               // Entre Rios
+        {x:5, y:-135, r:5},                 // Santa Fe
+        {x:-65, y:-150, r:32},              // La Rioja
+        {x:-60, y:-180, r:12},              // Catamarca
+        {x:-65, y:0, r:15}                  // Rio Negro
+    ]
+
     app.init = function() {
         var self = this;
 

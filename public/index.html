@@ -39,18 +39,21 @@
             <div id="slider">
             </div>
             <div id="slider-labels">
-                 <ul class="inline">
-                     <li>2006</li>
-                     <li>2007</li>
-                     <li>2008</li>
-                     <li>2009</li>
-                     <li style="margin-right: 0px">2010</li>
-                 </ul>
+                <ul class="inline">
+                    <li>2006</li>
+                    <li>2007</li>
+                    <li>2008</li>
+                    <li>2009</li>
+                    <li style="margin-right: 0px">2010</li>
+                </ul>
             </div>
 
             <a href="#" id="zoomout" style="font-size: 11px" class="pull-right">Reset</a>
 
             <div id="map"></div>
+            <div class="map-control">
+                <input type="checkbox" id="toggleMedicalCenters"/> Mostrar maternidades
+            </div>
         </div>
         <div class="span3">
             <div class="well well-small">
@@ -112,7 +115,7 @@
         source: function(){
             return app.provinceCodesArray.map(function(item){return item.key});
         }
-    ,
+        ,
         matcher: function(item){
             if (item.toLowerCase().indexOf(this.query.trim().toLowerCase()) != -1) {
                 return true;
@@ -129,8 +132,20 @@
 
             return item;
         }
-
     });
+
+    $("#toggleMedicalCenters").change(function() {
+        var checked = $(this).attr("checked") || false;
+        if (checked) {
+            d3.selectAll(".circle")
+                    .transition()
+                    .attr("r", function(d) { return d.r });
+        } else {
+            d3.selectAll(".circle")
+                    .transition()
+                    .attr("r", 0);
+        }
+    })
 
     app.init();
 </script>
