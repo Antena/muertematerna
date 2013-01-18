@@ -177,6 +177,8 @@
             causeOfDeathAreaChart.filter(choosenArea,self);
         }
 
+
+
     }
 
     causeOfDeathAreaChart.reset = function(e) {
@@ -217,12 +219,15 @@
         d3choropleth.colorize("provinces", d3choropleth.currentColorGorup, function() {
             return app.quartile(this.properties.ID_1);
         });
+        app.drawChartLegends();
     }
 
     causeOfDeathAreaChart.setCause = function(d) {
         var cause = app.causesArray.filter(function(elem) { return elem.key == d.key})[0];
 
         app.selection.cause = cause;
+        app.drawChartLegends();
+
 
         // Cause area
         svg.selectAll(".cause")

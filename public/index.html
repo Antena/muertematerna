@@ -18,7 +18,7 @@
 
     <div class="row">
         <div class="span5">
-            <h5>Evolución de la razón de muerte materna (RMM) por causa</h5>
+            <h5><span id="evolucion_title">Evolución de la razón de muerte materna (RMM) por causa</span></h5>
             <a href="#" id="resetarea" style="font-size: 11px; margin-right: 30px" class="pull-right">Reset</a>
 
             <div class="row">
@@ -32,7 +32,7 @@
             <div id="causesByYear"></div>
         </div>
         <div class="span4">
-            <h5>Razón de la muerte materna nacional (RMM)</h5>
+            <h5><span id="razon_title">Razón de la muerte materna nacional (RMM) </span></h5>
             <input type="text" class="typeahead span4" id="locationTypeahead"
                    placeholder="Buscar provincia o departamento">
 
@@ -120,6 +120,7 @@
         },
         updater: function(item){
             app.selection.province = app.provinceMap[item];
+            app.drawChartLegends();
             causeOfDeathAreaChart.draw();
             var location = app.zoomLocationsMap[item];
             if(location!=null){
