@@ -45,6 +45,11 @@
     for(var i=0;i<app.provinceCodesArray.length;i++){
         app.provinceMap[app.provinceCodesArray[i].key]=app.provinceCodesArray[i].value;
     }
+    app.provinceMapByCode = {};
+
+    for(var i=0;i<app.provinceCodesArray.length;i++){
+        app.provinceMapByCode[app.provinceCodesArray[i].value]=app.provinceCodesArray[i].key;
+    }
 
     //TODO: refactor dnul
     app.zoomLocationsArray = [
@@ -124,6 +129,7 @@
                 d3choropleth.zoomOut(e);
                 self.selection.province = null;
                 causeOfDeathAreaChart.draw();
+                app.drawChartLegends();
             });
 
             // Reset area chart
@@ -154,10 +160,12 @@
                         onClick : function() {
                             self.selection.province = this.properties.ID_1;
                             causeOfDeathAreaChart.draw();
+                            app.drawChartLegends();
                         },
                         onZoomOut : function() {
                             self.selection.province = null;
                             causeOfDeathAreaChart.draw();
+                            app.drawChartLegends();
                         }
                     }
                 },
@@ -273,6 +281,21 @@
             $("#q1").text(app.quartiles[0].toFixed(1) + " - " + app.quartiles[1].toFixed(1));
             $("#q2").text(app.quartiles[1].toFixed(1) + " - " + app.quartiles[2].toFixed(1));
             $("#q3").text(app.quartiles[2].toFixed(1) + " - " + ratesArray[ratesArray.length-1].toFixed(1));
+        }
+
+        app.drawChartLegends = function(){
+
+
+            var location = app.selection.province?app.provinceMapByCode[app.selection.province]:null;
+            var causa = app.selection.cause?app.selection.cause:null;
+
+            var razon_title='Razón de la muerte materna nacional (RMM)' + (app.selection.province==null?'': ' en ' + location) + (app.selection.cause!=null?' para muertes por ' + causa.text:'');
+            var evolucion_title='Evolución de la razón de muerte materna (RMM) por causa' + (app.selection.province==null?'': ' en ' + location);
+
+            $('#razon_title').text(razon_title);
+            $('#evolucion_title').text(evolucion_title);
+
+
         }
 
 
