@@ -217,60 +217,12 @@
             .transition()
             .style('fill', '#333');
 
-        d3choropleth.currentColorGorup = d3choropleth.defaultColorGorup;
-
-        app.selection.cause = null;
-        app.calculateQuartiles(app.ratesData[app.getRatesIndex()]);
-        d3choropleth.colorize("provinces", d3choropleth.currentColorGorup, function() {
-            return app.quartile(this.properties.ID_1);
-        });
-        app.drawChartTitles();
+        app.setCause(null);
     }
 
     causeOfDeathAreaChart.setCause = function(d) {
         var cause = app.causesArray.filter(function(elem) { return elem.key == d.key})[0];
-
-
-        app.selection.cause = cause;
-        app.drawChartTitles();
-
-        //TODO: dnul refactor this
-        causeOfDeathAreaChart.paintCauses();
-/*        // Cause area
-        svg.selectAll(".cause")
-            .transition()
-            .style("fill", function(d) {
-                return d.key == cause.key ? cause.color : "#aaa";
-            });
-
-        // Direct cause legend
-        directLegend.selectAll('.legend-box rect')
-            .transition()
-            .style('fill', function(d) {
-                return d.key == cause.key ? cause.color : "#aaa";
-            });
-        directLegend.selectAll('.legend-box text')
-            .transition()
-            .style('fill', function(d) {
-                return d.key == cause.key ? '#333' : "#aaa";
-            });
-
-        // Indirect cause legend
-        indirectLegend.selectAll('.legend-box rect')
-            .transition()
-            .style('fill', function(d) {
-                return d.key == cause.key ? cause.color : "#aaa";
-            });
-        indirectLegend.selectAll('.legend-box text')
-            .transition()
-            .style('fill', function(d) {
-                return d.key == cause.key ? '#333' : "#aaa";
-            });*/
-
-        app.calculateQuartiles(app.ratesData[app.getRatesIndex()]);
-        d3choropleth.colorize("provinces", cause.colorGroup, function() {
-            return app.quartile(this.properties.ID_1);
-        })
+        app.setCause(cause);
     }
 
     causeOfDeathAreaChart.paintCauses= function(){
