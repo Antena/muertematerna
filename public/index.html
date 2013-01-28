@@ -18,21 +18,21 @@
 
     <div id="messages" class="row">
         <div class="span4">
-            <div class="alert" id="message1">
-                <strong>La mortalidad materna está estancada</strong><br/>
-                En los últimos 20 años prácticamente no se modificó <a href="#">[Ver más]</a>
+            <div class="message" id="message1">
+                <h4>La mortalidad materna está estancada</h4>
+                <p>En los últimos 20 años prácticamente no se modificó <a href="#" class="pull-right"><i class="icon-arrow-right icon-white"></i>Ver datos</a></p>
             </div>
         </div>
         <div class="span4">
-            <div class="alert" id="message2">
-                <strong>La variación interpovincial es muy alta</strong><br/>
-                La RMM de Formosa en 4 veces más alta que la de CABA <a href="#">[Ver más]</a>
+            <div class="message" id="message2">
+                <h4>La variación interpovincial es muy alta</h4>
+                <p>La RMM de Formosa en 4 veces más alta que la de CABA <a href="#" class="pull-right"><i class="icon-arrow-right icon-white"></i>Ver datos</a></p>
             </div>
         </div>
         <div class="span4">
-            <div class="alert" id="message3">
-                <strong>Las causas de muerte son variadas</strong><br/>
-                La mayoiría de las causas son evitables <a href="#">[Ver más]</a>
+            <div class="message" id="message3">
+                <h4>Las causas de muerte son variadas</h4>
+                <p>La mayoría de las muertes son por causas evitables <a href="#" class="pull-right"><i class="icon-arrow-right icon-white"></i>Ver datos</a></p>
             </div>
         </div>
     </div>
@@ -235,21 +235,23 @@
     });
 
     // Messages
-    $("#messages .alert")
+    $("#messages .message")
             .hover(function() {
-                $(this).toggleClass('alert-info');
+                if (!$(this).hasClass('current')) {
+                    $(this).toggleClass('hover');
+                }
             })
             .click(function(event) {
                 var clickedMessage = $(this).attr("id");
-                var currentMessage = $("#messages .alert.current").attr("id");
+                var currentMessage = $("#messages .message.current").attr("id");
                 var chart = $("#chartFor" + clickedMessage.charAt(0).toUpperCase() + clickedMessage.slice(1));
                 $("#" + currentMessage).removeClass("current");
-                $(this).addClass("current");
+                $(this).addClass("current").removeClass("hover");
                 if (!$("#message-charts").is(":visible")) {
                     chart.addClass("current").fadeIn();
                     $("#message-charts").slideDown();
                 } else if (clickedMessage == currentMessage) {
-                    $("#" + currentMessage).removeClass("current");
+                    $("#" + currentMessage).removeClass("current").addClass("hover");
                     $("#message-charts .current").removeClass("current").fadeOut();
                     $("#message-charts").slideUp();
                 } else {
