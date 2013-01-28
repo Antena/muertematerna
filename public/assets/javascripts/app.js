@@ -134,6 +134,7 @@
                 layers : {
                     provinces : {
                         geometriesClass : 'province',
+                        id : 'ID_1',
                         onClick : function() {
                             var province = provinces.getById(this.properties.ID_1);
                             self.setProvince(province);

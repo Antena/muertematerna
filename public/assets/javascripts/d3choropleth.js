@@ -119,6 +119,9 @@
             .data(topojson.object(self.fullTopology, topology).geometries)
             .enter().append("path")
             .attr("class", layerOptions.geometriesClass)
+            .attr("id", function(d) {
+                return d.properties[layerOptions.id]
+            })
             .attr("d", path)
             .on("click", function(d) {
                 if (layerOptions.onClick) {
@@ -214,9 +217,6 @@
 
     d3choropleth.doZoom = function(x, y, k, callback) {
         var layersSelector = "#" + Object.keys(layers).join(", #");
-
-        self.svg.selectAll(layersSelector).selectAll("path")
-            .classed("active", centered && function(d) { return d === centered; });
 
         self.svg.selectAll(layersSelector)
             .transition()
