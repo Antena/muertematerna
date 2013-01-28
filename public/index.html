@@ -16,6 +16,45 @@
         la vez evitable que padecen muchas mujeres de nuestro país. Tiene el propósito el hacer pública la información
         reportada en las estadísticas oficiales y enriquecerla con otras fuentes y dimensiones de análisis.</p>
 
+    <div id="messages" class="row">
+        <div class="span4">
+            <div class="alert" id="message1">
+                <strong>La mortalidad materna está estancada</strong><br/>
+                En los últimos 20 años prácticamente no se modificó <a href="#">[Ver más]</a>
+            </div>
+        </div>
+        <div class="span4">
+            <div class="alert" id="message2">
+                <strong>La variación interpovincial es muy alta</strong><br/>
+                La RMM de Formosa en 4 veces más alta que la de CABA <a href="#">[Ver más]</a>
+            </div>
+        </div>
+        <div class="span4">
+            <div class="alert" id="message3">
+                <strong>Las causas de muerte son variadas</strong><br/>
+                La mayoiría de las causas son evitables <a href="#">[Ver más]</a>
+            </div>
+        </div>
+    </div>
+
+    <div id="message-charts" class="row" style="height: 200px; display: none;">
+        <div id="chartForMessage1" style="display: none">
+            <div class="span12">
+                <h4>Gráfico de la ODM mostrando los últimos 20 años</h4>
+            </div>
+        </div>
+        <div id="chartForMessage2" style="display: none">
+            <div class="span12">
+                <h4>Gráfico de columnas de la tasa por provincia</h4>
+            </div>
+        </div>
+        <div id="chartForMessage3" style="display: none">
+            <div class="span12">
+                <h4>Gráfico de tortas de las causas de muerte</h4>
+            </div>
+        </div>
+    </div>
+
     <div class="row">
         <div class="span4">
             <h5><span id="evolucion_title">Evolución de la razón de muerte materna (RMM) por causa</span></h5>
@@ -181,6 +220,7 @@
         }
     });
 
+    // Medical centers checkbox toggle
     $("#toggleMedicalCenters").change(function() {
         var checked = $(this).attr("checked") || false;
         if (checked) {
@@ -192,7 +232,34 @@
                     .transition()
                     .attr("r", 0);
         }
-    })
+    });
+
+    // Messages
+    $("#messages .alert")
+            .hover(function() {
+                $(this).toggleClass('alert-info');
+            })
+            .click(function(event) {
+                var clickedMessage = $(this).attr("id");
+                var currentMessage = $("#messages .alert.current").attr("id");
+                var chart = $("#chartFor" + clickedMessage.charAt(0).toUpperCase() + clickedMessage.slice(1));
+                $("#" + currentMessage).removeClass("current");
+                $(this).addClass("current");
+                if (!$("#message-charts").is(":visible")) {
+                    chart.addClass("current").fadeIn();
+                    $("#message-charts").slideDown();
+                } else if (clickedMessage == currentMessage) {
+                    $("#" + currentMessage).removeClass("current");
+                    $("#message-charts .current").removeClass("current").fadeOut();
+                    $("#message-charts").slideUp();
+                } else {
+                    $("#message-charts .current").removeClass("current").fadeOut(function() {
+                        chart.addClass("current").fadeIn();
+                    });
+                }
+            })
+
+
 
 
     // Dummy province map
