@@ -105,6 +105,56 @@
         year : 2010
     };
 
+
+    app.setCause = function(cause){
+        app.selection.cause = cause;
+        this.updateSelection();
+    }
+
+    app.getCause = function(){
+        return app.selection.cause;
+    }
+
+
+    app.setProvince = function(province){
+        app.selection.province = province;
+        this.updateSelection();
+    }
+
+    app.getProvince = function(){
+        return app.selection.province;
+    }
+
+    app.setYear = function(year){
+        app.selection.year = year;
+        this.updateSelection();
+    }
+
+    app.getYear = function(){
+        return app.selection.year;
+    }
+
+    app.updateSelection = function(){
+
+        //update cause
+        if(app.selection.cause==null){
+            d3choropleth.currentColorGorup = d3choropleth.defaultColorGorup;
+            app.calculateQuartiles(app.ratesData[app.getRatesIndex()]);
+
+        }else{
+            d3choropleth.currentColorGorup = app.selection.cause.colorGroup;
+            app.calculateQuartiles(app.ratesData[app.getRatesIndex()]);
+            causeOfDeathAreaChart.paintCauses();
+        }
+
+
+        d3choropleth.colorize("provinces", d3choropleth.currentColorGorup, function() {
+            return app.quartile(this.properties.ID_1);
+        });
+        causeOfDeathAreaChart.draw();
+        app.drawChartTitles();
+    }
+
     app.ratesData = null;
 
     app.init = function() {
@@ -124,20 +174,14 @@
                 max : 2010,
                 step : 1,
                 slide : function(event, ui) {
-                    app.selection.year = ui.value;
-                    self.calculateQuartiles(app.ratesData[app.getRatesIndex()]);
-                    d3choropleth.colorize("provinces", d3choropleth.currentColorGorup, function() {
-                        return self.quartile(this.properties.ID_1);
-                    });
+                    app.setYear(ui.value);
                 }
             })
 
             // Zoom out
             $('#zoomout').click(function(e){
                 d3choropleth.zoomOut(e);
-                self.selection.province = null;
-                causeOfDeathAreaChart.draw();
-                app.drawChartTitles();
+                self.setProvince(null);
             });
 
             // Reset area chart
@@ -166,18 +210,14 @@
                         geometriesClass : 'province',
                         clickToZoom : true,
                         onClick : function() {
-                            self.selection.province = this.properties.ID_1;
-                            causeOfDeathAreaChart.draw();
-                            app.drawChartTitles();
+                            self.setProvince(this.properties.ID_1);
                         },
                         onZoomIn : function() {
                             app.setContext("province", this);
                         },
                         onZoomOut : function() {
-                            self.selection.province = null;
-                            causeOfDeathAreaChart.draw();
+                            self.setProvince(null);
                             app.setContext("national");
-                            app.drawChartTitles();
                         }
                     }
                 },
@@ -301,6 +341,12 @@
             app.quartiles[0] = ratesArray[ratesArray.length/4];
             app.quartiles[1] = ratesArray[ratesArray.length/4*2];
             app.quartiles[2] = ratesArray[ratesArray.length/4*3];
+
+
+
+
+
+
 
             $("#q0").text("0.0 - " + app.quartiles[0].toFixed(1));
             $("#q1").text(app.quartiles[0].toFixed(1) + " - " + app.quartiles[1].toFixed(1));
