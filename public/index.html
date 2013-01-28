@@ -72,11 +72,7 @@
         <div class="span4">
             <h5>RMM <span id="razon_title">país</span></h5>
 
-            <input type="text" class="typeahead span4" id="locationTypeahead"
-                   placeholder="Buscar provincia o departamento">
-
-            <div id="slider">
-            </div>
+            <div id="slider"></div>
             <div id="slider-labels">
                 <ul class="inline">
                     <li>2006</li>
@@ -87,12 +83,15 @@
                 </ul>
             </div>
 
+            <input type="text" class="typeahead span4" id="locationTypeahead"
+                   placeholder="Buscar provincia o departamento">
+
+            <div class="map-control pull-left">
+                <input type="checkbox" id="toggleMedicalCenters"/> Mostrar maternidades
+            </div>
             <a href="#" id="zoomout" style="font-size: 11px" class="pull-right">Reset</a>
 
             <div id="map"></div>
-            <div class="map-control">
-                <input type="checkbox" id="toggleMedicalCenters"/> Mostrar maternidades
-            </div>
         </div>
         <div class="span4">
             <div class="well well-small">
