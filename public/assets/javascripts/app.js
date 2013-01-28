@@ -371,8 +371,8 @@
             var location = app.selection.province?app.provinceMapByCode[app.selection.province]:null;
             var causa = app.selection.cause?app.selection.cause:null;
 
-            var razon_title='Razón de la muerte materna ' +  (app.selection.province==null?'nacional ':' ') + '(RMM)' + (app.selection.province==null?'': ' en ' + location) + (app.selection.cause!=null?' para muertes por ' + causa.text:'');
-            var evolucion_title='Evolución de la razón de muerte materna (RMM) por causa' + (app.selection.province==null?'': ' en ' + location);
+            var razon_title = (app.selection.province == null ? 'país ':' ') + (app.selection.province==null?'': ' de ' + location) + (app.selection.cause!=null?' para muertes por ' + causa.text:'');
+            var evolucion_title = (app.selection.province == null ? '' : ' en ' + location);
 
             $('#razon_title').text(razon_title);
             $('#evolucion_title').text(evolucion_title);
