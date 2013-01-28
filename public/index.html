@@ -209,7 +209,7 @@
             app.setProvince(province);
             var location = province.zoomLocation;
             if(location!=null){
-                d3choropleth.doZoom(location.x,location.y,location.k,true);
+                d3choropleth.zoomIn(location.x,location.y,location.k);
             }
             return item;
         }

@@ -35,4 +35,8 @@
     provinces.getByName = function(name) {
         return provinceArray.filter( function(item) { return item.key == name })[0];
     }
+
+    provinces.getById = function(id) {
+        return provinceArray.filter( function(item) { return item.value == id })[0];
+    }
 })()

@@ -134,14 +134,17 @@
                 layers : {
                     provinces : {
                         geometriesClass : 'province',
-                        clickToZoom : true,
                         onClick : function() {
-                            self.setProvince(this.properties.ID_1);
+                            var province = provinces.getById(this.properties.ID_1);
+                            self.setProvince(province);
+                            d3choropleth.zoomIn(province.zoomLocation.x, province.zoomLocation.y, province.zoomLocation.k, true);
                         },
                         onZoomIn : function() {
                             app.setContext("province", this);
+                            $("#zoomout").css("visibility", "visible");
                         },
                         onZoomOut : function() {
+                            $("#zoomout").css("visibility", "hidden");
                             self.setProvince(null);
                             app.setContext("national");
                         }
