@@ -180,7 +180,7 @@
         if(!deathByProvinces){
             causeOfDeathAreaChart.loadData(causeOfDeathAreaChart.filter);
         }else{
-            causeOfDeathAreaChart.filter(choosenArea,self);
+            causeOfDeathAreaChart.filter(choosenArea.value,self);
         }
 
 

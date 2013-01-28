@@ -140,7 +140,7 @@
                             proporción de egresos por abortos
                         </li>
                         <li>
-                            <div class="number" style="height: ">86.43</div>
+                            <div class="number">86.43</div>
                             Proporción de nacidos vivos atendidos por personal capacitado
                         </li>
                     </ul>
@@ -186,6 +186,7 @@
 <script src="/assets/javascripts/d3-bootstrap-plugins.js"></script>
 <script src="/assets/javascripts/bootstrap.min.js"></script>
 <script src="/assets/javascripts/topojson.v0.min.js"></script>
+<script src="/assets/data/provinces.js"></script>
 <script src="/assets/javascripts/colorbrewer.js"></script>
 <script src="/assets/javascripts/d3choropleth.js"></script>
 <script src="/assets/javascripts/causeOfDeathAreaChart.js"></script>
@@ -196,7 +197,7 @@
     // Location typeahead
     $('#locationTypeahead').typeahead({
         source: function(){
-            return app.provinceCodesArray.map(function(item){return item.key});
+            return provinces.getNames();
         }
         ,
         matcher: function(item){
@@ -205,8 +206,9 @@
             }
         },
         updater: function(item){
-            app.setProvince(app.provinceMap[item]);
-            var location = app.zoomLocationsMap[item];
+            var province = provinces.getByName(item);
+            app.setProvince(province);
+            var location = province.zoomLocation;
             if(location!=null){
                 d3choropleth.doZoom(location.x,location.y,location.k,true);
             }
