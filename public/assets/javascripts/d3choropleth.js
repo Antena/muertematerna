@@ -172,6 +172,16 @@
                     mousemove: false
                 };
             })
+
+        layers[name].g.selectAll(".circle")
+            .data(app.medicalCenters)
+            .enter()
+            .append("circle")
+            .attr("class", "circle")
+            .attr("cx", function(d) { return d.x })
+            .attr("cy", function(d) { return d.y })
+//            .attr("r", function(d) { return d.r })
+
     };
 
     d3choropleth.colorize = function(layerName, color, calculateQuartile) {

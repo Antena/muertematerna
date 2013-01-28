@@ -39,18 +39,21 @@
             <div id="slider">
             </div>
             <div id="slider-labels">
-                 <ul class="inline">
-                     <li>2006</li>
-                     <li>2007</li>
-                     <li>2008</li>
-                     <li>2009</li>
-                     <li style="margin-right: 0px">2010</li>
-                 </ul>
+                <ul class="inline">
+                    <li>2006</li>
+                    <li>2007</li>
+                    <li>2008</li>
+                    <li>2009</li>
+                    <li style="margin-right: 0px">2010</li>
+                </ul>
             </div>
 
             <a href="#" id="zoomout" style="font-size: 11px" class="pull-right">Reset</a>
 
             <div id="map"></div>
+            <div class="map-control">
+                <input type="checkbox" id="toggleMedicalCenters"/> Mostrar maternidades
+            </div>
         </div>
         <div class="span3">
             <div class="well well-small">
@@ -84,12 +87,60 @@
                 </div>
                 <div id="provinceContext" style="display: none">
                     <h5 class="id-provinceName">Buenos Aires</h5>
-                    <svg width="200" height="300">
-                        <g id="province-map"></g>
-                    </svg>
+                    <ul class="context-data unstyled">
+                        <li>
+                            <div class="number">4.4</div>
+                            razón de muerte materna
+                        </li>
+                        <li>
+                            <div class="number">2.05</div>
+                            tasa global de fecundidad
+                        </li>
+                        <li>
+                            <div class="number">24.22</div>
+                            proporción de egresos por abortos
+                        </li>
+                        <li>
+                            <div class="number" style="height: ">86.43</div>
+                            Proporción de nacidos vivos atendidos por personal capacitado
+                        </li>
+                    </ul>
+                    <div id="province-map"></div>
                 </div>
             </div>
 
+        </div>
+    </div>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <div class="row">
+        <div class="span4">
+            <h5 style="text-align: center">¿Dónde murieron?</h5>
+            <img src="assets/img/pie-chart.png" style="margin-left: 48px;">
+        </div>
+        <div class="span4">
+            <h5 style="text-align: center">¿Tenían cobertura médica?</h5>
+            <img src="assets/img/pie-chart.png" style="margin-left: 48px;">
+        </div>
+        <div class="span4">
+            <h5 style="text-align: center">¿Tuvieron atención médica?</h5>
+            <img src="assets/img/pie-chart.png" style="margin-left: 48px;">
+        </div>
+    </div>
+    <div class="row">
+        <div class="span4">
+            <h5 style="text-align: center">¿Habían ido a la escuela?</h5>
+            <img src="assets/img/pie-chart.png" style="margin-left: 48px;">
+        </div>
+        <div class="span4">
+            <h5 style="text-align: center">¿Qué edad tenían?</h5>
+            <img src="assets/img/pie-chart.png" style="margin-left: 48px;">
+        </div>
+        <div class="span4">
+            <h5 style="text-align: center">¿Por qué murieron?</h5>
+            <img src="assets/img/pie-chart.png" style="margin-left: 48px;">
         </div>
     </div>
 </div>
@@ -112,7 +163,7 @@
         source: function(){
             return app.provinceCodesArray.map(function(item){return item.key});
         }
-    ,
+        ,
         matcher: function(item){
             if (item.toLowerCase().indexOf(this.query.trim().toLowerCase()) != -1) {
                 return true;
@@ -126,7 +177,47 @@
             }
             return item;
         }
+    });
 
+    $("#toggleMedicalCenters").change(function() {
+        var checked = $(this).attr("checked") || false;
+        if (checked) {
+            d3.selectAll(".circle")
+                    .transition()
+                    .attr("r", function(d) { return d.r });
+        } else {
+            d3.selectAll(".circle")
+                    .transition()
+                    .attr("r", 0);
+        }
+    })
+
+
+    // Dummy province map
+    var legendColors = colorbrewer[d3choropleth.currentColorGorup][4];
+
+    var width=200, height=300;
+    var svg = d3.select("#province-map").append("svg")
+            .attr("width", width)
+            .attr("height", height);
+
+    d3.json("/assets/data/buenosaires.json", function(error, ba) {
+        var departments = topojson.object(ba, ba.objects.departmentsba);
+        var projection = d3.geo.mercator()
+                .scale(8000)
+                .center([-60, -38.5])
+                .translate([width / 2, height / 2]);
+        var path = d3.geo.path()
+                .projection(projection);
+
+        svg.selectAll(".department")
+                .data(topojson.object(ba, ba.objects.departmentsba).geometries)
+                .enter().append("path")
+                .attr("class", "department")
+                .attr("d", path)
+                .style("fill", function(d) {
+                    return legendColors[Math.floor(Math.random() * 4)];
+                })
     });
 
     app.init();
