@@ -252,8 +252,11 @@
                 else if (!uiOnly && !centered && self.options.layers[layerID].onZoomOut){
                     self.options.layers[layerID].onZoomOut.call(self.svg.selectAll("#"+layerID));
                 }
-            })
+            });
+    }
 
+    d3choropleth.update = function() {
+        self.options.update.call(this);
     }
 
 })()

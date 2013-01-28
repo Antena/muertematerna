@@ -137,20 +137,10 @@
     app.updateSelection = function(){
 
         //update cause
-        if(app.selection.cause==null){
-            d3choropleth.currentColorGorup = d3choropleth.defaultColorGorup;
-            app.calculateQuartiles(app.ratesData[app.getRatesIndex()]);
-
-        }else{
-            d3choropleth.currentColorGorup = app.selection.cause.colorGroup;
-            app.calculateQuartiles(app.ratesData[app.getRatesIndex()]);
+        d3choropleth.update();
+        if (app.selection.cause!=null){
             causeOfDeathAreaChart.paintCauses();
         }
-
-
-        d3choropleth.colorize("provinces", d3choropleth.currentColorGorup, function() {
-            return app.quartile(this.properties.ID_1);
-        });
         causeOfDeathAreaChart.draw();
         app.drawChartTitles();
     }
@@ -231,11 +221,21 @@
                         }
                     }
                 },
-
                 onLoad : function() {
                     app.calculateQuartiles();
                     d3choropleth.colorize("provinces", d3choropleth.currentColorGorup, function() {
                         return self.quartile(this.properties.ID_1);
+                    });
+                },
+                update: function() {
+                    //update cause
+                    this.currentColorGorup = app.selection.cause == null ?
+                        this.defaultColorGorup :
+                        app.selection.cause.colorGroup;
+                    app.calculateQuartiles(app.ratesData[app.getRatesIndex()]);
+
+                    this.colorize("provinces", d3choropleth.currentColorGorup, function() {
+                        return app.quartile(this.properties.ID_1);
                     });
                 }
             });
