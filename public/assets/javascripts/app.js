@@ -155,7 +155,7 @@
 
             // Cause of death area chart
             causeOfDeathAreaChart.draw('causesByYear', {
-                width: 380,
+                width: 300,
                 margin : {left: 25, right:15, top:5, bottom:20},
                 directCausesLegendDivId : 'direct-causes-legend',
                 indirectCausesLegendDivId : 'indirect-causes-legend'
@@ -203,6 +203,8 @@
 
         // Death rate line chart
         deathRateLineChart.draw("deathRate", {
+            width: 285,
+            height: 200,
             margin : {top: 5, left : 25, right: 15}
         });
 

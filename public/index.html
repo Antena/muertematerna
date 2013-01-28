@@ -17,10 +17,8 @@
         reportada en las estadísticas oficiales y enriquecerla con otras fuentes y dimensiones de análisis.</p>
 
     <div class="row">
-        <div class="span5">
+        <div class="span4">
             <h5><span id="evolucion_title">Evolución de la razón de muerte materna (RMM) por causa</span></h5>
-            <a href="#" id="resetarea" style="font-size: 11px; margin-right: 30px" class="pull-right">Reset</a>
-
             <div class="row">
                 <div class="span2" id="direct-causes-legend">
                     <p class="legend-title">Causas de muerte directas</p>
@@ -29,6 +27,7 @@
                     <p class="legend-title">Causas de muerte indirectas</p>
                 </div>
             </div>
+            <a href="#" id="resetarea" style="font-size: 11px; margin-right: 30px" class="pull-right">Reset</a>
             <div id="causesByYear"></div>
         </div>
         <div class="span4">
@@ -55,7 +54,7 @@
                 <input type="checkbox" id="toggleMedicalCenters"/> Mostrar maternidades
             </div>
         </div>
-        <div class="span3">
+        <div class="span4">
             <div class="well well-small">
                 <div id="nationalContext">
                     <h5>Contexto Nacional</h5>
@@ -199,7 +198,7 @@
     // Dummy province map
     var legendColors = colorbrewer[d3choropleth.currentColorGorup][4];
 
-    var width=200, height=300;
+    var width=280, height=350;
     var svg = d3.select("#province-map").append("svg")
             .attr("width", width)
             .attr("height", height);
@@ -207,8 +206,8 @@
     d3.json("/assets/data/buenosaires.json", function(error, ba) {
         var departments = topojson.object(ba, ba.objects.departmentsba);
         var projection = d3.geo.mercator()
-                .scale(8000)
-                .center([-60, -38.5])
+                .scale(12000)
+                .center([-60, -37.6])
                 .translate([width / 2, height / 2]);
         var path = d3.geo.path()
                 .projection(projection);

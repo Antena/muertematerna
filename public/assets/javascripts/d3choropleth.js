@@ -226,7 +226,7 @@
         } else {
             centered = null;
             if (self.options.zoomOutControlId)
-                $('#' + self.options.zoomOutControlId).css("visibility", "hidden");
+                $('#' + self.options.zoomOutControlId).css("visibility", "hiden");
         }
 
         d3choropleth.doZoom(x,y,k,false);
