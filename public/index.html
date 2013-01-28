@@ -120,13 +120,10 @@
         },
         updater: function(item){
             app.setProvince(app.provinceMap[item]);
-//            app.drawChartTitles();
-//            causeOfDeathAreaChart.draw();
             var location = app.zoomLocationsMap[item];
             if(location!=null){
                 d3choropleth.doZoom(location.x,location.y,location.k,true);
             }
-
             return item;
         }
 
