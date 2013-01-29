@@ -5,37 +5,55 @@
  **********************************************************************************************************************/
 #messages .message {
     cursor: pointer;
-    text-align: center;
-    padding: 8px 35px 8px 14px;
-    margin-bottom: 20px;
-    color: #FFFFFF;
-    background-color: #B84A44;
-    border: solid 4px #FFFFFF;
-    -webkit-border-radius: 8px;
-    -moz-border-radius: 8px;
-    border-radius: 8px;
-    font-weight: 300;
-}
-
-#messages .message a {
-    color: #ffffff;
-    font-weight: bold;
-}
-
-#messages .message p {
-    font-size: 13px;
-    line-height: 18px;
-    text-align: justify;
-    color: #FFFFFF;
+    overflow: hidden;
+    margin: 0 0 15px;
+    padding: 10px;
 }
 
 #messages .message.hover {
-    background-color: #CE534D;
+    background: #ededed;
 }
 
 #messages .message.current {
-	background-color: #CE534D;
-    border: 4px solid #B84A44;
+    background: #ededed;
+}
+
+#messages .message h4 {
+    margin: 0 0 0 40px;
+    line-height: 18px !important;
+    margin-bottom: 10px;
+}
+
+#messages .message p {
+    clear: both;
+    font-size: 13px;
+    line-height: 20px;
+    color: rgb(116, 116, 116);
+}
+
+#messages .message .more {
+    font-family: 'PT Sans', Arial, Helvetica, sans-serif;
+    margin-top: 18px;
+    margin-right: 10px;
+}
+
+#messages .message .more a {
+    float: right;
+    padding: 0 30px 0 0;
+    background: url(/assets/img/arrow-more.gif) no-repeat 80% 50%;
+    color: #333333;
+    text-decoration: none;
+}
+
+#messages .message .more a:hover {
+    color: #4682b4;
+}
+
+/***********************************************************************************************************************
+ * MAIN CANVAS
+ **********************************************************************************************************************/
+#main-canvas {
+    margin-top: 30px;
 }
 
 /***********************************************************************************************************************
