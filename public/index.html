@@ -78,7 +78,7 @@
             <div id="causesByYear"></div>
         </div>
         <div class="span4">
-            <h5>RMM <span id="razon_title">país</span></h5>
+            <h5><abbr data-glossary-key="rmm" data-placement="bottom">RMM</abbr> <span id="razon_title">país</span></h5>
 
             <div id="slider"></div>
             <div id="slider-labels">
@@ -128,7 +128,7 @@
                         </li>
                     </ul>
                     <br/>
-                    <h5>Evolución de la RMM nacional 2006-2010</h5>
+                    <h5>Evolución de la <abbr data-glossary-key="rmm" data-placement="top">RMM</abbr> nacional 2006-2010</h5>
                     <div id="deathRate"></div>
                 </div>
                 <div id="provinceContext" style="display: none">
@@ -199,6 +199,7 @@
 <script src="/assets/javascripts/causeOfDeathAreaChart.js"></script>
 <script src="/assets/javascripts/deathRateLineChart.js"></script>
 <script src="/assets/javascripts/app.js"></script>
+<script src="assets/data/glossary.js"></script>
 <script>
 
     // Location typeahead
@@ -271,6 +272,18 @@
         $("#" + currentMessage).removeClass("current");
         $("#message-charts .current").removeClass("current").fadeOut();
         $("#message-charts").slideUp();
+    });
+
+    // Glossary
+    $("abbr").click(function() {
+        if (!$(this).data("popover")) {
+            var key = $(this).attr("data-glossary-key");
+            $(this).popover({
+                title: glossary.getTitle(key),
+                content : glossary.getContent(key)
+            });
+            $(this).popover("show");
+        }
     })
 
 
