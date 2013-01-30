@@ -64,7 +64,7 @@
             .attr("width", self.options.width)
             .attr("height", self.options.height)
             .on("click", function(d) {
-                zoomToObject(d);
+                d3choropleth.zoomOut();
             });
 
         // Map layers
@@ -119,14 +119,13 @@
             .data(topojson.object(self.fullTopology, topology).geometries)
             .enter().append("path")
             .attr("class", layerOptions.geometriesClass)
+            .attr("id", function(d) {
+                return d.properties[layerOptions.id]
+            })
             .attr("d", path)
             .on("click", function(d) {
                 if (layerOptions.onClick) {
                     layerOptions.onClick.call(d);
-                }
-                if (layerOptions.clickToZoom) {
-                    zoomedGroup = layers[name].g;
-                    zoomToObject(d);
                 }
             })
             .popover(function(d, i) {
@@ -179,9 +178,7 @@
             .append("circle")
             .attr("class", "circle")
             .attr("cx", function(d) { return d.x })
-            .attr("cy", function(d) { return d.y })
-//            .attr("r", function(d) { return d.r })
-
+            .attr("cy", function(d) { return d.y });
     };
 
     d3choropleth.colorize = function(layerName, color, calculateQuartile) {
@@ -205,54 +202,39 @@
 
 
     d3choropleth.zoomOut = function(e) {
-        e.preventDefault();
-        zoomToObject(null);
+        var self = this;
+
+        if (e) e.preventDefault();
+        var layerID = $(this).attr("id");
+
+        self.doZoom(0, 0, 1, function() {
+            var layerID = $(this).attr("id");
+            if (self.options.layers[layerID].onZoomOut){
+                self.options.layers[layerID].onZoomOut.call(self.svg.selectAll("#"+layerID));
+            }
+        });
     };
 
-    function zoomToObject(d) {
-
-        var x = 0,
-            y = 0,
-            k = 1;
-
-        if (d && centered !== d) {
-            var centroid = path.centroid(d);
-            x = -centroid[0];
-            y = -centroid[1];
-            k = 4;
-            centered = d;
-            if (self.options.zoomOutControlId)
-                $('#' + self.options.zoomOutControlId).css("visibility", "visible");
-        } else {
-            centered = null;
-            if (self.options.zoomOutControlId)
-                $('#' + self.options.zoomOutControlId).css("visibility", "hiden");
-        }
-
-        d3choropleth.doZoom(x,y,k,false);
-
-
-    }
-
-    d3choropleth.doZoom= function(x,y,k,uiOnly){
+    d3choropleth.doZoom = function(x, y, k, callback) {
         var layersSelector = "#" + Object.keys(layers).join(", #");
-
-        self.svg.selectAll(layersSelector).selectAll("path")
-            .classed("active", centered && function(d) { return d === centered; });
 
         self.svg.selectAll(layersSelector)
             .transition()
             .duration(1000)
             .attr("transform", "scale(" + k + ")translate(" + x + "," + y + ")")
             .style("stroke-width", 1.5 / k + "px")
-            .each("end", function() {
-                var layerID = $(this).attr("id");
-                if (centered && self.options.layers[layerID].onZoomIn)
-                    self.options.layers[layerID].onZoomIn.call(self.svg.selectAll("#"+layerID));
-                else if (!uiOnly && !centered && self.options.layers[layerID].onZoomOut){
-                    self.options.layers[layerID].onZoomOut.call(self.svg.selectAll("#"+layerID));
-                }
-            });
+            .each("end", callback);
+    }
+
+    d3choropleth.zoomIn = function(x,y,k){
+        var self = this;
+
+        self.doZoom(x, y, k, function() {
+            var layerID = $(this).attr("id");
+            if (self.options.layers[layerID].onZoomIn) {
+                self.options.layers[layerID].onZoomIn.call(self.svg.selectAll("#"+layerID));
+            }
+        });
     }
 
     d3choropleth.update = function() {
