@@ -2,7 +2,13 @@
 
     var pieChartMap = {},revisedData=[], selectedData=[];
 
-    d3.csv("/assets/data/muertes.csv",function(data){
+
+    var w = 150,                        //width
+        h = 150,                            //height
+        r = 70,                            //radius
+        color = d3.scale.category20c();     //builtin range of colors
+
+    d3.csv("/assets/data/muertes-refined.csv",function(data){
         data.forEach(function(d){
             //choose cause
 
@@ -19,9 +25,10 @@
             })[0];
             revisedData.push({
                 'anio': d['anio'],
-                'cod_prov': d['provre'],
+                'cod_prov': d['codprov'],
                 'cause': cause?cause.key:'unk',
-                'atenmed':d['atenmed']
+                'atenmed':d['atenmed'],
+                'grupedad':d['grupedad']
             });
         });
 
@@ -45,114 +52,21 @@
 
 
 
-        var chart=filterPieCharts.charts.filter(function(c){
-            if(c.id=="cobertura"){
-                return true;
-            }
-        })[0];
-
-
-        if(app.selection.cause) {
-            for(var i=0;i<deathByProvincesByYearByCause.length;i++) {
-                if(deathByProvincesByYearByCause[i].key==app.selection.cause.key) {
-                   data=deathByProvincesByYearByCause[i];
-                }
-            }
-        }
-        chart.data = deathByProvincesByYearByCause;
     });
 
 
     filterPieCharts = {
-        charts: [
-            {id: 'cobertura', divId: "pieChart1", data: null},
+        chartsDefinitions: [
+            {id: 'atenMed', divId: "pieChart1", data: null, pieKeys:["1","2","9"]},
             {id: 'escuela', divId: "pieChart2", data: null},
             {id: 'edad', divId: "pieChart3", data: null},
-            {id: 'atencion', divId: "pieChart4", data: null},
+            {id: 'cobertura', divId: "pieChart4", data: null},
             {id: 'atencion', divId: "pieChart5", data: null}
         ]
     };
 
-    var w = 150,                        //width
-        h = 150,                            //height
-        r = 70,                            //radius
-        color = d3.scale.category20c();     //builtin range of colors
 
 
-    filterPieCharts.createPieChart = function (divId) {
-        var chart = filterPieCharts.charts.filter(function(c){
-            return c.divId == divId;
-        })[0];
-
-        pieChartMap[divId] = {};
-        pieChartMap[divId].arc = d3.svg.arc()
-            .outerRadius(r);
-
-        pieChartMap[divId].vis = d3.select("#" + divId).append("svg")
-            .attr("width", w)
-            .attr("height", h)
-            .append("g")
-            .attr("transform", "translate(" + w / 2 + "," + h / 2 + ")");
-
-        pieChartMap[divId].pie = d3.layout.pie()
-            .sort(null);
-
-        var data = chart.data?chart.data:this.dataset.apples;
-        pieChartMap[divId].path = pieChartMap[divId].vis.selectAll("path")
-            .data(pieChartMap[divId].pie(data))
-            .enter().append("path")
-            .attr("fill", function (d, i) {
-                return color(i);
-            })
-            .attr("d", pieChartMap[divId].arc)
-            .each(function (d) {
-                this._current = d;
-            }); // store the initial values
-    }
-
-    filterPieCharts.updatePieChart = function (divId) {
-        //update
-        var chart = filterPieCharts.charts.filter(function(c){
-            return c.divId == divId;
-        })[0];
-        var data = this.dataset.oranges;
-        if(chart.data){
-//            console.log(chart.data);
-
-        }
-
-        pieChartMap[divId].path = pieChartMap[divId].path.data(pieChartMap[divId].pie(data)); // update the data
-
-        var self = this;
-
-        pieChartMap[divId].path.enter().append("path")
-            .attr("fill", function (d, i) {
-                return color(i);
-            })
-            .attr("d", this.arc)
-            .each(function (d) {
-                this._current = d;
-            }); // store the initial values
-
-
-        pieChartMap[divId].path.transition().duration(750).attrTween("d", function (a) {
-            var i = d3.interpolate(this._current, a);
-            this._current = i(0);
-            return function (t) {
-                return pieChartMap[divId].arc(i(t));
-            };
-        });
-
-
-        pieChartMap[divId].path.exit().transition().duration(750).attrTween("d",function (a) {
-            var i = d3.interpolate(this._current, a);
-            this._current = i(0);
-            return function (t) {
-                return self.arc(i(t));
-            };
-        }).remove();
-
-    }
 
     filterPieCharts.drawPieCharts = function () {
 
@@ -163,101 +77,162 @@
             oranges: [200, 200, 0]
         };
 
-//        pieChart.createPieChart({divId:'pieChart1'},this.dataset.apples);
-
         this.updateDataWithSelection();
 
-        filterPieCharts.charts.map(function(c){return c.divId}).forEach(function (div) {
-            if (pieChartMap[div]) {
-                console.log(pieChartMap[div]);
-                pieChartMap[div].update(filterPieCharts.dataset.oranges);
+
+
+        filterPieCharts.chartsDefinitions.forEach(function (chartDef) {
+            if (pieChartMap[chartDef.id]) {
+                var newData =chartDef.data;
+                if(newData){
+                    pieChartMap[chartDef.id].update(newData);
+                }
             } else {
-                pieChartMap[div]=pieChart.createPieChart({divId:div},filterPieCharts.dataset.apples);
+                pieChartMap[chartDef.id]=pieChart.createPieChart({divId:chartDef.divId},filterPieCharts.dataset.apples);
             }
         });
 
     }
 
+    filterPieCharts.getChart = function(id){
+        return filterPieCharts.chartsDefinitions.filter(function(chart){
+            if(chart.id==id){
+                return true;
+            }
+            return false;
+        })[0];
+    }
 
-    filterPieCharts.updateDataWithSelection= function(){
+
+    filterPieCharts.updateDataWithSelection = function () {
 
         var keySelectors = [];
 
-        //filter revisedData
+        //filter data using selection
         var data = d3.nest();
-        if(app.selection.cause){
-            console.log('key cause ' + app.selection.cause.key);
-            data = data.key(function(d){
+        if (app.selection.cause) {
+            data = data.key(function (d) {
                 return d.cause;
             })
             keySelectors.push(app.selection.cause.key);
         }
-        if(app.selection.province) {
-            console.log('key province');
+        if (app.selection.province) {
 
-            data = data.key(function(d){
+            data = data.key(function (d) {
                 return d.cod_prov;
             })
-            keySelectors.push(app.selection.province);
+            keySelectors.push(app.selection.province.value);
         }
-        if(app.selection.year) {
-            console.log('key year ' + app.selection.year);
+        if (app.selection.year) {
 
-            data = data.key(function(d){
+            data = data.key(function (d) {
                 return d.anio;
             })
             keySelectors.push(app.selection.year);
         }
 
-        data=data.key(function(d){
-            return d.atenmed;
-        }).entries(revisedData);
+        //at this point data is grouped according to selection
+        //but has no aggregate data, we build aggregations for each pie chart
 
-        console.log(data)
+        filterPieCharts.doAggregation(data,keySelectors,function(d){return d.atenmed},"atenMed");
+        filterPieCharts.doAggregation(data,keySelectors,function(d){return d.atenmed},"atenMed");
 
 
-        console.log("selectors: " + keySelectors);
+//        var atenMedData = data.key(function (d) {
+//            return d.atenmed;
+//        }).entries(revisedData);
+//
+//        atenMedData = this.filterSelection(keySelectors, atenMedData);
+//
+//        if (atenMedData) {
+//
+//            var total = 0;
+//            atenMedData.forEach(function (v) {
+//                total += v.values.length;
+//            });
+//            console.log("total " + total);
+//
+//            if(total>0){
+//                //build pie chart data
+//                var chart = filterPieCharts.getChart("atenMed");
+//                if (chart) {
+//                    console.log("found chart");
+//                    var atenMedPieData = [];
+//                    chart.pieKeys.forEach(function (key) {
+//                        var percent = 0.0;
+//                        atenMedData.forEach(function (e) {
+//                            if (e.key == key) {
+//                                percent = e.values? e.values.length/total:0;
+//                            }
+//                        });
+//                        atenMedPieData.push(percent);
+//                    });
+//                    console.log("new data for atenmed: "  + atenMedPieData);
+//                    chart.data = atenMedPieData;
+//                } else {
+//                    console.log("chart not found ");
+//                }
+//            }
+//
+//        }
+    }
+
+    filterPieCharts.filterSelection = function (keySelectors,aggregateData) {
         for(var i=0;i<keySelectors.length;i++) {
-            data = data.filter(function(element){
+            aggregateData = aggregateData.filter(function(element){
                 if(element.key==keySelectors[i]) {
                     console.log("filtering " + keySelectors[i]);
                     return true;
                 }
                 return false;
             })[0];
-            if(data!=null){
-                data=data.values;
+            if(aggregateData!=null){
+                aggregateData=aggregateData.values;
             }else{
+                console.log("no data for selection");
                 break;
+            }
+        }
+        return aggregateData;
+    }
+
+    filterPieCharts.doAggregation = function(data,keySelectors,groupFunction,chartDefId){
+
+        var aggregateData = data.key(groupFunction).entries(revisedData);
+
+        aggregateData = this.filterSelection(keySelectors, aggregateData);
+
+        if (aggregateData) {
+
+            var total = 0;
+            aggregateData.forEach(function (v) {
+                total += v.values.length;
+            });
+            console.log("total " + total);
+
+            if(total>0){
+                //build pie chart data
+                var chart = filterPieCharts.getChart(chartDefId);
+                if (chart) {
+                    console.log("found chart");
+                    var atenMedPieData = [];
+                    chart.pieKeys.forEach(function (key) {
+                        var percent = 0.0;
+                        aggregateData.forEach(function (e) {
+                            if (e.key == key) {
+                                percent = e.values? e.values.length/total:0;
+                            }
+                        });
+                        atenMedPieData.push(percent);
+                    });
+                    console.log("new data for " + chartDefId + " data:"  + atenMedPieData);
+                    chart.data = atenMedPieData;
+                } else {
+                    console.log("chart not found ");
+                }
             }
 
         }
-
-        if(data!=null){
-            console.log(data);
-        }else{
-
-        }
-//        var deathByProvincesByYearByCause = d3.nest()
-
-//                return d.cause
-//            })
-//            .key(function (d) {
-//                return d.cod_prov;
-//            })
-//            .key(function (d) {
-//                return d.anio
-//            })
-//            .key(function(d){
-//                return d.atenmed;
-//            })
-//            .rollup(function (d) {
-//                return d.length;
-//            })
-//            .entries(revisedData);
-
-
-
     }
 
 })();
