@@ -28,40 +28,22 @@
                 'cod_prov': d['codprov'],
                 'cause': cause?cause.key:'unk',
                 'atenmed':d['atenmed'],
-                'grupedad':d['grupedad']
+                'grupedad':d['grupedad'],
+                'finstruc':d['finstruc'],
+                'asociad':d['asociad'],
+                'ocloc':d['ocloc']
             });
         });
-
-        var deathByProvincesByYearByCause = d3.nest()
-            .key(function (d) {
-                return d.cause
-            })
-            .key(function (d) {
-                return d.cod_prov;
-            })
-            .key(function (d) {
-                return d.anio
-            })
-            .key(function(d){
-                return d.atenmed;
-            })
-            .rollup(function (d) {
-                return d.length;
-            })
-            .entries(revisedData);
-
-
-
     });
 
 
     filterPieCharts = {
         chartsDefinitions: [
-            {id: 'atenMed', divId: "pieChart1", data: null, pieKeys:["1","2","9"]},
-            {id: 'escuela', divId: "pieChart2", data: null},
-            {id: 'edad', divId: "pieChart3", data: null},
-            {id: 'cobertura', divId: "pieChart4", data: null},
-            {id: 'atencion', divId: "pieChart5", data: null}
+            {id: 'cobertura', divId: "pieChart1", data: null,pieKeys:["0","1","2","3","4","9"]},
+            {id: 'dondemuerte', divId: "pieChart2", data: null,pieKeys:["1","2","3","4","9"]},
+            {id: 'atenMed', divId: "pieChart3", data: null, pieKeys:["1","2","9"]},
+            {id: 'escuela', divId: "pieChart4", data: null, pieKeys:["1","3","4","5","99"]},
+            {id: 'grupedad', divId: "pieChart5", data: null, pieKeys:["0","10","15","20","25","30","35","40","45"]}
         ]
     };
 
@@ -103,11 +85,38 @@
         })[0];
     }
 
-
     filterPieCharts.updateDataWithSelection = function () {
 
-        var keySelectors = [];
 
+        filterPieCharts.doAggregation(function(d){return d.grupedad},"grupedad");
+        filterPieCharts.doAggregation(function(d){return d.atenmed},"atenMed");
+        filterPieCharts.doAggregation(function(d){return d.finstruc},"escuela");
+        filterPieCharts.doAggregation(function(d){return d.asociad},"cobertura");
+        filterPieCharts.doAggregation(function(d){return d.ocloc},"dondemuerte");
+
+    }
+
+    filterPieCharts.filterSelection = function (keySelectors,aggregateData) {
+        for(var i=0;i<keySelectors.length;i++) {
+            aggregateData = aggregateData.filter(function(element){
+                if(element.key==keySelectors[i]) {
+                    console.log("filtering " + keySelectors[i]);
+                    return true;
+                }
+                return false;
+            })[0];
+            if(aggregateData!=null){
+                aggregateData=aggregateData.values;
+            }else{
+                console.log("no data for selection");
+                break;
+            }
+        }
+        return aggregateData;
+    }
+
+    filterPieCharts.buildNest = function(){
+        var keySelectors = [];
         //filter data using selection
         var data = d3.nest();
         if (app.selection.cause) {
@@ -131,75 +140,21 @@
             keySelectors.push(app.selection.year);
         }
 
+        return {data:data, selectors:keySelectors};
+    }
+
+    filterPieCharts.doAggregation = function(groupFunction,chartDefId){
+
+        var nestedData = filterPieCharts.buildNest();
+        var copyData = nestedData.data;
+        var keySelectors = nestedData.selectors;
+
+
         //at this point data is grouped according to selection
-        //but has no aggregate data, we build aggregations for each pie chart
-
-        filterPieCharts.doAggregation(data,keySelectors,function(d){return d.atenmed},"atenMed");
-        filterPieCharts.doAggregation(data,keySelectors,function(d){return d.atenmed},"atenMed");
+        //but has no aggregate data, we build aggregations using groupFunction
 
 
-//        var atenMedData = data.key(function (d) {
-//            return d.atenmed;
-//        }).entries(revisedData);
-//
-//        atenMedData = this.filterSelection(keySelectors, atenMedData);
-//
-//        if (atenMedData) {
-//
-//            var total = 0;
-//            atenMedData.forEach(function (v) {
-//                total += v.values.length;
-//            });
-//            console.log("total " + total);
-//
-//            if(total>0){
-//                //build pie chart data
-//                var chart = filterPieCharts.getChart("atenMed");
-//                if (chart) {
-//                    console.log("found chart");
-//                    var atenMedPieData = [];
-//                    chart.pieKeys.forEach(function (key) {
-//                        var percent = 0.0;
-//                        atenMedData.forEach(function (e) {
-//                            if (e.key == key) {
-//                                percent = e.values? e.values.length/total:0;
-//                            }
-//                        });
-//                        atenMedPieData.push(percent);
-//                    });
-//                    console.log("new data for atenmed: "  + atenMedPieData);
-//                    chart.data = atenMedPieData;
-//                } else {
-//                    console.log("chart not found ");
-//                }
-//            }
-//
-//        }
-    }
-
-    filterPieCharts.filterSelection = function (keySelectors,aggregateData) {
-        for(var i=0;i<keySelectors.length;i++) {
-            aggregateData = aggregateData.filter(function(element){
-                if(element.key==keySelectors[i]) {
-                    console.log("filtering " + keySelectors[i]);
-                    return true;
-                }
-                return false;
-            })[0];
-            if(aggregateData!=null){
-                aggregateData=aggregateData.values;
-            }else{
-                console.log("no data for selection");
-                break;
-            }
-        }
-        return aggregateData;
-    }
-
-    filterPieCharts.doAggregation = function(data,keySelectors,groupFunction,chartDefId){
-
-        var aggregateData = data.key(groupFunction).entries(revisedData);
-
+        var aggregateData = copyData.key(groupFunction).entries(revisedData);
         aggregateData = this.filterSelection(keySelectors, aggregateData);
 
         if (aggregateData) {
@@ -212,13 +167,14 @@
 
             if(total>0){
                 //build pie chart data
-                var chart = filterPieCharts.getChart(chartDefId);
-                if (chart) {
+                var chartdef = filterPieCharts.getChart(chartDefId);
+                if (chartdef) {
                     console.log("found chart");
                     var atenMedPieData = [];
-                    chart.pieKeys.forEach(function (key) {
+                    chartdef.pieKeys.forEach(function (key) {
                         var percent = 0.0;
                         aggregateData.forEach(function (e) {
+//                            console.log("key: " + key + "e.key " + e.key);
                             if (e.key == key) {
                                 percent = e.values? e.values.length/total:0;
                             }
@@ -226,7 +182,7 @@
                         atenMedPieData.push(percent);
                     });
                     console.log("new data for " + chartDefId + " data:"  + atenMedPieData);
-                    chart.data = atenMedPieData;
+                    chartdef.data = atenMedPieData;
                 } else {
                     console.log("chart not found ");
                 }

@@ -16,7 +16,7 @@
 
             self.path.enter().append("path")
                 .attr("fill", function (d, i) {
-                    return color(i);
+                    return self.options.color(i);
                 })
                 .attr("d", this.arc)
                 .each(function (d) {
