@@ -10,13 +10,14 @@
         self.options = $.extend(defaults, options);
 
         aPieChart['update'] = function (data) {
+            console.log("update");
             var self = this;
             self.path = self.path.data(self.pie(data)); // update the data
 
 
             self.path.enter().append("path")
                 .attr("fill", function (d, i) {
-                    return self.options.color(i);
+                    return (app.selection.selectionSize>0?self.options.color(i):"#aaa");
                 })
                 .attr("d", this.arc)
                 .each(function (d) {
@@ -24,13 +25,16 @@
                 }); // store the initial values
 
 
-            self.path.transition().duration(750).attrTween("d", function (a) {
+            self.path.transition().duration(750).attrTween("d",function (a) {
                 var i = d3.interpolate(this._current, a);
                 this._current = i(0);
                 return function (t) {
                     return self.arc(i(t));
-                };
-            });
+                }
+            }).attr("fill", function (d, i) {
+                    return (app.selection.selectionSize>0?self.options.color(i):"#aaa");
+                });
+            ;
 
 
             self.path.exit().transition().duration(750).attrTween("d",function (a) {

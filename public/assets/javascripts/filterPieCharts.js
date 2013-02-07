@@ -1,6 +1,7 @@
 (function () {
 
-    var pieChartMap = {},revisedData=[], selectedData=[];
+    var pieChartMap = {}, revisedData = [], selectedData = [];
+    loaded = false;
 
 
     var w = 150,                        //width
@@ -8,77 +9,56 @@
         r = 70,                            //radius
         color = d3.scale.category20c();     //builtin range of colors
 
-    d3.csv("/assets/data/muertes-refined.csv",function(data){
-        data.forEach(function(d){
-            //choose cause
-
-            var code = d['codmuer'].replace('O','');
-//            var cause = app.causesArray[0];
-            var cause=app.causesArray.filter(function(cause){
-                for(var i=0;i<cause.codmuer.length;i++){
-                    var range = cause.codmuer[i];
-                    if(code>=range.from && code<=range.to){
-                       return true;
-                    }
-                }
-                return false;
-            })[0];
+    d3.csv("/assets/data/muertes-refined-causas.csv", function (data) {
+        data.forEach(function (d) {
             revisedData.push({
                 'anio': d['anio'],
                 'cod_prov': d['codprov'],
-                'cause': cause?cause.key:'unk',
-                'atenmed':d['atenmed'],
-                'grupedad':d['grupedad'],
-                'finstruc':d['finstruc'],
-                'asociad':d['asociad'],
-                'ocloc':d['ocloc']
+                'cause': d['id_muerte'],
+                'atenmed': d['atenmed'],
+                'grupedad': d['grupedad'],
+                'finstruc': d['finstruc'],
+                'asociad': d['asociad'],
+                'ocloc': d['ocloc']
             });
         });
+        loaded = true;
+        filterPieCharts.drawPieCharts();
     });
 
 
     filterPieCharts = {
         chartsDefinitions: [
-            {id: 'cobertura', divId: "pieChart1", data: null,pieKeys:["0","1","2","3","4","9"]},
-            {id: 'dondemuerte', divId: "pieChart2", data: null,pieKeys:["1","2","3","4","9"]},
-            {id: 'atenMed', divId: "pieChart3", data: null, pieKeys:["1","2","9"]},
-            {id: 'escuela', divId: "pieChart4", data: null, pieKeys:["1","3","4","5","99"]},
-            {id: 'grupedad', divId: "pieChart5", data: null, pieKeys:["0","10","15","20","25","30","35","40","45"]}
+            {id: 'cobertura', divId: "pieChart1", data: null, pieKeys: ["0", "1", "2", "3", "4", "9"]},
+            {id: 'dondemuerte', divId: "pieChart2", data: null, pieKeys: ["1", "2", "3", "4", "9"]},
+            {id: 'atenMed', divId: "pieChart3", data: null, pieKeys: ["1", "2", "9"]},
+            {id: 'escuela', divId: "pieChart4", data: null, pieKeys: ["1", "3", "4", "5", "99"]},
+            {id: 'grupedad', divId: "pieChart5", data: null, pieKeys: ["0", "10", "15", "20", "25", "30", "35", "40", "45"]}
         ]
     };
 
 
-
-
     filterPieCharts.drawPieCharts = function () {
-
-        var random = 10 + Math.random() * 30;
-
-        this.dataset = {
-            apples: [random, 50 - random, 50],
-            oranges: [200, 200, 0]
-        };
+        if (!loaded)
+            return;
 
         this.updateDataWithSelection();
 
-
-
         filterPieCharts.chartsDefinitions.forEach(function (chartDef) {
+            var newData = chartDef.data;
+
             if (pieChartMap[chartDef.id]) {
-                var newData =chartDef.data;
-                if(newData){
                     pieChartMap[chartDef.id].update(newData);
-                }
             } else {
-                pieChartMap[chartDef.id]=pieChart.createPieChart({divId:chartDef.divId},filterPieCharts.dataset.apples);
+                pieChartMap[chartDef.id] = pieChart.createPieChart({divId: chartDef.divId}, newData);
             }
         });
 
     }
 
-    filterPieCharts.getChart = function(id){
-        return filterPieCharts.chartsDefinitions.filter(function(chart){
-            if(chart.id==id){
+    filterPieCharts.getChart = function (id) {
+        return filterPieCharts.chartsDefinitions.filter(function (chart) {
+            if (chart.id == id) {
                 return true;
             }
             return false;
@@ -96,18 +76,18 @@
 
     }
 
-    filterPieCharts.filterSelection = function (keySelectors,aggregateData) {
-        for(var i=0;i<keySelectors.length;i++) {
-            aggregateData = aggregateData.filter(function(element){
-                if(element.key==keySelectors[i]) {
+    filterPieCharts.filterSelection = function (keySelectors, aggregateData) {
+        for (var i = 0; i < keySelectors.length; i++) {
+            aggregateData = aggregateData.filter(function (element) {
+                if (element.key == keySelectors[i]) {
                     console.log("filtering " + keySelectors[i]);
                     return true;
                 }
                 return false;
             })[0];
-            if(aggregateData!=null){
-                aggregateData=aggregateData.values;
-            }else{
+            if (aggregateData != null) {
+                aggregateData = aggregateData.values;
+            } else {
                 console.log("no data for selection");
                 break;
             }
@@ -115,7 +95,7 @@
         return aggregateData;
     }
 
-    filterPieCharts.buildNest = function(){
+    filterPieCharts.buildNest = function () {
         var keySelectors = [];
         //filter data using selection
         var data = d3.nest();
@@ -140,10 +120,10 @@
             keySelectors.push(app.selection.year);
         }
 
-        return {data:data, selectors:keySelectors};
+        return {data: data, selectors: keySelectors};
     }
 
-    filterPieCharts.doAggregation = function(groupFunction,chartDefId){
+    filterPieCharts.doAggregation = function (groupFunction, chartDefId) {
 
         var nestedData = filterPieCharts.buildNest();
         var copyData = nestedData.data;
@@ -163,31 +143,31 @@
             aggregateData.forEach(function (v) {
                 total += v.values.length;
             });
+
             console.log("total " + total);
 
-            if(total>0){
+            if (total > 0) {
                 //build pie chart data
                 var chartdef = filterPieCharts.getChart(chartDefId);
                 if (chartdef) {
-                    console.log("found chart");
                     var atenMedPieData = [];
                     chartdef.pieKeys.forEach(function (key) {
                         var percent = 0.0;
                         aggregateData.forEach(function (e) {
-//                            console.log("key: " + key + "e.key " + e.key);
                             if (e.key == key) {
-                                percent = e.values? e.values.length/total:0;
+                                percent = e.values ? e.values.length / total : 0;
                             }
                         });
                         atenMedPieData.push(percent);
                     });
-                    console.log("new data for " + chartDefId + " data:"  + atenMedPieData);
                     chartdef.data = atenMedPieData;
-                } else {
-                    console.log("chart not found ");
+                    app.selection.selectionSize = total;
                 }
             }
 
+        }else{
+            //no matching rows for selection
+            app.selection.selectionSize = 0;
         }
     }
 

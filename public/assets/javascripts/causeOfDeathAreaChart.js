@@ -228,7 +228,6 @@
     causeOfDeathAreaChart.paintCauses= function(){
 
         var cause = app.selection.cause;
-
         svg.selectAll(".cause")
             .transition()
             .style("fill", function(d) {
