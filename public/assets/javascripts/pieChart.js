@@ -10,7 +10,7 @@
         self.options = $.extend(defaults, options);
 
         aPieChart['update'] = function (data) {
-            console.log("update");
+//            console.log("update");
             var self = this;
             self.path = self.path.data(self.pie(data)); // update the data
 

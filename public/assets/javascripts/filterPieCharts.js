@@ -80,7 +80,7 @@
         for (var i = 0; i < keySelectors.length; i++) {
             aggregateData = aggregateData.filter(function (element) {
                 if (element.key == keySelectors[i]) {
-                    console.log("filtering " + keySelectors[i]);
+                    //console.log("filtering " + keySelectors[i]);
                     return true;
                 }
                 return false;
@@ -88,7 +88,7 @@
             if (aggregateData != null) {
                 aggregateData = aggregateData.values;
             } else {
-                console.log("no data for selection");
+                //console.log("no data for selection");
                 break;
             }
         }
@@ -144,7 +144,7 @@
                 total += v.values.length;
             });
 
-            console.log("total " + total);
+            //console.log("total " + total);
 
             if (total > 0) {
                 //build pie chart data
