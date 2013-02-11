@@ -116,9 +116,11 @@
             .append("g")
             .attr("id", name);
 
-        layers[name].g.selectAll(layerOptions.geometriesClass)
+        layers[name].path = layers[name].g.selectAll(layerOptions.geometriesClass)
             .data(topojson.object(self.fullTopology, topology).geometries)
-            .enter().append("path")
+            .enter().append("path");
+
+        layers[name].path
             .attr("class", layerOptions.geometriesClass)
             .attr("id", function(d) {
                 return d.properties[layerOptions.id]
@@ -128,38 +130,42 @@
                 if (layerOptions.onClick) {
                     layerOptions.onClick.call(d);
                 }
-            })
-            .tooltip(function(d, i) {
-                var id, container, g;
-                id = d.properties.ID_1;
-
-                var content = $("<div></div>");
-                content.empty();
-
-                content.append("<h5>" + d.properties.NAME_1 + "</h5>");
-
-                // Province rate
-                var rate = app.ratesData[8].values[id-1].values[app.selection.year-2006].values.toFixed(1);
-                content.append('<div class="province-bar" style="width: ' + (rate * 10) + 'px"></div>');
-                content.append('<p>RMM: ' + rate + '</p>');
-                content.append('<br/>');
-
-                // National rate
-                var nationalRate = app.nationalRates.filter(function(rate) { return rate.year == app.selection.year})[0].rate.toFixed(1);
-                content.append('<div class="national-bar" style="width: ' + (nationalRate * 10) + 'px"></div>');
-                content.append('<p>RMM: ' + nationalRate + '</p>');
-
-                return {
-                    class: "provinceTooltip",
-                    type: "fixed",
-                    gravity: "right",
-                    content: content.html(),
-                    show: function() {
-                        return !zoomedIn;
-                    },
-                    displacement: [5, 0]
-                };
             });
+
+        if (layerOptions.tooltip)
+            layers[name].path.tooltip(layerOptions.tooltip);
+
+//            .tooltip(function(d, i) {
+//                var id, container, g;
+//                id = d.properties.ID_1;
+//
+//                var content = $("<div></div>");
+//                content.empty();
+//
+//                content.append("<h5>" + d.properties.NAME_1 + "</h5>");
+//
+//                // Province rate
+//                var rate = app.ratesData[8].values[id-1].values[app.selection.year-2006].values.toFixed(1);
+//                content.append('<div class="province-bar" style="width: ' + (rate * 10) + 'px"></div>');
+//                content.append('<p>RMM: ' + rate + '</p>');
+//                content.append('<br/>');
+//
+//                // National rate
+//                var nationalRate = app.nationalRates.filter(function(rate) { return rate.year == app.selection.year})[0].rate.toFixed(1);
+//                content.append('<div class="national-bar" style="width: ' + (nationalRate * 10) + 'px"></div>');
+//                content.append('<p>RMM: ' + nationalRate + '</p>');
+//
+//                return {
+//                    class: "provinceTooltip",
+//                    type: "fixed",
+//                    gravity: "right",
+//                    content: content.html(),
+//                    show: function() {
+//                        return !zoomedIn;
+//                    },
+//                    displacement: [5, 0]
+//                };
+//            });
 
         layers[name].g.selectAll(".circle")
             .data(app.medicalCenters)
@@ -227,6 +233,10 @@
         });
 
         zoomedIn = true;
+    }
+
+    d3choropleth.isZoomedIn = function() {
+        return zoomedIn;
     }
 
     d3choropleth.update = function() {

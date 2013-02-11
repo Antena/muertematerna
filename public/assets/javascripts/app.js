@@ -151,6 +151,37 @@
                             $("#zoomout").css("visibility", "hidden");
                             self.setProvince(null);
                             app.setContext("national");
+                        },
+                        tooltip: function(d, i) {
+                            var id, container, g;
+                            id = d.properties.ID_1;
+
+                            var content = $("<div></div>");
+                            content.empty();
+
+                            content.append("<h5>" + d.properties.NAME_1 + "</h5>");
+
+                            // Province rate
+                            var rate = app.ratesData[8].values[id-1].values[app.selection.year-2006].values.toFixed(1);
+                            content.append('<div class="province-bar" style="width: ' + (rate * 10) + 'px"></div>');
+                            content.append('<p>RMM: ' + rate + '</p>');
+                            content.append('<br/>');
+
+                            // National rate
+                            var nationalRate = app.nationalRates.filter(function(rate) { return rate.year == app.selection.year})[0].rate.toFixed(1);
+                            content.append('<div class="national-bar" style="width: ' + (nationalRate * 10) + 'px"></div>');
+                            content.append('<p>RMM: ' + nationalRate + '</p>');
+
+                            return {
+                                class: "provinceTooltip",
+                                type: "fixed",
+                                gravity: "right",
+                                content: content.html(),
+                                show: function() {
+                                    return !d3choropleth.isZoomedIn();
+                                },
+                                displacement: [5, 0]
+                            };
                         }
                     }
                 },
