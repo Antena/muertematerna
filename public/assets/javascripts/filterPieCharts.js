@@ -144,8 +144,6 @@
                 total += v.values.length;
             });
 
-            //console.log("total " + total);
-
             if (total > 0) {
                 //build pie chart data
                 var chartdef = filterPieCharts.getChart(chartDefId);
