@@ -130,7 +130,8 @@
             })
             .tooltip(function(d, i) {
                 return {
-                    type: "mouse",
+                    type: "fixed",
+                    gravity: "top",
                     content: "<p>" + d.properties.NAME_1 + "</p>",
                     displacement: [0, 0]
                 };

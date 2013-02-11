@@ -13,12 +13,25 @@
                 offsets = element[0][0].getBoundingClientRect();
                 center[0] = offsets.left;
                 center[0] += window.scrollX;
-                center[0] += offsets.width;
-
                 center[1] = offsets.top;
                 center[1] += window.scrollY;
-                center[1] += offsets.height/2;
-                center[1] -= height/2;
+
+                if (options.gravity == "right") {
+                    center[0] += offsets.width;
+                    center[1] += offsets.height/2 - height/2;
+                }
+                if (options.gravity == "bottom") {
+                    center[0] += offsets.width/2 - width/2;
+                    center[1] += offsets.height;
+                }
+                if (options.gravity == "left") {
+                    center[0] -= width;
+                    center[1] += offsets.height/2 - height/2;
+                }
+                if (options.gravity == "top") {
+                    center[0] += offsets.width/2 - width/2;
+                    center[1] -= height;
+                }
             }
 
             center[0] += options.displacement[0];
