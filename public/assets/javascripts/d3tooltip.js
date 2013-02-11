@@ -43,14 +43,14 @@
         element.on("mouseover", function() {
             var tip = create();
             var coordinates = calculateCoordinates(tip);
-            tip.classed("in", true)
+            tip
                 .style("left", coordinates[0] + "px")
                 .style("top", coordinates[1] + "px");
         });
 
         if (options.type == "mouse") {
             element.on("mousemove", function() {
-                var tip = d3.selectAll(".tooltip");
+                var tip = d3.selectAll("." + options.class);
                 var coordinates = calculateCoordinates(tip);
                 tip
                     .style("left", coordinates[0] + "px")
@@ -59,7 +59,7 @@
         }
 
         element.on("mouseout", function() {
-            var tip = d3.selectAll(".tooltip").classed("in", false);
+            var tip = d3.selectAll("." + options.class);
             tip.remove();
         });
     };
@@ -73,10 +73,15 @@
             options = f.apply(this, arguments);
             create_tooltip = function() {
                 var tip = body.append("div")
-                    .classed("tooltip", true)
+                    .classed(options.class, true)
                     .style("position", "absolute")
-                    .style("pointer-events", "none")
+                    .style("z-index", "10001")
+                    .style("display", "block")
+                    .style("pointer-events", "none");
+                tip
+                    .append("div")
                     .html(options.content)
+                    .attr("class", "inner")
                 return tip;
             }
 

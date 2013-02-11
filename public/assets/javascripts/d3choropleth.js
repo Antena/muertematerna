@@ -130,8 +130,9 @@
             })
             .tooltip(function(d, i) {
                 return {
-                    type: "fixed",
-                    gravity: "top",
+                    class: "provinceTooltip",
+                    type: "mouse",
+                    gravity: "right",
                     content: "<p>" + d.properties.NAME_1 + "</p>",
                     displacement: [0, 0]
                 };

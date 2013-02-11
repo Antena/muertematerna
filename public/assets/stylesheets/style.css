@@ -242,18 +242,5 @@ abbr {
 }
 
 /***********************************************************************************************************************
- * GLOSSARY TOOLTIP
+ * PROVINCE TOOLTIP
  **********************************************************************************************************************/
-div.tooltip {
-    text-align: center;
-    /*padding: 8px;*/
-    /*font: 10px sans-serif;*/
-    background: #ddd;
-    border: solid 1px #aaa;
-    border-radius: 8px;
-}
-
-div.tooltip.p {
-    margin-top: 0px;
-    margin-bottom: 0px;
-}
