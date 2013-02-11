@@ -244,3 +244,29 @@ abbr {
 /***********************************************************************************************************************
  * PROVINCE TOOLTIP
  **********************************************************************************************************************/
+.provinceTooltip {
+    font: 10px sans-serif;
+    background: #FFFFFF;
+    border: solid 2px #aaa;
+    border-radius: 8px;
+    pointer-events: none;
+    padding: 8px;
+}
+
+.provinceTooltip .province-bar, .provinceTooltip .national-bar {
+    height: 10px;
+    margin-right: 4px;
+}
+
+.provinceTooltip .province-bar {
+    background-color: #4682b4;
+}
+
+.provinceTooltip .national-bar {
+    background: #000000;
+}
+
+.provinceTooltip p {
+    margin-top: 0px;
+    margin-bottom: 0px;
+}

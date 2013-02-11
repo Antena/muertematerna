@@ -145,6 +145,7 @@
                         onZoomIn : function() {
                             app.setContext("province", this);
                             $("#zoomout").css("visibility", "visible");
+                            d3.selectAll(".provinceTooltip").remove();
                         },
                         onZoomOut : function() {
                             $("#zoomout").css("visibility", "hidden");

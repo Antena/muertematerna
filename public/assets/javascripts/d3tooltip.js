@@ -41,26 +41,32 @@
         };
 
         element.on("mouseover", function() {
-            var tip = create();
-            var coordinates = calculateCoordinates(tip);
-            tip
-                .style("left", coordinates[0] + "px")
-                .style("top", coordinates[1] + "px");
-        });
-
-        if (options.type == "mouse") {
-            element.on("mousemove", function() {
-                var tip = d3.selectAll("." + options.class);
+            if (options.show()) {
+                var tip = create();
                 var coordinates = calculateCoordinates(tip);
                 tip
                     .style("left", coordinates[0] + "px")
                     .style("top", coordinates[1] + "px");
-            });
+            }
+        });
+
+        if (options.type == "mouse") {
+            if (options.show()) {
+                element.on("mousemove", function() {
+                    var tip = d3.selectAll("." + options.class);
+                    var coordinates = calculateCoordinates(tip);
+                    tip
+                        .style("left", coordinates[0] + "px")
+                        .style("top", coordinates[1] + "px");
+                });
+            }
         }
 
         element.on("mouseout", function() {
-            var tip = d3.selectAll("." + options.class);
-            tip.remove();
+            if (options.show()) {
+                var tip = d3.selectAll("." + options.class);
+                tip.remove();
+            }
         });
     };
 
@@ -71,6 +77,9 @@
             var create_tooltip, options;
 
             options = f.apply(this, arguments);
+            if (!options.show) {
+                options.show = function() { return true };
+            }
             create_tooltip = function() {
                 var tip = body.append("div")
                     .classed(options.class, true)
@@ -87,7 +96,6 @@
 
             return fillContent.call(this, options, create_tooltip);
         });
-
     }
 
 })();
