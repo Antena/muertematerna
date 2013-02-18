@@ -30,10 +30,10 @@
 
     filterPieCharts = {
         chartsDefinitions: [
-            {id: 'cobertura', divId: "pieChart1", data: null, pieKeys: ["0", "1", "2", "3", "4", "9"], pieLabels:["0(preguntar)","Obra Social","Ninguna"
-             ,"Plan de salud privado o Mutual","Se ignora","f"]},
-            {id: 'dondemuerte', divId: "pieChart2", data: null, pieKeys: ["1", "2", "3", "4", "9"],pieLabels:["0(preguntar)","Obra Social","Ninguna"
-                ,"Plan de salud privado o Mutual","Se ignora","f"]},
+            {id: 'cobertura', divId: "pieChart1", data: null, pieKeys: ["0", "1", "2", "3", "4", "9"], pieLabels:["0(preguntar)","Obra Social"
+             ,"Plan de salud privado o Mutual","Ambas","Ninguna","Se ignora"]},
+            {id: 'dondemuerte', divId: "pieChart2", data: null, pieKeys: ["1", "2", "3", "4", "9"],pieLabels:["Estalecimiento de salud público",
+                "Establecimiento de salud privado, obra social, etc","Vivienda (domicilio) particular","Otro lugar ( vía pública, transportes, etc.)","Se ignora"]},
             {id: 'atenMed', divId: "pieChart3", data: null, pieKeys: ["1", "2", "9"],pieLabels:["Si","No","Se ignora"]},
             {id: 'escuela', divId: "pieChart4", data: null, pieKeys: ["1", "3", "4", "5", "99"],pieLabels:["Hasta primaria y EGB incompleto","Primaria y EGB completo","Secundaria y polimodal incompleto","Secundaria y polimodal completo y más","Sin especificar"]},
             {id: 'grupedad', divId: "pieChart5", data: null, pieKeys: ["0", "10", "15", "20", "25", "30", "35", "40", "45"],pieLabels:["Desconocida", "10-14", "15-19", "20-24", "25-29", "30-34", "35-39", "40-44", ">45"]}
