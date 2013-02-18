@@ -140,6 +140,7 @@
                         onClick : function() {
                             var province = provinces.getById(this.properties.ID_1);
                             self.setProvince(province);
+                            self.drawProvinceMap(province);
                             d3choropleth.zoomIn(province.zoomLocation.x, province.zoomLocation.y, province.zoomLocation.k, true);
                         },
                         onZoomIn : function() {
@@ -241,7 +242,7 @@
 
         app.quartile = function(provinceId) {
             var yearIndex = app.selection.year-2006;
-            var ratesIndex = app.getRatesIndex();       //TODO(gb): optimize: this shouldn't be calle don every quartile call
+            var ratesIndex = app.getRatesIndex();       //TODO(gb): optimize: this shouldn't be called on every quartile call
             var rate = app.ratesData[ratesIndex].values[provinceId-1].values[yearIndex].values;
 
             for (var i=0; i<app.quartiles.length; i++) {
@@ -334,6 +335,43 @@
 
             $('#razon_title').text(razon_title);
             $('#evolucion_title').text(evolucion_title);
+        }
+
+        app.drawProvinceMap = function(province) {
+            var svg = d3.select("#province-map svg");
+            svg.empty();
+
+            svg.select(".current")
+                .classed("current", false)
+                .style("display", "none");
+
+            if (svg.select("#province-" + province.value).empty()) {
+                d3.json("/assets/data/" + province.departments.file, function(error, theProvince) {
+                    var departments = topojson.object(theProvince, theProvince.objects.departments);
+                    var projection = d3.geo.mercator()
+                        .scale(province.departments.scale)
+                        .center(province.departments.center)
+                        .translate([width / 2, height / 2]);
+                    var path = d3.geo.path()
+                        .projection(projection);
+
+                    svg.append("g")
+                        .attr("id", "province-" + province.value)
+                        .attr("class", "current")
+                        .selectAll(".department")
+                        .data(departments.geometries)
+                        .enter().append("path")
+                        .attr("class", "department")
+                        .attr("d", path)
+                        .style("fill", function(d) {
+                            return legendColors[Math.floor(Math.random() * 4)];
+                        })
+                });
+            } else {
+                svg.select("#province-" + province.value).classed("current", true);
+            }
+
+            svg.select("#province-" + province.value).style("display", "block");
         }
 
 
