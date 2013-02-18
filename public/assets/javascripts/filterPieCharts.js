@@ -9,13 +9,13 @@
         r = 70,                            //radius
         color = d3.scale.category20c();     //builtin range of colors
 
-    d3.csv("/assets/data/muertes-refined-causas.csv", function (data) {
+    d3.csv("/assets/data/muertes-refined-codDep.csv", function (data) {
         data.forEach(function (d) {
             revisedData.push({
                 'anio': d['anio'],
                 'cod_prov': d['codprov'],
                 'cause': d['id_muerte'],
-                'department': d['depre'],
+                'department': d['codDep'],
                 'atenmed': d['atenmed'],
                 'grupedad': d['grupedad'],
                 'finstruc': d['finstruc'],
