@@ -3,15 +3,17 @@
 
     var defaults = {divId: "pieChart", w: 150, h: 150, r: 70, color: d3.scale.category20c()};
 
-    pieChart.createPieChart = function (options,data) {
+    pieChart.createPieChart = function (options,data,labels) {
 
         var aPieChart = {};
         var self = aPieChart;
         self.options = $.extend(defaults, options);
+        self.labels = labels;
 
         aPieChart['update'] = function (data) {
 //            console.log("update");
             var self = this;
+            self.newData = data;
             self.path = self.path.data(self.pie(data)); // update the data
 
 
@@ -47,6 +49,10 @@
 
         }
 
+
+        self.newData = data;
+
+
         self.arc = d3.svg.arc()
             .outerRadius(self.options.r);
 
@@ -68,6 +74,29 @@
             .attr("d", self.arc)
             .each(function (d) {
                 this._current = d;
+            }).tooltip(function (d, i) {
+                var content = $("<div></div>");
+                var tooltip = $("<div id='tooltipData'></div>");
+                tooltip.append("<h5>" + self.labels[i] + "</h5>");
+                tooltip.append("<h5>" + (self.newData[i] * 100).toFixed(2) + "</h5>");
+                content.append(tooltip);
+                return {
+                    class: "none",
+                    type: "mouse",
+                    gravity: "down",
+                    content: content.html(),
+                    displacement: [0, 5],
+                    show: function () {
+                        return true;
+                    },
+                    updateContent: function (tip) {
+                        var content = $("<div id='tooltipData'></div>");
+                        content.empty();
+                        content.append("<h5>" + self.labels[i] + "</h5>");
+                        content.append("<h5>" + (self.newData[i] * 100).toFixed(2) + "</h5>");
+                        $("#tooltipData").html(content.html());
+                    }
+                }
             }); // store the initial values
 
         return aPieChart;
