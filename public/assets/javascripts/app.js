@@ -345,6 +345,8 @@
                 .classed("current", false)
                 .style("display", "none");
 
+            $(".id-provinceName").text(province.key);
+
             if (svg.select("#province-" + province.value).empty()) {
                 d3.json("/assets/data/" + province.departments.file, function(error, theProvince) {
                     var departments = topojson.object(theProvince, theProvince.objects.departments);
@@ -366,6 +368,17 @@
                         .style("fill", function(d) {
                             return legendColors[Math.floor(Math.random() * 4)];
                         })
+                        .tooltip(function(d,i) {
+                            var content = $("<div></div>")
+                                .append("<h5>" + d.properties.NAME_2 + "</h5>");
+
+                            return {
+                                class: "departmentTooltip",
+                                type: "mouse",
+                                content: content.html(),
+                                displacement: [0, 10]
+                            };
+                        });
                 });
             } else {
                 svg.select("#province-" + province.value).classed("current", true);
