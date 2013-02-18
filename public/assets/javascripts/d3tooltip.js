@@ -43,6 +43,7 @@
         element.on("mouseover", function() {
             if (options.show()) {
                 var tip = create();
+                options.updateContent.call(tip);
                 var coordinates = calculateCoordinates(tip);
                 tip
                     .style("left", coordinates[0] + "px")
@@ -79,6 +80,9 @@
             options = f.apply(this, arguments);
             if (!options.show) {
                 options.show = function() { return true };
+            }
+            if (!options.updateContent) {
+                options.updateContent = function() { };
             }
             create_tooltip = function() {
                 var tip = body.append("div")

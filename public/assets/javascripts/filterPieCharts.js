@@ -15,6 +15,7 @@
                 'anio': d['anio'],
                 'cod_prov': d['codprov'],
                 'cause': d['id_muerte'],
+                'department': d['depre'],
                 'atenmed': d['atenmed'],
                 'grupedad': d['grupedad'],
                 'finstruc': d['finstruc'],
@@ -29,11 +30,13 @@
 
     filterPieCharts = {
         chartsDefinitions: [
-            {id: 'cobertura', divId: "pieChart1", data: null, pieKeys: ["0", "1", "2", "3", "4", "9"]},
-            {id: 'dondemuerte', divId: "pieChart2", data: null, pieKeys: ["1", "2", "3", "4", "9"]},
-            {id: 'atenMed', divId: "pieChart3", data: null, pieKeys: ["1", "2", "9"]},
-            {id: 'escuela', divId: "pieChart4", data: null, pieKeys: ["1", "3", "4", "5", "99"]},
-            {id: 'grupedad', divId: "pieChart5", data: null, pieKeys: ["0", "10", "15", "20", "25", "30", "35", "40", "45"]}
+            {id: 'cobertura', divId: "pieChart1", data: null, pieKeys: ["0", "1", "2", "3", "4", "9"], pieLabels:["0(preguntar)","Obra Social","Ninguna"
+             ,"Plan de salud privado o Mutual","Se ignora","f"]},
+            {id: 'dondemuerte', divId: "pieChart2", data: null, pieKeys: ["1", "2", "3", "4", "9"],pieLabels:["0(preguntar)","Obra Social","Ninguna"
+                ,"Plan de salud privado o Mutual","Se ignora","f"]},
+            {id: 'atenMed', divId: "pieChart3", data: null, pieKeys: ["1", "2", "9"],pieLabels:["Si","No","Se ignora"]},
+            {id: 'escuela', divId: "pieChart4", data: null, pieKeys: ["1", "3", "4", "5", "99"],pieLabels:["Hasta primaria y EGB incompleto","Primaria y EGB completo","Secundaria y polimodal incompleto","Secundaria y polimodal completo y más","Sin especificar"]},
+            {id: 'grupedad', divId: "pieChart5", data: null, pieKeys: ["0", "10", "15", "20", "25", "30", "35", "40", "45"],pieLabels:["Desconocida", "10-14", "15-19", "20-24", "25-29", "30-34", "35-39", "40-44", ">45"]}
         ]
     };
 
@@ -50,7 +53,7 @@
             if (pieChartMap[chartDef.id]) {
                     pieChartMap[chartDef.id].update(newData);
             } else {
-                pieChartMap[chartDef.id] = pieChart.createPieChart({divId: chartDef.divId}, newData);
+                pieChartMap[chartDef.id] = pieChart.createPieChart({divId: chartDef.divId}, newData,chartDef.pieLabels);
             }
         });
 
@@ -67,12 +70,11 @@
 
     filterPieCharts.updateDataWithSelection = function () {
 
-
-        filterPieCharts.doAggregation(function(d){return d.grupedad},"grupedad");
-        filterPieCharts.doAggregation(function(d){return d.atenmed},"atenMed");
-        filterPieCharts.doAggregation(function(d){return d.finstruc},"escuela");
-        filterPieCharts.doAggregation(function(d){return d.asociad},"cobertura");
-        filterPieCharts.doAggregation(function(d){return d.ocloc},"dondemuerte");
+        filterPieCharts.doAggregation(function(d){return d.grupedad},"grupedad",false);
+        filterPieCharts.doAggregation(function(d){return d.atenmed},"atenMed",false);
+        filterPieCharts.doAggregation(function(d){return d.finstruc},"escuela",false);
+        filterPieCharts.doAggregation(function(d){return d.asociad},"cobertura",false);
+        filterPieCharts.doAggregation(function(d){return d.ocloc},"dondemuerte",false);
 
     }
 
@@ -123,7 +125,7 @@
         return {data: data, selectors: keySelectors};
     }
 
-    filterPieCharts.doAggregation = function (groupFunction, chartDefId) {
+    filterPieCharts.doAggregation = function (groupFunction, chartDefId,justData) {
 
         var nestedData = filterPieCharts.buildNest();
         var copyData = nestedData.data;
@@ -136,6 +138,9 @@
 
         var aggregateData = copyData.key(groupFunction).entries(revisedData);
         aggregateData = this.filterSelection(keySelectors, aggregateData);
+        if(justData) {
+            return aggregateData;
+        }
 
         if (aggregateData) {
 

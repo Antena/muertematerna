@@ -71,6 +71,8 @@
         causeOfDeathAreaChart.draw();
         app.drawChartTitles();
         filterPieCharts.drawPieCharts();
+//        var data=filterPieCharts.doAggregation(function(d){return d.department},"departamento",true);
+//        console.log(data);
     }
 
     app.ratesData = null;
