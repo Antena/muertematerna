@@ -1,8 +1,16 @@
 (function() {
-    var svg, directLegend, indirectLegend;
+    var svg, directLegend, indirectLegend,referenceLegend;
     var xAxis, yAxis, deathByProvinces,containerDiv;
 
     var defaultProvinceId = 25;
+
+    var referenceData = [{values:[
+        {key: 2006,  y: 0.05, y0: 4.781384478},
+        {key: 2007,  y: 0.05, y0: 4.352218632},
+        {key: 2008,  y: 0.05, y0: 3.9385},
+        {key: 2009,  y: 0.05, y0: 5.4740},
+        {key: 2010,  y: 0.05, y0: 4.3375}]
+    }];
 
     causeOfDeathAreaChart = {
         options : {
@@ -31,24 +39,9 @@
 
         var index=-1;
         var realValues=deathByProvinces[choosenArea-1].values;
-        for(var i=0;i<realValues.length;i++) {
-            if(realValues[i].key=="reference") {
-                console.log("found");
-                index=i;
-            }
-        }
-        if(index>=0)
-            realValues.splice(index,1);
 
-        console.log(deathByProvinces[choosenArea-1].values);
-//        realValues.push({key:"reference",values:[{key:2006,values:0.05,y:0.05,y0:4.781384478},{key:2007,values:0.05,y:0.05,y0:4.352218632},{key:2008,values:0.05,y:0.05,y0:3.9385},{key:2009,values:0.05,y:0.05,y0:5.4740},{key:2010,values:0.05,y:0.05
-//           ,y0:4.3375}]})
-        console.log(realValues.length);
 
         var layers = stack(realValues);
-        layers.push({key:"reference",values:[{key:2006,values:0.05,y:0.05,y0:4.781384478},{key:2007,values:0.05,y:0.05,y0:4.352218632},{key:2008,values:0.05,y:0.05,y0:3.9385},{key:2009,values:0.05,y:0.05,y0:5.4740},{key:2010,values:0.05,y:0.05,y0:4.3375}]})
-        console.log(realValues.length);
-        console.log(deathByProvinces[choosenArea - 1].values);
 
 
         // Build the chart
@@ -67,7 +60,6 @@
             if(app.causesArray[i]!=null) {
                 return app.causesArray[i].color;
             }
-            return app.causesArray[2].color;
         }
 
         xAxis = d3.svg.axis()
@@ -80,6 +72,14 @@
             .scale(y)
             .orient("left");
 
+        //line used for plotting reference data
+        var line = d3.svg.line()
+            .x(function (d) {
+                return x(d.key);
+            })
+            .y(function (d) {
+                return y(d.y0);
+            });
 
         var area = d3.svg.area()
             .x(function (d) {
@@ -112,9 +112,10 @@
 
         y.domain([0, getMax(layers)]);
 
+
         var paths = svg.selectAll(".cause")
             .data(layers);
-        console.log(paths);
+
         paths
             .enter().append("path")
             .attr("class", "cause")
@@ -142,6 +143,19 @@
 
 
         paths.exit().selectAll(".cause").transition().duration(2000).remove();
+
+        //reference line
+        var references = svg.selectAll(".reference").data(referenceData);
+
+        references.enter().append("path").attr("class", "reference").attr("d", function (d) {
+            return line(d.values);
+        }).style("fill","none").style("stroke", app.causesReferenceLine.color).style("z-index",1000);
+
+        references.transition().duration(1000).attr("d",function(d){
+            return line(d.values);
+        }).style("fill","none").style("stroke", "#000");
+
+        references.exit().selectAll(".reference").transition().duration(2000).remove();
 
 
         svg.select('.x.axis').transition().duration(1000).call(xAxis);
@@ -213,8 +227,6 @@
     causeOfDeathAreaChart.reset = function(e) {
         e.preventDefault();
 
-        console.log("reset");
-        console.log(svg.selectAll(".cause"));
 
         // Cause area
         svg.selectAll(".cause")
@@ -284,6 +296,7 @@
             .style('fill', function(d) {
                 return d.key == cause.key ? '#333' : "#aaa";
             });
+
     }
 
     causeOfDeathAreaChart.causesArray = function() {
@@ -291,13 +304,16 @@
     }
 
     function buildLegends(self) {
-        //FIX legends
+
         if(!directLegend){
             directLegend = drawLegend(self.options.directCausesLegendDivId, 'direct');
         }
         if(!indirectLegend){
             indirectLegend = drawLegend(self.options.indirectCausesLegendDivId, 'indirect');
         }
+//        if(!referenceLegend) {
+//            referenceLegend=drawReferenceLegend(self.options.indirectCausesLegendDivId, 'indirect');
+//        }
     }
 
     function drawLegend(divId, type) {
@@ -312,7 +328,7 @@
             .attr("class", "legend-box")
             .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
 
-        legend.append("rect")
+       legend.append("rect")
             .attr("x", 0)
             .attr("width", 18)
             .attr("height", 18)
@@ -329,17 +345,50 @@
         return legend;
     }
 
-    function getMax(layers){
-        if(!layers ||layers.length==0 ){
+
+    function drawReferenceLegend(divId, type) {
+        var position=app.causesArray.filter(function (cause) {
+            return cause.type == type
+        }).length;
+
+        var legend = d3.select('#' + divId).select(".legend-box")
+            ;
+        legend.append("rect")
+            .attr("x", 0)
+            .attr("width", 18)
+            .attr("height", 18)
+            .style("fill", function(d) {
+                return app.causesReferenceLine.color })
+            .attr("transform", function(d, i) { return "translate(0," + position * 20 + ")"; });
+        ;
+
+        legend.append("text")
+            .attr("x", 24)
+            .attr("y", 9)
+            .attr("dy", ".35em")
+            .attr("transform", function(d, i) { return "translate(0," + position * 20 + ")"; })
+            .text(function(d) { return "RMM Argentina"; });
+
+        return legend;
+    }
+
+
+    function getMax(layers) {
+        if (!layers || layers.length == 0) {
             return 0.0;
         }
 
         var max = 0;
 
-        //ignore reference data (layers.length-2)
-        layers[layers.length-2].values.map(function(year) {
+        layers[layers.length - 1].values.map(function (year) {
             if ((year.y0 + year.y) > max) {
                 max = year.y0 + year.y;
+            }
+        });
+
+        referenceData[0].values.map(function (year) {
+            if ((year.y0) > max) {
+                max = year.y0;
             }
         });
 
