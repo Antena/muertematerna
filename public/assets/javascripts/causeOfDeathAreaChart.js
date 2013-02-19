@@ -29,7 +29,27 @@
                 return d.values;
             });
 
-        var layers = stack(deathByProvinces[choosenArea-1].values);
+        var index=-1;
+        var realValues=deathByProvinces[choosenArea-1].values;
+        for(var i=0;i<realValues.length;i++) {
+            if(realValues[i].key=="reference") {
+                console.log("found");
+                index=i;
+            }
+        }
+        if(index>=0)
+            realValues.splice(index,1);
+
+        console.log(deathByProvinces[choosenArea-1].values);
+//        realValues.push({key:"reference",values:[{key:2006,values:0.05,y:0.05,y0:4.781384478},{key:2007,values:0.05,y:0.05,y0:4.352218632},{key:2008,values:0.05,y:0.05,y0:3.9385},{key:2009,values:0.05,y:0.05,y0:5.4740},{key:2010,values:0.05,y:0.05
+//           ,y0:4.3375}]})
+        console.log(realValues.length);
+
+        var layers = stack(realValues);
+        layers.push({key:"reference",values:[{key:2006,values:0.05,y:0.05,y0:4.781384478},{key:2007,values:0.05,y:0.05,y0:4.352218632},{key:2008,values:0.05,y:0.05,y0:3.9385},{key:2009,values:0.05,y:0.05,y0:5.4740},{key:2010,values:0.05,y:0.05,y0:4.3375}]})
+        console.log(realValues.length);
+        console.log(deathByProvinces[choosenArea - 1].values);
+
 
         // Build the chart
         buildLegends(self);
@@ -44,7 +64,10 @@
             .range([height, 0]);
 
         var z = function (i) {
-            return app.causesArray[i].color;
+            if(app.causesArray[i]!=null) {
+                return app.causesArray[i].color;
+            }
+            return app.causesArray[2].color;
         }
 
         xAxis = d3.svg.axis()
@@ -91,6 +114,7 @@
 
         var paths = svg.selectAll(".cause")
             .data(layers);
+        console.log(paths);
         paths
             .enter().append("path")
             .attr("class", "cause")
@@ -189,12 +213,15 @@
     causeOfDeathAreaChart.reset = function(e) {
         e.preventDefault();
 
+        console.log("reset");
+        console.log(svg.selectAll(".cause"));
+
         // Cause area
         svg.selectAll(".cause")
             .transition().duration(200)
             .style("fill", function(d, i) {
                 var cause = app.causesArray.filter(function(elem) { return elem.key == d.key})[0];
-                return cause.color;
+                return cause==null?app.causesArray[0].color:cause.color;
             });
 
         // Direct legend
@@ -308,7 +335,9 @@
         }
 
         var max = 0;
-        layers[layers.length-1].values.map(function(year) {
+
+        //ignore reference data (layers.length-2)
+        layers[layers.length-2].values.map(function(year) {
             if ((year.y0 + year.y) > max) {
                 max = year.y0 + year.y;
             }

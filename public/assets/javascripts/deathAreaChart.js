@@ -41,7 +41,6 @@ d3.csv("/assets/data/tasas_por_causa.csv", function(data) {
         })
         .entries(revisedData);
 
-    console.log(deathByProvince[27].values);
 
     var stack = d3.layout.stack()
         .offset("zero")
@@ -59,7 +58,6 @@ d3.csv("/assets/data/tasas_por_causa.csv", function(data) {
     var layers = stack(deathByProvince[27].values);
 
 
-    console.log(layers);
 
 
 
@@ -96,7 +94,7 @@ d3.csv("/assets/data/tasas_por_causa.csv", function(data) {
             return y(d.y0);
         })
         .y1(function(d) {
-            console.log(d.y0 + d.y);
+//            console.log(d.y0 + d.y);
             return y(d.y0 + d.y);
         });
 
