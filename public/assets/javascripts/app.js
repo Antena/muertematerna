@@ -71,8 +71,6 @@
         causeOfDeathAreaChart.draw();
         app.drawChartTitles();
         filterPieCharts.drawPieCharts();
-//        var data=filterPieCharts.doAggregation(function(d){return d.department},"departamento",true);
-//        console.log(data);
     }
 
     app.ratesData = null;
@@ -359,6 +357,8 @@
                     var path = d3.geo.path()
                         .projection(projection);
 
+                    var departmentData=filterPieCharts.doAggregation(function(d){return d.department},"departamento",true);
+
                     svg.append("g")
                         .attr("id", "province-" + province.value)
                         .attr("class", "current")
@@ -368,11 +368,14 @@
                         .attr("class", "department")
                         .attr("d", path)
                         .style("fill", function(d) {
-                            return legendColors[Math.floor(Math.random() * 4)];
+                            var departmentId = d.properties.ID_2;
+                            var theDepartment = departmentData.filter(function(datum) { return datum.key == departmentId});
+                            var deaths = theDepartment.length > 0 ? theDepartment[0].values.length : 0;
+                            return colorbrewer['Blues']['5'][deaths];
                         })
                         .tooltip(function(d,i) {
                             var content = $("<div></div>")
-                                .append("<h5>" + d.properties.NAME_2 + "</h5>");
+                                .append("<h5>" + d.properties.NAME_2 + " (" + d.properties.ID_2 + ")</h5>")
 
                             return {
                                 class: "departmentTooltip",
