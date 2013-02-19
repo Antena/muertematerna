@@ -85,6 +85,7 @@
             .data(colorbrewer.Blues[4])
             .enter().append("g")
             .attr("class", "legend-box")
+            .attr("id", function(d,i) { return "q" + i })
             .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
 
         legend.append("rect")
@@ -97,7 +98,7 @@
             .attr("x", self.options.width - 24)
             .attr("y", 9)
             .attr("dy", ".35em")
-            .attr("id", function(d, i) { return "q" + i; })
+            .attr("class", "box-label")
             .style("text-anchor", "end")
             .text(function(d, i) { return "Q" + i; });
 
