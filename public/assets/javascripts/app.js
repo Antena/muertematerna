@@ -15,6 +15,10 @@
         { key:'otras_ind_razon', color:'#789b41', colorGroup:'Greens', type:'indirect', text:'Otras causas indirectas', codmuer:[{from:98,to:99}] }
     ];
 
+    app.causesReferenceLine = {
+        color:"#bbb"
+    };
+
 
     app.nationalRates = [
         { year: 2006, rate: 4.8 },

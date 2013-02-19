@@ -1,8 +1,16 @@
 (function() {
-    var svg, directLegend, indirectLegend;
+    var svg, directLegend, indirectLegend,referenceLegend;
     var xAxis, yAxis, deathByProvinces,containerDiv;
 
     var defaultProvinceId = 25;
+
+    var referenceData = [{values:[
+        {key: 2006,  y: 0.05, y0: 4.781384478},
+        {key: 2007,  y: 0.05, y0: 4.352218632},
+        {key: 2008,  y: 0.05, y0: 3.9385},
+        {key: 2009,  y: 0.05, y0: 5.4740},
+        {key: 2010,  y: 0.05, y0: 4.3375}]
+    }];
 
     causeOfDeathAreaChart = {
         options : {
@@ -29,7 +37,12 @@
                 return d.values;
             });
 
-        var layers = stack(deathByProvinces[choosenArea-1].values);
+        var index=-1;
+        var realValues=deathByProvinces[choosenArea-1].values;
+
+
+        var layers = stack(realValues);
+
 
         // Build the chart
         buildLegends(self);
@@ -44,7 +57,9 @@
             .range([height, 0]);
 
         var z = function (i) {
-            return app.causesArray[i].color;
+            if(app.causesArray[i]!=null) {
+                return app.causesArray[i].color;
+            }
         }
 
         xAxis = d3.svg.axis()
@@ -57,6 +72,14 @@
             .scale(y)
             .orient("left");
 
+        //line used for plotting reference data
+        var line = d3.svg.line()
+            .x(function (d) {
+                return x(d.key);
+            })
+            .y(function (d) {
+                return y(d.y0);
+            });
 
         var area = d3.svg.area()
             .x(function (d) {
@@ -89,8 +112,10 @@
 
         y.domain([0, getMax(layers)]);
 
+
         var paths = svg.selectAll(".cause")
             .data(layers);
+
         paths
             .enter().append("path")
             .attr("class", "cause")
@@ -118,6 +143,19 @@
 
 
         paths.exit().selectAll(".cause").transition().duration(2000).remove();
+
+        //reference line
+        var references = svg.selectAll(".reference").data(referenceData);
+
+        references.enter().append("path").attr("class", "reference").attr("d", function (d) {
+            return line(d.values);
+        }).style("fill","none").style("stroke", app.causesReferenceLine.color).style("z-index",1000);
+
+        references.transition().duration(1000).attr("d",function(d){
+            return line(d.values);
+        }).style("fill","none").style("stroke", "#000");
+
+        references.exit().selectAll(".reference").transition().duration(2000).remove();
 
 
         svg.select('.x.axis').transition().duration(1000).call(xAxis);
@@ -189,12 +227,13 @@
     causeOfDeathAreaChart.reset = function(e) {
         e.preventDefault();
 
+
         // Cause area
         svg.selectAll(".cause")
             .transition().duration(200)
             .style("fill", function(d, i) {
                 var cause = app.causesArray.filter(function(elem) { return elem.key == d.key})[0];
-                return cause.color;
+                return cause==null?app.causesArray[0].color:cause.color;
             });
 
         // Direct legend
@@ -257,6 +296,7 @@
             .style('fill', function(d) {
                 return d.key == cause.key ? '#333' : "#aaa";
             });
+
     }
 
     causeOfDeathAreaChart.causesArray = function() {
@@ -264,13 +304,16 @@
     }
 
     function buildLegends(self) {
-        //FIX legends
+
         if(!directLegend){
             directLegend = drawLegend(self.options.directCausesLegendDivId, 'direct');
         }
         if(!indirectLegend){
             indirectLegend = drawLegend(self.options.indirectCausesLegendDivId, 'indirect');
         }
+//        if(!referenceLegend) {
+//            referenceLegend=drawReferenceLegend(self.options.indirectCausesLegendDivId, 'indirect');
+//        }
     }
 
     function drawLegend(divId, type) {
@@ -285,7 +328,7 @@
             .attr("class", "legend-box")
             .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
 
-        legend.append("rect")
+       legend.append("rect")
             .attr("x", 0)
             .attr("width", 18)
             .attr("height", 18)
@@ -302,15 +345,50 @@
         return legend;
     }
 
-    function getMax(layers){
-        if(!layers ||layers.length==0 ){
+
+    function drawReferenceLegend(divId, type) {
+        var position=app.causesArray.filter(function (cause) {
+            return cause.type == type
+        }).length;
+
+        var legend = d3.select('#' + divId).select(".legend-box")
+            ;
+        legend.append("rect")
+            .attr("x", 0)
+            .attr("width", 18)
+            .attr("height", 18)
+            .style("fill", function(d) {
+                return app.causesReferenceLine.color })
+            .attr("transform", function(d, i) { return "translate(0," + position * 20 + ")"; });
+        ;
+
+        legend.append("text")
+            .attr("x", 24)
+            .attr("y", 9)
+            .attr("dy", ".35em")
+            .attr("transform", function(d, i) { return "translate(0," + position * 20 + ")"; })
+            .text(function(d) { return "RMM Argentina"; });
+
+        return legend;
+    }
+
+
+    function getMax(layers) {
+        if (!layers || layers.length == 0) {
             return 0.0;
         }
 
         var max = 0;
-        layers[layers.length-1].values.map(function(year) {
+
+        layers[layers.length - 1].values.map(function (year) {
             if ((year.y0 + year.y) > max) {
                 max = year.y0 + year.y;
+            }
+        });
+
+        referenceData[0].values.map(function (year) {
+            if ((year.y0) > max) {
+                max = year.y0;
             }
         });
 
