@@ -225,6 +225,26 @@
     margin-right: 40px;
 }
 
+.key {
+    font: 10px sans-serif;
+}
+
+.caption {
+    font-weight: bold;
+}
+
+.key path {
+    display: none;
+}
+
+.key line {
+    stroke: #000;
+    shape-rendering: crispEdges;
+}
+
+/***********************************************************************************************************************
+ * FOOTER
+ **********************************************************************************************************************/
 .footer {
     text-align: center;
     padding: 30px 0;

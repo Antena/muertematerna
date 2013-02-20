@@ -1,0 +1,156 @@
+(function() {
+    provinceMap = {};
+
+    var g;
+    var width=280, height=300;
+    var colorGorup = "Blues";
+    var legend;
+
+    provinceMap.init = function() {
+        this.drawLegend();
+
+        d3.select("#province-map").append("svg")
+            .attr("id", "provinceMapCanvas")
+            .attr("width", width)
+            .attr("height", height)
+    }
+
+    provinceMap.drawLegend = function() {
+        var formatNumber = d3.format(".0f");
+
+        var threshold = d3.scale.threshold()
+            .domain([1, 2, 3, 4, 5, 6])
+            .range(colorbrewer[colorGorup][6]);
+
+        // A position encoding for the key only.
+        var x = d3.scale.linear()
+            .domain([0, 6])
+            .range([0, 240]);
+
+        var xAxis = d3.svg.axis()
+            .scale(x)
+            .orient("bottom")
+            .tickSize(13)
+            .tickValues(threshold.domain())
+            .tickFormat(function(d) { return formatNumber(d-1); });
+
+        var svg = d3.select("#province-map").append("svg")
+            .attr("width", 280)
+            .attr("height", 50);
+
+        legend = svg.append("g")
+            .attr("class", "key")
+            .attr("transform", "translate(15,20)");
+
+        legend.selectAll("rect")
+            .data(threshold.range().map(function(d, i) {
+                return {
+                    x0: i ? x(threshold.domain()[i - 1]) : x.range()[0],
+                    x1: i < 4 ? x(threshold.domain()[i]) : x.range()[1],
+                    z: d
+                };
+            }))
+            .enter().append("rect")
+            .attr("height", 8)
+            .attr("x", function(d) { return d.x0; })
+            .attr("width", function(d) { return d.x1 - d.x0; })
+            .style("fill", function(d) { return d.z; });
+
+        legend.call(xAxis).append("text")
+            .attr("class", "caption")
+            .attr("y", -6)
+            .text("Cantidad de muertes maternas por departamento");
+    }
+
+    provinceMap.update = function() {
+        var message = "update: (" +
+            app.selection.province.key + ", " +
+            (app.selection.cause ? app.selection.cause.text : app.selection.cause) + ", " +
+            app.selection.year + ")";
+
+        var province = app.selection.province;
+        var svg = d3.select("#provinceMapCanvas");
+        var map = svg.select(".provinceMap");
+        if (map.empty()) {
+            this.draw(province);
+            console.log(message + " -> draw");        //TODO(gb): Remove trace!!!
+        } else if (svg.select("#province-" + province.value).empty()) {
+            map.remove();
+            this.draw(province);
+            console.log(message + " -> draw");        //TODO(gb): Remove trace!!!
+        } else {
+            this.recolorMap();
+            console.log(message + " -> recolor");        //TODO(gb): Remove trace!!!
+        }
+
+        var newcolorGroup = app.selection.cause ? app.selection.cause.colorGroup : "Blues";
+        if (newcolorGroup != colorGorup) {
+            colorGorup = newcolorGroup;
+            this.recolorLegend();
+        }
+    }
+
+    provinceMap.recolorMap = function() {
+
+    }
+
+    provinceMap.recolorLegend = function() {
+        console.log("recolorLegend");        //TODO(gb): Remove trace!!!
+
+        legend.selectAll("rect")
+            .style("fill", function(d, i) {
+                return colorbrewer[colorGorup][6][i];
+            });
+    }
+
+    provinceMap.draw = function(province) {
+        var svg = d3.select("#provinceMapCanvas");
+
+        // Sidebar title
+        $(".id-provinceName").text(province.key);
+
+        // The filtered data
+        var departmentData = filterPieCharts.doAggregation(function(d) {
+            return d.department;
+        }, "departamento", true);
+
+        // Draw the map
+        d3.json("/assets/data/" + province.departments.file, function(error, theProvince) {
+            var departments = topojson.object(theProvince, theProvince.objects.departments);
+            var projection = d3.geo.mercator()
+                .scale(province.departments.scale)
+                .center(province.departments.center)
+                .translate([width / 2, height / 2]);
+            var path = d3.geo.path()
+                .projection(projection);
+
+            var g = svg.append("g")
+                .attr("id", "province-" + province.value)
+                .classed("provinceMap", true);
+
+            g.selectAll(".department")
+                .data(departments.geometries)
+                .enter().append("path")
+                .attr("class", "department")
+                .attr("d", path)
+                .style("fill", function(d) {
+                    var departmentId = d.properties.ID_2;
+                    var theDepartment = departmentData.filter(function(datum) { return datum.key == departmentId});
+                    var deaths = theDepartment.length > 0 ? theDepartment[0].values.length : 0;
+//                    console.log((theDepartment.length > 0 ? theDepartment[0].key : "null") + " deaths= " + deaths);        //TODO(gb): Remove trace!!!
+                    return colorbrewer[colorGorup]['6'][deaths];
+                })
+                .tooltip(function(d,i) {
+                    var content = $("<div></div>")
+                        .append("<h5>" + d.properties.NAME_2 + " (" + d.properties.ID_2 + ")</h5>")
+
+                    return {
+                        class: "departmentTooltip",
+                        type: "mouse",
+                        content: content.html(),
+                        displacement: [0, 10]
+                    };
+                });
+        });
+    }
+})()

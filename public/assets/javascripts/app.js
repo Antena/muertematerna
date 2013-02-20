@@ -69,12 +69,15 @@
 
         //update cause
         d3choropleth.update();
-        if (app.selection.cause!=null){
+        if (app.selection.cause != null){
             causeOfDeathAreaChart.paintCauses();
         }
         causeOfDeathAreaChart.draw();
         app.drawChartTitles();
         filterPieCharts.drawPieCharts();
+        if (app.selection.province != null) {
+            provinceMap.update();
+        }
     }
 
     app.ratesData = null;
@@ -144,7 +147,6 @@
                         onClick : function() {
                             var province = provinces.getById(this.properties.ID_1);
                             self.setProvince(province);
-                            self.drawProvinceMap(province);
                             d3choropleth.zoomIn(province.zoomLocation.x, province.zoomLocation.y, province.zoomLocation.k, true);
                         },
                         onZoomIn : function() {
@@ -216,8 +218,10 @@
             height: 200,
             margin : {top: 5, left : 25, right: 15}
         });
-
         filterPieCharts.drawPieCharts();
+
+        // Province map
+        provinceMap.init();
 
         app.getRatesIndex = function() {
             var ratesIndex = app.selection.cause ? getCauseIndex() : 8;
@@ -391,62 +395,5 @@
             $('#razon_title').text(razon_title);
             $('#evolucion_title').text(evolucion_title);
         }
-
-        app.drawProvinceMap = function(province) {
-            var svg = d3.select("#province-map svg");
-            svg.empty();
-
-            svg.select(".current")
-                .classed("current", false)
-                .style("display", "none");
-
-            $(".id-provinceName").text(province.key);
-
-            if (svg.select("#province-" + province.value).empty()) {
-                d3.json("/assets/data/" + province.departments.file, function(error, theProvince) {
-                    var departments = topojson.object(theProvince, theProvince.objects.departments);
-                    var projection = d3.geo.mercator()
-                        .scale(province.departments.scale)
-                        .center(province.departments.center)
-                        .translate([width / 2, height / 2]);
-                    var path = d3.geo.path()
-                        .projection(projection);
-
-                    var departmentData=filterPieCharts.doAggregation(function(d){return d.department},"departamento",true);
-
-                    svg.append("g")
-                        .attr("id", "province-" + province.value)
-                        .attr("class", "current")
-                        .selectAll(".department")
-                        .data(departments.geometries)
-                        .enter().append("path")
-                        .attr("class", "department")
-                        .attr("d", path)
-                        .style("fill", function(d) {
-                            var departmentId = d.properties.ID_2;
-                            var theDepartment = departmentData.filter(function(datum) { return datum.key == departmentId});
-                            var deaths = theDepartment.length > 0 ? theDepartment[0].values.length : 0;
-                            return colorbrewer['Blues']['5'][deaths];
-                        })
-                        .tooltip(function(d,i) {
-                            var content = $("<div></div>")
-                                .append("<h5>" + d.properties.NAME_2 + " (" + d.properties.ID_2 + ")</h5>")
-
-                            return {
-                                class: "departmentTooltip",
-                                type: "mouse",
-                                content: content.html(),
-                                displacement: [0, 10]
-                            };
-                        });
-                });
-            } else {
-                svg.select("#province-" + province.value).classed("current", true);
-            }
-
-            svg.select("#province-" + province.value).style("display", "block");
-        }
-
-
     };
 })()
