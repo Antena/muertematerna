@@ -88,7 +88,7 @@
                     show: function () {
                         return true;
                     },
-                    updateContent: function (tip) {
+                    updateContent: function () {
                         var content = $("<div id='tooltipData'></div>");
                         content.empty();
                         content.append("<h5>" + self.labels[i] + "</h5>");
