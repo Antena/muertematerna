@@ -77,14 +77,14 @@
                 var content = $("<div></div>");
                 var tooltip = $("<div id='tooltipData'></div>");
                 tooltip.append("<h5>" + self.labels[i] + "</h5>");
-                tooltip.append("<h5>" + (self.newData[i] * 100).toFixed(2) + "</h5>");
+                tooltip.append("<h4>" + (self.newData[i] * 100).toFixed(2) + "%</h4>");
                 content.append(tooltip);
                 return {
-                    class: "none",
+                    class: "pieChartTip",
                     type: "mouse",
                     gravity: "down",
                     content: content.html(),
-                    displacement: [0, 5],
+                    displacement: [0, 15],
                     show: function () {
                         return true;
                     },
@@ -92,7 +92,7 @@
                         var content = $("<div id='tooltipData'></div>");
                         content.empty();
                         content.append("<h5>" + self.labels[i] + "</h5>");
-                        content.append("<h5>" + (self.newData[i] * 100).toFixed(2) + "</h5>");
+                        content.append("<h4>" + (self.newData[i] * 100).toFixed(2) + "%</h4>");
                         $("#tooltipData").html(content.html());
                     }
                 }

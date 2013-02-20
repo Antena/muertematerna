@@ -159,7 +159,7 @@
                 })
                 .tooltip(function(d,i) {
                     var content = $("<div></div>")
-                        .append("<h5>" + d.properties.NAME_2 + " (" + d.properties.ID_2 + ")</h5>")
+                        .append("<p>" + d.properties.NAME_2 + " (" + d.properties.ID_2 + ")</p>")
 
                     return {
                         class: "departmentTooltip",
