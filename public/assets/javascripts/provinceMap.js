@@ -1,7 +1,7 @@
 (function() {
     provinceMap = {};
 
-    var g;
+    var map;
     var width=280, height=300;
     var colorGorup = "Blues";
     var legend;
@@ -68,30 +68,45 @@
             (app.selection.cause ? app.selection.cause.text : app.selection.cause) + ", " +
             app.selection.year + ")";
 
+        // Color group
+        var newcolorGroup = app.selection.cause ? app.selection.cause.colorGroup : "Blues";
+        if (newcolorGroup != colorGorup) {
+            colorGorup = newcolorGroup;
+            this.recolorLegend();
+        }
+
         var province = app.selection.province;
         var svg = d3.select("#provinceMapCanvas");
-        var map = svg.select(".provinceMap");
-        if (map.empty()) {
+        var theMap = svg.select(".provinceMap");
+        if (theMap.empty()) {
             this.draw(province);
             console.log(message + " -> draw");        //TODO(gb): Remove trace!!!
         } else if (svg.select("#province-" + province.value).empty()) {
-            map.remove();
+            theMap.remove();
             this.draw(province);
             console.log(message + " -> draw");        //TODO(gb): Remove trace!!!
         } else {
             this.recolorMap();
             console.log(message + " -> recolor");        //TODO(gb): Remove trace!!!
         }
-
-        var newcolorGroup = app.selection.cause ? app.selection.cause.colorGroup : "Blues";
-        if (newcolorGroup != colorGorup) {
-            colorGorup = newcolorGroup;
-            this.recolorLegend();
-        }
     }
 
     provinceMap.recolorMap = function() {
+        // The filtered data
+        var departmentData = filterPieCharts.doAggregation(function(d) {
+            return d.department;
+        }, "departamento", true);
 
+        map.selectAll(".department")
+            .style("fill", function(d) {
+                if (!departmentData) {
+                    return colorbrewer[colorGorup]['6'][0];
+                }
+                var departmentId = d.properties.ID_2;
+                var theDepartment = departmentData.filter(function(datum) { return datum.key == departmentId});
+                var deaths = theDepartment.length > 0 ? theDepartment[0].values.length : 0;
+                return colorbrewer[colorGorup]['6'][deaths];
+            });
     }
 
     provinceMap.recolorLegend = function() {
@@ -124,20 +139,22 @@
             var path = d3.geo.path()
                 .projection(projection);
 
-            var g = svg.append("g")
+            map = svg.append("g")
                 .attr("id", "province-" + province.value)
                 .classed("provinceMap", true);
 
-            g.selectAll(".department")
+            map.selectAll(".department")
                 .data(departments.geometries)
                 .enter().append("path")
                 .attr("class", "department")
                 .attr("d", path)
                 .style("fill", function(d) {
+                    if (!departmentData) {
+                        return colorbrewer[colorGorup]['6'][0];
+                    }
                     var departmentId = d.properties.ID_2;
                     var theDepartment = departmentData.filter(function(datum) { return datum.key == departmentId});
                     var deaths = theDepartment.length > 0 ? theDepartment[0].values.length : 0;
-//                    console.log((theDepartment.length > 0 ? theDepartment[0].key : "null") + " deaths= " + deaths);        //TODO(gb): Remove trace!!!
                     return colorbrewer[colorGorup]['6'][deaths];
                 })
                 .tooltip(function(d,i) {
