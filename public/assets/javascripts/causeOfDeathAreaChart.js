@@ -153,7 +153,7 @@
 
         references.transition().duration(1000).attr("d",function(d){
             return line(d.values);
-        }).style("fill","none").style("stroke", "#000");
+        }).style("fill","none");
 
         references.exit().selectAll(".reference").transition().duration(2000).remove();
 

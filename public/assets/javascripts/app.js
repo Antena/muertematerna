@@ -16,7 +16,7 @@
     ];
 
     app.causesReferenceLine = {
-        color:"#bbb"
+        color:"#666"
     };
 
 

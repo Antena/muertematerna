@@ -11,7 +11,6 @@
         self.labels = labels;
 
         aPieChart['update'] = function (data) {
-//            console.log("update");
             var self = this;
             self.newData = data;
             self.path = self.path.data(self.pie(data)); // update the data
