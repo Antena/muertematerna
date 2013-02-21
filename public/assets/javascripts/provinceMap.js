@@ -137,7 +137,8 @@
                 .center(province.departments.center)
                 .translate([width / 2, height / 2]);
             var path = d3.geo.path()
-                .projection(projection);
+                .projection(projection)
+                .pointRadius(3);
 
             map = svg.append("g")
                 .attr("id", "province-" + province.value)
@@ -168,6 +169,13 @@
                         displacement: [0, 10]
                     };
                 });
+
+            if (province.value == 21) {
+                map.append("path")
+                    .datum(topojson.object(theProvince, theProvince.objects.maternidades))
+                    .attr("d", path)
+                    .attr("class", "place");
+            }
         });
     }
 })()
