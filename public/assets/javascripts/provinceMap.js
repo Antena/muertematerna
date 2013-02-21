@@ -170,11 +170,26 @@
                     };
                 });
 
+            //TODO(gb): fix this. just for Santa Fe for now.
             if (province.value == 21) {
-                map.append("path")
-                    .datum(topojson.object(theProvince, theProvince.objects.maternidades))
-                    .attr("d", path)
-                    .attr("class", "place");
+                map.selectAll(".place-label")
+                    .data(topojson.object(theProvince, theProvince.objects.maternidades).geometries)
+                    .enter().append("circle")
+                    .attr("class", "place")
+                    .attr("r", 3)
+                    .attr("transform", function(d) { return "translate(" + projection(d.coordinates) + ")"; })
+                    .tooltip(function(d,i) {
+                        var content = $("<div></div>")
+                            .append("<p>" + d.properties.NAME + "</p>");
+
+                        return {
+                            class: "medicalCenterTooltip",
+                            type: "mouse",
+                            content: content.html(),
+                            displacement:[0,10]
+                        }
+                    })
+
             }
         });
     }
