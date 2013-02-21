@@ -1,27 +1,96 @@
 {
-"type": "FeatureCollection",
-                                                                                
-"features": [
-{ 
-	"type": "Feature", 
-	"properties": { "NAME": "Sunchales", "ADM0NAME": "Argentina", "ADM0_A3": "ARG", "ADM1NAME": "Santa Fe", "ISO_A2": "AR", "LATITUDE": -30.932906475, "LONGITUDE": -61.566614422199997}, 
-	"geometry": { "type": "Point", "coordinates": [ -61.566614422233783, -30.932906475042273 ] } 
-}
-,
-{ 
-	"type": "Feature", 
-	"properties": { "SCALERANK": 7, "NATSCALE": 20, "LABELRANK": 3, "FEATURECLA": "Populated place", "NAME": "San Justo", "NAMEPAR": null, "NAMEALT": null, "DIFFASCII": 0, "NAMEASCII": "San Justo", "ADM0CAP": 0.0, "CAPALT": 0.0, "CAPIN": null, "WORLDCITY": 0.0, "MEGACITY": 0, "SOV0NAME": "Argentina", "SOV_A3": "ARG", "ADM0NAME": "Argentina", "ADM0_A3": "ARG", "ADM1NAME": "Santa Fe", "ISO_A2": "AR", "NOTE": null, "LATITUDE": -30.782889792100001, "LONGITUDE": -60.583289430400001 }, 
-	"geometry": { "type": "Point", "coordinates": [ -60.583289430367927, -30.782889792098956 ] } }
-,
-{ "type": "Feature", "properties": { "SCALERANK": 7, "NATSCALE": 20, "LABELRANK": 3, "FEATURECLA": "Populated place", "NAME": "Vera", "NAMEPAR": null, "NAMEALT": null, "DIFFASCII": 0, "NAMEASCII": "Vera", "ADM0CAP": 0.0, "CAPALT": 0.0, "CAPIN": null, "WORLDCITY": 0.0, "MEGACITY": 0, "SOV0NAME": "Argentina", "SOV_A3": "ARG", "ADM0NAME": "Argentina", "ADM0_A3": "ARG", "ADM1NAME": "Santa Fe", "ISO_A2": "AR", "NOTE": null, "LATITUDE": -29.4661742973, "LONGITUDE": -60.216593466799999, "CHANGED": 0.0, "NAMEDIFF": 0, "DIFFNOTE": null, "POP_MAX": 9979, "POP_MIN": 9979, "POP_OTHER": 9979, "RANK_MAX": 5, "RANK_MIN": 5, "GEONAMEID": -1.0, "MEGANAME": null, "LS_NAME": "Vera", "LS_MATCH": 1, "CHECKME": 0, "MAX_POP10": 9979.0, "MAX_POP20": 9979.0, "MAX_POP50": 0.0, "MAX_POP300": 0.0, "MAX_POP310": 0.0, "MAX_NATSCA": 20.0, "MIN_AREAKM": 9.0, "MAX_AREAKM": 9.0, "MIN_AREAMI": 3.0, "MAX_AREAMI": 3.0, "MIN_PERKM": 14.0, "MAX_PERKM": 14.0, "MIN_PERMI": 9.0, "MAX_PERMI": 9.0, "MIN_BBXMIN": -60.225, "MAX_BBXMIN": -60.225, "MIN_BBXMAX": -60.19166667, "MAX_BBXMAX": -60.19166667, "MIN_BBYMIN": -29.475, "MAX_BBYMIN": -29.475, "MIN_BBYMAX": -29.44166667, "MAX_BBYMAX": -29.44166667, "MEAN_BBXC": -60.20972222, "MEAN_BBYC": -29.46041667, "COMPARE": 0, "GN_ASCII": null, "FEATURE_CL": null, "FEATURE_CO": null, "ADMIN1_COD": 0.0, "GN_POP": 0.0, "ELEVATION": 0.0, "GTOPO30": 0.0, "TIMEZONE": null, "GEONAMESNO": "No GeoNames match due to small population, not in GeoNames, or poor NEV placement.", "UN_FID": 0, "UN_ADM0": null, "UN_LAT": 0.0, "UN_LONG": 0.0, "POP1950": 0.0, "POP1955": 0.0, "POP1960": 0.0, "POP1965": 0.0, "POP1970": 0.0, "POP1975": 0.0, "POP1980": 0.0, "POP1985": 0.0, "POP1990": 0.0, "POP1995": 0.0, "POP2000": 0.0, "POP2005": 0.0, "POP2010": 0.0, "POP2015": 0.0, "POP2020": 0.0, "POP2025": 0.0, "POP2050": 0.0, "CITYALT": null }, "geometry": { "type": "Point", "coordinates": [ -60.216593466824804, -29.466174297302018 ] } }
-,
-{ "type": "Feature", "properties": { "SCALERANK": 7, "NATSCALE": 20, "LABELRANK": 3, "FEATURECLA": "Populated place", "NAME": "Reconquista", "NAMEPAR": null, "NAMEALT": null, "DIFFASCII": 0, "NAMEASCII": "Reconquista", "ADM0CAP": 0.0, "CAPALT": 0.0, "CAPIN": null, "WORLDCITY": 0.0, "MEGACITY": 0, "SOV0NAME": "Argentina", "SOV_A3": "ARG", "ADM0NAME": "Argentina", "ADM0_A3": "ARG", "ADM1NAME": "Santa Fe", "ISO_A2": "AR", "NOTE": null, "LATITUDE": -29.139527568799998, "LONGITUDE": -59.650013063199999, "CHANGED": 0.0, "NAMEDIFF": 0, "DIFFNOTE": null, "POP_MAX": 90184, "POP_MIN": 83097, "POP_OTHER": 79386, "RANK_MAX": 8, "RANK_MIN": 8, "GEONAMEID": 3429594.0, "MEGANAME": null, "LS_NAME": "Reconquista", "LS_MATCH": 1, "CHECKME": 0, "MAX_POP10": 83097.0, "MAX_POP20": 83097.0, "MAX_POP50": 0.0, "MAX_POP300": 0.0, "MAX_POP310": 0.0, "MAX_NATSCA": 20.0, "MIN_AREAKM": 33.0, "MAX_AREAKM": 33.0, "MIN_AREAMI": 13.0, "MAX_AREAMI": 13.0, "MIN_PERKM": 34.0, "MAX_PERKM": 34.0, "MIN_PERMI": 21.0, "MAX_PERMI": 21.0, "MIN_BBXMIN": -59.68333333, "MAX_BBXMIN": -59.68333333, "MIN_BBXMAX": -59.63333333, "MAX_BBXMAX": -59.63333333, "MIN_BBYMIN": -29.2, "MAX_BBYMIN": -29.2, "MIN_BBYMAX": -29.1, "MAX_BBYMAX": -29.1, "MEAN_BBXC": -59.65454545, "MEAN_BBYC": -29.14318182, "COMPARE": 0, "GN_ASCII": "Reconquista", "FEATURE_CL": "P", "FEATURE_CO": "PPL", "ADMIN1_COD": 21.0, "GN_POP": 90184.0, "ELEVATION": 0.0, "GTOPO30": 32.0, "TIMEZONE": "America\/Argentina\/Cordoba", "GEONAMESNO": "GeoNames match with ascii name + lat + long whole numbers.", "UN_FID": 0, "UN_ADM0": null, "UN_LAT": 0.0, "UN_LONG": 0.0, "POP1950": 0.0, "POP1955": 0.0, "POP1960": 0.0, "POP1965": 0.0, "POP1970": 0.0, "POP1975": 0.0, "POP1980": 0.0, "POP1985": 0.0, "POP1990": 0.0, "POP1995": 0.0, "POP2000": 0.0, "POP2005": 0.0, "POP2010": 0.0, "POP2015": 0.0, "POP2020": 0.0, "POP2025": 0.0, "POP2050": 0.0, "CITYALT": null }, "geometry": { "type": "Point", "coordinates": [ -59.65001306317663, -29.13952756878507 ] } }
-,
-{ "type": "Feature", "properties": { "SCALERANK": 7, "NATSCALE": 20, "LABELRANK": 3, "FEATURECLA": "Populated place", "NAME": "Venado Tuerto", "NAMEPAR": null, "NAMEALT": null, "DIFFASCII": 0, "NAMEASCII": "Venado Tuerto", "ADM0CAP": 0.0, "CAPALT": 0.0, "CAPIN": null, "WORLDCITY": 0.0, "MEGACITY": 0, "SOV0NAME": "Argentina", "SOV_A3": "ARG", "ADM0NAME": "Argentina", "ADM0_A3": "ARG", "ADM1NAME": "Santa Fe", "ISO_A2": "AR", "NOTE": null, "LATITUDE": -33.749582093500003, "LONGITUDE": -61.970000652700001, "CHANGED": 0.0, "NAMEDIFF": 0, "DIFFNOTE": null, "POP_MAX": 72340, "POP_MIN": 31818, "POP_OTHER": 31667, "RANK_MAX": 8, "RANK_MIN": 7, "GEONAMEID": 3833062.0, "MEGANAME": null, "LS_NAME": "Venado Tuerto", "LS_MATCH": 1, "CHECKME": 0, "MAX_POP10": 31818.0, "MAX_POP20": 31818.0, "MAX_POP50": 0.0, "MAX_POP300": 0.0, "MAX_POP310": 0.0, "MAX_NATSCA": 20.0, "MIN_AREAKM": 27.0, "MAX_AREAKM": 27.0, "MIN_AREAMI": 10.0, "MAX_AREAMI": 10.0, "MIN_PERKM": 29.0, "MAX_PERKM": 29.0, "MIN_PERMI": 18.0, "MAX_PERMI": 18.0, "MIN_BBXMIN": -62.0, "MAX_BBXMIN": -62.0, "MIN_BBXMAX": -61.93333333, "MAX_BBXMAX": -61.93333333, "MIN_BBYMIN": -33.78333333, "MAX_BBYMIN": -33.78333333, "MIN_BBYMAX": -33.71666667, "MAX_BBYMAX": -33.71666667, "MEAN_BBXC": -61.96666667, "MEAN_BBYC": -33.74517544, "COMPARE": 0, "GN_ASCII": "Venado Tuerto", "FEATURE_CL": "P", "FEATURE_CO": "PPL", "ADMIN1_COD": 21.0, "GN_POP": 72340.0, "ELEVATION": 0.0, "GTOPO30": 109.0, "TIMEZONE": "America\/Argentina\/Cordoba", "GEONAMESNO": "Geonames ascii name + lat.d + long.d matching.", "UN_FID": 0, "UN_ADM0": null, "UN_LAT": 0.0, "UN_LONG": 0.0, "POP1950": 0.0, "POP1955": 0.0, "POP1960": 0.0, "POP1965": 0.0, "POP1970": 0.0, "POP1975": 0.0, "POP1980": 0.0, "POP1985": 0.0, "POP1990": 0.0, "POP1995": 0.0, "POP2000": 0.0, "POP2005": 0.0, "POP2010": 0.0, "POP2015": 0.0, "POP2020": 0.0, "POP2025": 0.0, "POP2050": 0.0, "CITYALT": null }, "geometry": { "type": "Point", "coordinates": [ -61.970000652704243, -33.749582093543097 ] } }
-,
-{ "type": "Feature", "properties": { "SCALERANK": 4, "NATSCALE": 50, "LABELRANK": 3, "FEATURECLA": "Admin-1 capital", "NAME": "Santa Fe", "NAMEPAR": null, "NAMEALT": null, "DIFFASCII": 0, "NAMEASCII": "Santa Fe", "ADM0CAP": 0.0, "CAPALT": 0.0, "CAPIN": null, "WORLDCITY": 0.0, "MEGACITY": 0, "SOV0NAME": "Argentina", "SOV_A3": "ARG", "ADM0NAME": "Argentina", "ADM0_A3": "ARG", "ADM1NAME": "Santa Fe", "ISO_A2": "AR", "NOTE": null, "LATITUDE": -31.623872051199999, "LONGITUDE": -60.690001263100001, "CHANGED": 0.0, "NAMEDIFF": 0, "DIFFNOTE": null, "POP_MAX": 489505, "POP_MIN": 297503, "POP_OTHER": 227366, "RANK_MAX": 10, "RANK_MIN": 10, "GEONAMEID": 3836277.0, "MEGANAME": null, "LS_NAME": "Santa Fe2", "LS_MATCH": 1, "CHECKME": 0, "MAX_POP10": 297503.0, "MAX_POP20": 297503.0, "MAX_POP50": 297503.0, "MAX_POP300": 0.0, "MAX_POP310": 0.0, "MAX_NATSCA": 50.0, "MIN_AREAKM": 83.0, "MAX_AREAKM": 83.0, "MIN_AREAMI": 32.0, "MAX_AREAMI": 32.0, "MIN_PERKM": 60.0, "MAX_PERKM": 60.0, "MIN_PERMI": 37.0, "MAX_PERMI": 37.0, "MIN_BBXMIN": -60.75833333, "MAX_BBXMIN": -60.75833333, "MIN_BBXMAX": -60.65, "MAX_BBXMAX": -60.65, "MIN_BBYMIN": -31.675, "MAX_BBYMIN": -31.675, "MIN_BBYMAX": -31.53333333, "MAX_BBYMAX": -31.53333333, "MEAN_BBXC": -60.71045322, "MEAN_BBYC": -31.60723684, "COMPARE": 0, "GN_ASCII": "Santa Fe de la Vera Cruz", "FEATURE_CL": "P", "FEATURE_CO": "PPLA", "ADMIN1_COD": 21.0, "GN_POP": 489505.0, "ELEVATION": 0.0, "GTOPO30": 20.0, "TIMEZONE": "America\/Argentina\/Cordoba", "GEONAMESNO": "GeoNames match general.", "UN_FID": 0, "UN_ADM0": null, "UN_LAT": 0.0, "UN_LONG": 0.0, "POP1950": 0.0, "POP1955": 0.0, "POP1960": 0.0, "POP1965": 0.0, "POP1970": 0.0, "POP1975": 0.0, "POP1980": 0.0, "POP1985": 0.0, "POP1990": 0.0, "POP1995": 0.0, "POP2000": 0.0, "POP2005": 0.0, "POP2010": 0.0, "POP2015": 0.0, "POP2020": 0.0, "POP2025": 0.0, "POP2050": 0.0, "CITYALT": null }, "geometry": { "type": "Point", "coordinates": [ -60.690001263050647, -31.623872051216892 ] } }
-,
-{ "type": "Feature", "properties": { "SCALERANK": 4, "NATSCALE": 50, "LABELRANK": 3, "FEATURECLA": "Populated place", "NAME": "Rosario", "NAMEPAR": null, "NAMEALT": null, "DIFFASCII": 0, "NAMEASCII": "Rosario", "ADM0CAP": 0.0, "CAPALT": 0.0, "CAPIN": null, "WORLDCITY": 0.0, "MEGACITY": 1, "SOV0NAME": "Argentina", "SOV_A3": "ARG", "ADM0NAME": "Argentina", "ADM0_A3": "ARG", "ADM1NAME": "Santa Fe", "ISO_A2": "AR", "NOTE": null, "LATITUDE": -32.9511295382, "LONGITUDE": -60.666307618799998, "CHANGED": 0.0, "NAMEDIFF": 0, "DIFFNOTE": null, "POP_MAX": 1203000, "POP_MIN": 986569, "POP_OTHER": 829226, "RANK_MAX": 12, "RANK_MIN": 11, "GEONAMEID": 3838583.0, "MEGANAME": "Rosario", "LS_NAME": "Rosario1", "LS_MATCH": 1, "CHECKME": 0, "MAX_POP10": 986569.0, "MAX_POP20": 986261.0, "MAX_POP50": 986261.0, "MAX_POP300": 0.0, "MAX_POP310": 0.0, "MAX_NATSCA": 50.0, "MIN_AREAKM": 330.0, "MAX_AREAKM": 330.0, "MIN_AREAMI": 127.0, "MAX_AREAMI": 127.0, "MIN_PERKM": 261.0, "MAX_PERKM": 261.0, "MIN_PERMI": 162.0, "MAX_PERMI": 162.0, "MIN_BBXMIN": -60.89166667, "MAX_BBXMIN": -60.89166667, "MIN_BBXMAX": -60.54166667, "MAX_BBXMAX": -60.54166667, "MIN_BBYMIN": -33.125, "MAX_BBYMIN": -33.125, "MIN_BBYMAX": -32.69166667, "MAX_BBYMAX": -32.69166667, "MEAN_BBXC": -60.70738719, "MEAN_BBYC": -32.9371179, "COMPARE": 0, "GN_ASCII": "Rosario", "FEATURE_CL": "P", "FEATURE_CO": "PPL", "ADMIN1_COD": 21.0, "GN_POP": 1173533.0, "ELEVATION": 0.0, "GTOPO30": 11.0, "TIMEZONE": "America\/Argentina\/Cordoba", "GEONAMESNO": "Geonames ascii name + lat.d + long.d matching.", "UN_FID": 204, "UN_ADM0": "Argentina", "UN_LAT": -32.93, "UN_LONG": -60.66, "POP1950": 554.0, "POP1955": 610.0, "POP1960": 671.0, "POP1965": 740.0, "POP1970": 816.0, "POP1975": 883.0, "POP1980": 953.0, "POP1985": 1017.0, "POP1990": 1084.0, "POP1995": 1121.0, "POP2000": 1152.0, "POP2005": 1186.0, "POP2010": 1203.0, "POP2015": 1233.0, "POP2020": 1283.0, "POP2025": 1326.0, "POP2050": 1360.0, "CITYALT": null }, "geometry": { "type": "Point", "coordinates": [ -60.668253477457768, -32.949183679588373 ] } }
-
-]
+	"type": "FeatureCollection",
+	                                                                                
+	"features": [
+		{
+			"type": "Feature",
+			"properties": { "NAME": "Htal. Prov. Rosario" },
+			"geometry": { "type": "Point", "coordinates": [ -32.956196,-60.630267 ] } 
+		},
+		{
+			"type": "Feature",
+			"properties": { "NAME": "Htal Escuela E. Perón" },
+			"geometry": { "type": "Point", "coordinates": [ -32.289835,-60.978541 ] } 
+		},
+		{
+			"type": "Feature",
+			"properties": { "NAME": "Htal Samco Esperanza" },
+			"geometry": { "type": "Point", "coordinates": [ -32.938016,-60.664808 ] } 
+		},
+		{
+			"type": "Feature",
+			"properties": { "NAME": "Htal Provincial Centenario" },
+			"geometry": { "type": "Point", "coordinates": [ -38.452918,-63.59892 ] } 
+		},
+		{
+			"type": "Feature",
+			"properties": { "NAME": "Htal Villa Ocampo" },
+			"geometry": { "type": "Point", "coordinates": [ -28.480376,-59.351406 ] } 
+		},
+		{
+			"type": "Feature",
+			"properties": { "NAME": "Htal Granaderos a caballo" },
+			"geometry": { "type": "Point", "coordinates": [ -32.748987,-60.726757 ] } 
+		},
+		{
+			"type": "Feature",
+			"properties": { "NAME": "Htal. Reconquista" },
+			"geometry": { "type": "Point", "coordinates": [ -31.670431,-60.730169 ] } 
+		},
+		{
+			"type": "Feature",
+			"properties": { "NAME": "Htal Firmat" },
+			"geometry": { "type": "Point", "coordinates": [ -33.453572, -61.494513 ] } 
+		},
+		{
+			"type": "Feature",
+			"properties": { "NAME": "Htal. Venado Tuerto" },
+			"geometry": { "type": "Point", "coordinates": [ -38.452918,-63.598921 ] } 
+		},
+		{ 
+			"type": "Feature", 
+			"properties": { "NAME": "Htal. Villa Constitución", "ADM0NAME": "Argentina", "ADM0_A3": "ARG", "ADM1NAME": "Santa Fe", "ISO_A2": "AR", "LATITUDE": -30.932906475, "LONGITUDE": -61.566614422199997}, 
+			"geometry": { "type": "Point", "coordinates": [ -33.203917,-60.343727] }
+		},
+		{
+			"type": "Feature", 
+			"properties": { "NAME": "HOSP DR JOSE MARIA CULLEN", "ADM0NAME": "Argentina", "ADM0_A3": "ARG", "ADM1NAME": "Santa Fe", "ISO_A2": "AR", "LATITUDE": -30.932906475, "LONGITUDE": -61.566614422199997}, 
+			"geometry": { "type": "Point", "coordinates": [ -31.648414,-60.719301] }
+		},
+		{
+			"type": "Feature", 
+			"properties": { "NAME": "Htal. R. Saenz Peña", "ADM0NAME": "Argentina", "ADM0_A3": "ARG", "ADM1NAME": "Santa Fe", "ISO_A2": "AR", "LATITUDE": -30.932906475, "LONGITUDE": -61.566614422199997}, 
+			"geometry": { "type": "Point", "coordinates": [ -32.998352,-60.646763] }
+		},
+		{
+			"type": "Feature", 
+			"properties": { "NAME": "Htal. San Justo", "ADM0NAME": "Argentina", "ADM0_A3": "ARG", "ADM1NAME": "Santa Fe", "ISO_A2": "AR", "LATITUDE": -30.932906475, "LONGITUDE": -61.566614422199997}, 
+			"geometry": { "type": "Point", "coordinates": [ -34.695191,-58.579874] }
+		},
+		{
+			"type": "Feature", 
+			"properties": { "NAME": "Htal. San Jorge", "ADM0NAME": "Argentina", "ADM0_A3": "ARG", "ADM1NAME": "Santa Fe", "ISO_A2": "AR", "LATITUDE": -30.932906475, "LONGITUDE": -61.566614422199997}, 
+			"geometry": { "type": "Point", "coordinates": [ -31.892766,-61.855] }
+		},
+		{
+			"type": "Feature", 
+			"properties": { "NAME": "Htal. San Carlos,Casilda", "ADM0NAME": "Argentina", "ADM0_A3": "ARG", "ADM1NAME": "Santa Fe", "ISO_A2": "AR", "LATITUDE": -30.932906475, "LONGITUDE": -61.566614422199997}, 
+			"geometry": { "type": "Point", "coordinates": [-33.036411,-61.157409] }
+		},
+		{
+			"type": "Feature", 
+			"properties": { "NAME": "Htal. Rafaela", "ADM0NAME": "Argentina", "ADM0_A3": "ARG", "ADM1NAME": "Santa Fe", "ISO_A2": "AR", "LATITUDE": -30.932906475, "LONGITUDE": -61.566614422199997}, 
+			"geometry": { "type": "Point", "coordinates": [-31.244473,-61.501331] }
+		},
+		{
+			"type": "Feature", 
+			"properties": { "NAME": "Htal. Iturraspe", "ADM0NAME": "Argentina", "ADM0_A3": "ARG", "ADM1NAME": "Santa Fe", "ISO_A2": "AR", "LATITUDE": -30.932906475, "LONGITUDE": -61.566614422199997}, 
+			"geometry": { "type": "Point", "coordinates": [-34.69519,-58.579874] }
+		},
+		{
+			"type": "Feature", 
+			"properties": { "NAME": "Htal. Iturraspe", "ADM0NAME": "Argentina", "ADM0_A3": "ARG", "ADM1NAME": "Santa Fe", "ISO_A2": "AR", "LATITUDE": -30.932906475, "LONGITUDE": -61.566614422199997}, 
+			"geometry": { "type": "Point", "coordinates": [-30.315636, -61.236173] }
+		}
+	]
 }

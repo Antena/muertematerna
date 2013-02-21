@@ -63,11 +63,6 @@
     }
 
     provinceMap.update = function() {
-        var message = "update: (" +
-            app.selection.province.key + ", " +
-            (app.selection.cause ? app.selection.cause.text : app.selection.cause) + ", " +
-            app.selection.year + ")";
-
         // Color group
         var newcolorGroup = app.selection.cause ? app.selection.cause.colorGroup : "Blues";
         if (newcolorGroup != colorGorup) {
@@ -80,14 +75,11 @@
         var theMap = svg.select(".provinceMap");
         if (theMap.empty()) {
             this.draw(province);
-            console.log(message + " -> draw");        //TODO(gb): Remove trace!!!
         } else if (svg.select("#province-" + province.value).empty()) {
             theMap.remove();
             this.draw(province);
-            console.log(message + " -> draw");        //TODO(gb): Remove trace!!!
         } else {
             this.recolorMap();
-            console.log(message + " -> recolor");        //TODO(gb): Remove trace!!!
         }
     }
 
@@ -110,8 +102,6 @@
     }
 
     provinceMap.recolorLegend = function() {
-        console.log("recolorLegend");        //TODO(gb): Remove trace!!!
-
         legend.selectAll("rect")
             .style("fill", function(d, i) {
                 return colorbrewer[colorGorup][6][i];
@@ -173,11 +163,12 @@
             //TODO(gb): fix this. just for Santa Fe for now.
             if (province.value == 21) {
                 map.selectAll(".place-label")
+
                     .data(topojson.object(theProvince, theProvince.objects.maternidades).geometries)
                     .enter().append("circle")
                     .attr("class", "place")
                     .attr("r", 3)
-                    .attr("transform", function(d) { return "translate(" + projection(d.coordinates) + ")"; })
+                    .attr("transform", function(d) { return "translate(" + projection(d.coordinates.reverse()) + ")"; })
                     .tooltip(function(d,i) {
                         var content = $("<div></div>")
                             .append("<p>" + d.properties.NAME + "</p>");
