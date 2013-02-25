@@ -127,8 +127,7 @@
                 .center(province.departments.center)
                 .translate([width / 2, height / 2]);
             path = d3.geo.path()
-                .projection(projection)
-                .pointRadius(3);
+                .projection(projection);
 
             var zoom = d3.behavior.zoom()
                 .translate(projection.translate())
