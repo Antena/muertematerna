@@ -123,9 +123,7 @@
 
         layers[name].path
             .attr("class", layerOptions.geometriesClass)
-            .attr("id", function(d) {
-                return d.properties[layerOptions.id]
-            })
+            .attr("id", function(d) { return name + d.properties[layerOptions.id]; })
             .attr("d", path)
             .on("click", function(d) {
                 if (layerOptions.onClick) {
@@ -145,14 +143,17 @@
             .attr("cy", function(d) { return d.y });
     };
 
-    d3choropleth.colorize = function(layerName, color, calculateQuartile) {
+    d3choropleth.colorize = function(layerName, color, calculateQuartile, onlyWithId) {
         var self = this;
 
         var layerOptions = self.options.layers[layerName];
         d3choropleth.currentColorGorup = color;
         var legendColors = colorbrewer[color][4];
 
-        layers[layerName].g.selectAll('.' + layerOptions.geometriesClass)
+        var selector = onlyWithId ?
+            "#" + onlyWithId :
+            "." + layerOptions.geometriesClass;
+        layers[layerName].g.selectAll(selector)
             .transition()
             .style("fill", function(d) {
                 return legendColors[calculateQuartile.call(d)];
@@ -163,7 +164,18 @@
             .style('fill', d3.scale.ordinal().range(legendColors));
     };
 
+    d3choropleth.mute = function(layerName, exceptWithId) {
+        var self = this;
 
+        var layerOptions = self.options.layers[layerName];
+
+        layers[layerName].g
+            .selectAll("." + layerOptions.geometriesClass + ":not(#" + exceptWithId + ")")
+            .transition()
+            .style("fill", function(d) {
+                return "#aaaaaa"
+            });
+    };
 
     d3choropleth.zoomOut = function(e) {
         var self = this;

@@ -115,8 +115,10 @@
 
             // Zoom out
             $('#zoomout').click(function(e){
-                d3choropleth.zoomOut(e);
+                $("#zoomout").css("visibility", "hidden");
                 self.setProvince(null);
+                app.setContext("national");
+                e.preventDefault();
             });
 
             // Reset area chart
@@ -147,25 +149,16 @@
                         onClick : function() {
                             var province = provinces.getById(this.properties.ID_1);
                             self.setProvince(province);
-                            d3choropleth.zoomIn(province.zoomLocation.x, province.zoomLocation.y, province.zoomLocation.k, true);
-                        },
-                        onZoomIn : function() {
                             app.setContext("province", this);
                             $("#zoomout").css("visibility", "visible");
-                            d3.selectAll(".provinceTooltip").remove();
-                        },
-                        onZoomOut : function() {
-                            $("#zoomout").css("visibility", "hidden");
-                            self.setProvince(null);
-                            app.setContext("national");
+                            d3choropleth.mute("provinces", "provinces" + this.properties.ID_1);
                         },
                         tooltip: function(d, i) {
-                            var id, container, g;
+                            var id;
                             id = d.properties.ID_1;
 
                             var content = $("<div></div>");
                             content.empty();
-
                             content.append("<h5>" + d.properties.NAME_1 + "</h5>");
 
                             // Province rate
@@ -205,9 +198,13 @@
                         app.selection.cause.colorGroup;
                     app.calculateQuartiles(app.ratesData[app.getRatesIndex()]);
 
+                    var onlyWithId = app.selection.province ?
+                        "provinces" + app.selection.province.value :
+                        null;
+
                     this.colorize("provinces", d3choropleth.currentColorGorup, function() {
                         return app.quartile(this.properties.ID_1);
-                    });
+                    }, onlyWithId);
                 }
             });
         });
