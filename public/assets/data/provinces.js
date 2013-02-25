@@ -15,6 +15,7 @@
             departments: {file: "chubut.json", scale: 11000, center: [-67.9,-44]},
             zoomLocation: {x: 78.12741016923607, y: -48.233265327752726, k: 4}},
         {key: 'Ciud. Aut. de  Buenos Aires', value: 5,
+            departments: {file: "caba.json", scale: 450000, center: [-58.444,-34.618]},
             zoomLocation:{x: -33.9395141320074, y: 84.09937360502019, k: 20}} ,
         {key: 'Córdoba', value: 6,
             departments: {file: "cordoba.json", scale: 16000, center: [-63.8,-32.3]},
