@@ -1,7 +1,7 @@
 (function() {
     provinceMap = {};
 
-    var map;
+    var map, path, projection, zoom;
     var width=280, height=300;
     var colorGorup = "Blues";
     var legend;
@@ -122,22 +122,40 @@
         // Draw the map
         d3.json("/assets/data/" + province.departments.file, function(error, theProvince) {
             var departments = topojson.object(theProvince, theProvince.objects.departments);
-            var projection = d3.geo.mercator()
+            projection = d3.geo.mercator()
                 .scale(province.departments.scale)
                 .center(province.departments.center)
                 .translate([width / 2, height / 2]);
-            var path = d3.geo.path()
+            path = d3.geo.path()
                 .projection(projection)
                 .pointRadius(3);
 
+            var zoom = d3.behavior.zoom()
+                .translate(projection.translate())
+                .scaleExtent([height, Infinity])
+                .scale(projection.scale())
+                .on("zoom", function() {
+                    console.log("zoom");        //TODO(gb): Remove trace!!!
+                    projection.translate(d3.event.translate).scale(d3.event.scale)
+                    map.selectAll(".department.zoomable").attr("d", path);
+                });
+
+
             map = svg.append("g")
                 .attr("id", "province-" + province.value)
-                .classed("provinceMap", true);
+                .classed("provinceMap", true)
+                .call(zoom);
+
+            map.append("rect")
+                .attr("class", "background")
+                .attr("width", width)
+                .attr("height", height);
 
             map.selectAll(".department")
                 .data(departments.geometries)
                 .enter().append("path")
-                .attr("class", "department")
+                .classed("department", true)
+                .classed("zoomable", true)
                 .attr("d", path)
                 .style("fill", function(d) {
                     if (!departmentData) {
@@ -163,11 +181,11 @@
             //TODO(gb): fix this. just for Santa Fe for now.
             if (province.value == 21) {
                 map.selectAll(".place-label")
-
                     .data(topojson.object(theProvince, theProvince.objects.maternidades).geometries)
-                    .enter().append("circle")
-                    .attr("class", "place")
-                    .attr("r", 3)
+                    .enter().append("path")
+                    .classed("place", true)
+                    .classed("zoomable", true)
+                    .attr("d", d3.svg.symbol().type("cross"))
                     .attr("transform", function(d) { return "translate(" + projection(d.coordinates.reverse()) + ")"; })
                     .tooltip(function(d,i) {
                         var content = $("<div></div>")
