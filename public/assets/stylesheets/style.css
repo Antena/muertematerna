@@ -245,6 +245,10 @@
     fill: #444;
 }
 
+.place.danger {
+    fill: #8d0003;
+}
+
 #provinceMapCanvas {
     /*cursor: move;*/
 }

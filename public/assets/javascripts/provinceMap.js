@@ -73,7 +73,7 @@
     provinceMap.showFilteredHealthcareCenters = function() {
         map.selectAll(".place")
             .style("display", function(d) {
-                var show = coneTypes.length == 0 ? true : false;
+                var show = false;
                 coneTypes.map(function(type) {
                     if ((d.properties[type] == false)) {
                         show = true;
@@ -252,6 +252,17 @@
                     .classed("zoomable", true)
                     .attr("d", d3.svg.symbol().type("cross"))
                     .attr("transform", function(d) { return "translate(" + projection(d.coordinates.reverse()) + ")"; })
+                    .classed("danger", function(d) {
+                        var compliesCone = true;
+                        coneTypes.map(function(type) {
+                            if ((d.properties[type] == false)) {
+                                compliesCone = false;
+                            }
+                        });
+                        console.log(compliesCone);        //TODO(gb): Remove trace!!!
+
+                        return !compliesCone;
+                    })
                     .tooltip(function(d,i) {
                         var content = $("<div></div>")
                             .append("<p>\u271A " + d.properties.Establecimiento_nombre + "</p>");
