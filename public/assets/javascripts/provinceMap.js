@@ -186,13 +186,15 @@
                     .attr("transform", function(d) { return "translate(" + projection(d.coordinates.reverse()) + ")"; })
                     .tooltip(function(d,i) {
                         var content = $("<div></div>")
-                            .append("<p>" + d.properties.NAME + "</p>");
-
+                            .append("<p>" + d.properties.Establecimiento_nombre + "</p>");
+                        var gravity = d.coordinates[0] < province.departments.center[0] ? "left" : "right";
+                        var displacement = gravity == "left" ? [-5,0] : [5,0];
                         return {
-                            class: "medicalCenterTooltip",
-                            type: "mouse",
+                            class: "healthcareTooltip",
+                            type: "fixed",
+                            gravity: gravity,
                             content: content.html(),
-                            displacement:[0,10]
+                            displacement: displacement
                         }
                     })
 
