@@ -259,7 +259,6 @@
                                 compliesCone = false;
                             }
                         });
-                        console.log(compliesCone);        //TODO(gb): Remove trace!!!
 
                         return !compliesCone;
                     })
