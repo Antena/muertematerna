@@ -151,6 +151,68 @@
                         </li>
                     </ul>
                     <div id="province-map"></div>
+                    <div id="province-map-filter">
+                        <p class="legend-title">Filtrar maternidades según su cumplimiento de las CONE</p>
+                        <label class="radio">
+                            <input type="radio" name="coneFilter" value="showAll" checked>
+                            Todos
+                        </label>
+                        <label class="radio">
+                            <input type="radio" name="coneFilter" value="showFullCompliant">
+                            Los que cumplen todas las CONE
+                        </label>
+                        <label class="radio">
+                            <input type="radio" name="coneFilter" value="showFiltered">
+                            Los que no cumplen con alguna de las CONE:
+                        </label>
+                        <div class="col" style="margin-right: 10px;">
+                            <ul class="cone-list unstyled">
+                                <li>
+                                    <label class="checkbox">
+                                        <input type="checkbox" id="CONE_Q" checked disabled> CONE Q
+                                    </label>
+                                </li>
+                                <li>
+                                    <label class="checkbox">
+                                        <input type="checkbox" id="CONE_A" checked disabled> CONE A
+                                    </label>
+                                </li>
+                                <li>
+                                    <label class="checkbox">
+                                        <input type="checkbox" id="CONE_S" checked disabled> CONE S
+                                    </label>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col">
+                            <ul class="cone-list unstyled" style="margin-right: 10px;">
+                                <li>
+                                    <label class="checkbox">
+                                        <input type="checkbox" id="CONE_PM" checked disabled> CONE PM
+                                    </label>
+                                </li>
+                                <li>
+                                    <label class="checkbox">
+                                        <input type="checkbox" id="CONE_PN" checked disabled> CONE PN
+                                    </label>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col">
+                            <ul class="cone-list unstyled">
+                                <li>
+                                    <label class="checkbox">
+                                        <input type="checkbox" id="CONE_RMN" checked disabled> CONE RMN
+                                    </label>
+                                </li>
+                                <li>
+                                    <label class="checkbox">
+                                        <input type="checkbox" id="CONE_T" checked disabled> CONE T
+                                    </label>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
             </div>
 

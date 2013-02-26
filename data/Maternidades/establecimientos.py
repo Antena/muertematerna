@@ -67,14 +67,15 @@ def main(csv_file):
     features = []
     for row in list(csv.reader(open(csv_file, 'rU')))[1:]:
         est = get_establecimiento(row[7])
-        est['Partos'] = int(row[17])
-        est['CONE_Q'] = bool(row[18])
-        est['CONE_A'] = bool(row[19])
-        est['CONE_S'] = bool(row[20])
-        est['CONE_PM'] = bool(row[21])
-        est['CONE_PN'] = bool(row[22])
-        est['CONE_RMN'] = bool(row[23])
-        est['CONE_T'] = bool(row[24])
+        est['Partos'] = row[17]
+        est['CONE_Q'] = row[18]
+        est['CONE_A'] = row[19]
+        est['CONE_S'] = row[20]
+        est['CONE_PM'] = row[21]
+        est['CONE_PN'] = row[22]
+        est['CONE_RMN'] = row[23]
+        est['CONE_T'] = row[24]
+
         geometry = { 'type' : 'Point', 'coordinates' : [float(est['Establecimiento_coordenadasDeMapa_latitud']),float(est['Establecimiento_coordenadasDeMapa_longitud'])] }
         feature = { 'type' : 'Feature', 'properties' : est, 'geometry' : geometry }
         features.append(feature)

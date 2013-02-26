@@ -5,14 +5,82 @@
     var width=280, height=300;
     var colorGorup = "Blues";
     var legend;
+    var coneTypes = [], allConeTypes = [];
 
     provinceMap.init = function() {
         this.drawLegend();
+        this.initFilter();
 
         d3.select("#province-map").append("svg")
             .attr("id", "provinceMapCanvas")
             .attr("width", width)
             .attr("height", height)
+    }
+
+    provinceMap.initFilter = function() {
+        var self = this;
+        var theChecks = $("#province-map-filter input[type=checkbox]");
+
+        // The radios
+        $("#province-map-filter input[type=radio]").change(function() {
+            var val = $(this).val();
+            if (val == "showFiltered") {
+                theChecks.removeAttr("disabled");
+                self.showFilteredHealthcareCenters();
+            }
+            if (val == "showAll") {
+                theChecks.attr("disabled", true);
+                self.showAllHealthcareCenters();
+            }
+            if (val == "showFullCompliant") {
+                theChecks.attr("disabled", true);
+                self.showFullCompliantHealthcareCenters();
+            }
+        });
+
+        // The checks
+        theChecks
+            .each(function() {
+                coneTypes.push($(this).attr("id"));
+                allConeTypes.push($(this).attr("id"));
+            })
+            .change(function() {
+                if (!$(this).is(":checked")) {
+                    var indexOf = coneTypes.indexOf($(this).attr("id"));
+                    coneTypes.splice(indexOf,    1);
+                } else {
+                    coneTypes.push($(this).attr("id"))
+                }
+                self.showFilteredHealthcareCenters();
+            });
+    }
+
+    provinceMap.showAllHealthcareCenters = function() {
+        map.selectAll(".place").style("display", "inline");
+    }
+
+    provinceMap.showFullCompliantHealthcareCenters = function() {
+        map.selectAll(".place")
+            .style("display", function(d) {
+                var show = true;
+                allConeTypes.map(function(type) {
+                    show = show && (d.properties[type] == true)
+                });
+                return show ? "inline" : "none";
+            });
+    }
+
+    provinceMap.showFilteredHealthcareCenters = function() {
+        map.selectAll(".place")
+            .style("display", function(d) {
+                var show = coneTypes.length == 0 ? true : false;
+                coneTypes.map(function(type) {
+                    if ((d.properties[type] == false)) {
+                        show = true;
+                    }
+                });
+                return show ? "inline" : "none";
+            });
     }
 
     provinceMap.drawLegend = function() {

@@ -289,6 +289,25 @@
     margin-bottom: 0px;
 }
 
+#province-map-filter {
+    height: 155px;
+    padding: 0px 5px;
+}
+
+#province-map-filter h6 {
+    margin-bottom: 0px;
+}
+
+#province-map-filter .col {
+    width: 85px;
+    float: left;
+}
+
+#province-map-filter label {
+    font-size: 11px;
+    margin-bottom: 0px;
+}
+
 
 /***********************************************************************************************************************
  * PIECHART
