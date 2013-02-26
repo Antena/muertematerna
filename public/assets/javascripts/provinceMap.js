@@ -166,13 +166,13 @@
                 })
                 .tooltip(function(d,i) {
                     var content = $("<div></div>")
-                        .append("<p>" + d.properties.NAME_2 + " (" + d.properties.ID_2 + ")</p>")
+                        .append("<p>" + d.properties.NAME_2 + "</p>")
 
                     return {
                         class: "departmentTooltip",
                         type: "mouse",
                         content: content.html(),
-                        displacement: [0, 10]
+                        displacement: [0, 15]
                     };
                 });
 
@@ -186,7 +186,7 @@
                     .attr("transform", function(d) { return "translate(" + projection(d.coordinates.reverse()) + ")"; })
                     .tooltip(function(d,i) {
                         var content = $("<div></div>")
-                            .append("<p>" + d.properties.Establecimiento_nombre + "</p>");
+                            .append("<p>\u271A " + d.properties.Establecimiento_nombre + "</p>");
                         var gravity = d.coordinates[0] < province.departments.center[0] ? "left" : "right";
                         var displacement = gravity == "left" ? [-5,0] : [5,0];
                         return {
