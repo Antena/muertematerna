@@ -134,7 +134,6 @@
                 .scaleExtent([height, Infinity])
                 .scale(projection.scale())
                 .on("zoom", function() {
-                    console.log("zoom");        //TODO(gb): Remove trace!!!
                     projection.translate(d3.event.translate).scale(d3.event.scale)
                     map.selectAll(".department.zoomable").attr("d", path);
                 });
@@ -143,7 +142,7 @@
             map = svg.append("g")
                 .attr("id", "province-" + province.value)
                 .classed("provinceMap", true)
-                .call(zoom);
+//                .call(zoom);
 
             map.append("rect")
                 .attr("class", "background")
@@ -177,8 +176,7 @@
                     };
                 });
 
-            //TODO(gb): fix this. just for Santa Fe for now.
-            if (province.value == 21) {
+            if (theProvince.objects.maternidades) {
                 map.selectAll(".place-label")
                     .data(topojson.object(theProvince, theProvince.objects.maternidades).geometries)
                     .enter().append("path")
