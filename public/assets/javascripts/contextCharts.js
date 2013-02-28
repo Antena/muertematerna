@@ -1,11 +1,11 @@
 (function() {
     contextCharts = {}
 
-    contextCharts.odm = function() {
-        var margin = {top: 20, right: 20, bottom: 50, left: 30},
-            width = 700 - margin.left - margin.right,
-            height = 350 - margin.top - margin.bottom;
+    var margin = {top: 20, right: 20, bottom: 50, left: 30},
+        width = 700 - margin.left - margin.right,
+        height = 350 - margin.top - margin.bottom;
 
+    contextCharts.odm = function() {
         var parseDate = d3.time.format("%Y").parse;
 
         var x = d3.time.scale()
@@ -162,6 +162,86 @@
                 .style("text-anchor", "end")
                 .text("Cumplimiento ODM");
 
+        });
+    }
+
+    contextCharts.rank = function() {
+        var y = d3.scale.ordinal()
+            .rangeRoundBands([0, height], .1);
+
+        var x = d3.scale.linear()
+            .range([0, width]);
+
+        var xAxis = d3.svg.axis()
+            .scale(x)
+            .orient("bottom");
+
+        var yAxis = d3.svg.axis()
+            .scale(y)
+            .ticks(0)
+            .orient("left");
+
+        var marginLeft = 100;
+        var svg = d3.select("#rank-barchart").append("svg")
+            .attr("width", width + marginLeft + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+            .append("g")
+            .attr("transform", "translate(" + marginLeft + "," + margin.top + ")");
+
+        d3.csv("/assets/data/rank.csv", function(data) {
+
+            data.sort(function(a, b) {
+                return b.rmm - a.rmm;
+            })
+
+            x.domain([0, 14]);
+            y.domain(data.map(function(d) { return d.region; }));
+
+            svg.append("g")
+                .attr("class", "x axis")
+                .attr("transform", "translate(0," + height + ")")
+                .call(xAxis)
+                .append("text")
+                .attr("y",-10)
+                .attr("x", width)
+                .attr("dy", ".71em")
+                .style("text-anchor", "end")
+                .text("RMM");
+
+            svg.append("g")
+                .attr("class", "x axis")
+                .attr("transform", "translate(0," + height + ")")
+                .append("text")
+                .attr("y", 25)
+                .attr("x", width/2 + 50)
+                .attr("dy", ".71em")
+                .style("text-anchor", "end")
+                .text("Fuente: DEIS 2012");
+
+            svg.append("g")
+                .attr("class", "y axis")
+                .call(yAxis);
+
+            svg.selectAll(".bar")
+                .data(data)
+                .enter().append("rect")
+                .classed("bar", true)
+                .classed("nation", function(d) { return d.region == "País" })
+                .attr("x", 0)
+                .attr("width", function(d) { return x(d.rmm) })
+                .attr("y", function(d) { return y(d.region); })
+                .attr("height", y.rangeBand());
+
+            svg.selectAll(".pointLabels")
+                .data(data)
+                .enter().append("text")
+                .classed("pointLabels", true)
+                .classed("nation", function(d) { return d.region == "País" })
+                .attr("x", function(d) { return x(d.rmm) + 6;  })
+                .attr("y", function(d) { return y(d.region) + 1;  })
+                .attr("dy", ".71em")
+                .style("text-anchor", "start")
+                .text(function(d) { return parseFloat(d.rmm).toFixed(1) });
         });
     }
 })()

@@ -487,3 +487,34 @@ abbr {
 #odm-linechart text.odm {
     fill: rgba(141, 0, 3, 0.92);
 }
+
+#rank-barchart {
+    font: 10px sans-serif;
+}
+
+#rank-barchart .axis path,
+#rank-barchart .axis line {
+    fill: none;
+    stroke: #000;
+    shape-rendering: crispEdges;
+}
+
+#rank-barchart .bar {
+    fill: steelblue;
+}
+
+#rank-barchart .bar.nation {
+    fill: #000;
+}
+
+#rank-barchart .y.axis line.tick {
+    stroke: none;
+}
+
+#rank-barchart text.pointLabels {
+    fill: steelblue;
+}
+
+#rank-barchart text.pointLabels.nation {
+    fill: #000;
+}

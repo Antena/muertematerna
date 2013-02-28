@@ -55,8 +55,12 @@
             </div>
         </div>
         <div id="chartForMessage2" style="display: none">
-            <div class="span12">
-                <h4>Gráfico de columnas de la tasa por provincia</h4>
+            <div class="span9">
+                <div id="rank-barchart"></div>
+            </div>
+            <div class="span3" style="text-align: right">
+                <h4>Ranking</h4>
+                <p>Poner acá algún texto que explique algo sobre el gráfico o algo sobre la variación interprovincial</p>
             </div>
         </div>
         <div id="chartForMessage3" style="display: none">
@@ -384,6 +388,7 @@
 
     // Context charts
     contextCharts.odm();
+    contextCharts.rank();
 
     app.init();
 </script>
