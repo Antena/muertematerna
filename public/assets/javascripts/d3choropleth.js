@@ -80,21 +80,30 @@
         legend = self.svg
             .append("g")
             .attr("id", "legend")
-            .attr("transform", "translate(0," + (self.options.height - 4 * 20) + ")")
-            .selectAll(".legend-box")
+            .attr("transform", "translate(0," + (self.options.height - 5 * 20) + ")");
+
+        legend.append("text")
+            .attr("x", self.options.width)
+            .attr("y", 9)
+            .attr("dy", ".35em")
+            .style("text-anchor", "end")
+            .style("font-weight", "bold")
+            .text("Cuartiles RMM");
+
+        var legendBox = legend.selectAll(".legend-box")
             .data(colorbrewer.Blues[4])
             .enter().append("g")
             .attr("class", "legend-box")
             .attr("id", function(d,i) { return "q" + i })
-            .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
+            .attr("transform", function(d, i) { return "translate(0," + (i+1) * 20 + ")"; });
 
-        legend.append("rect")
+        legendBox.append("rect")
             .attr("x", self.options.width - 18)
             .attr("width", 18)
             .attr("height", 18)
             .style("fill", legendColors);
 
-        legend.append("text")
+        legendBox.append("text")
             .attr("x", self.options.width - 24)
             .attr("y", 9)
             .attr("dy", ".35em")

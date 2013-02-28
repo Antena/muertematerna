@@ -64,7 +64,7 @@
 
 <div class="row" id="main-canvas">
     <div class="span4">
-        <h5>Evolución de la razón de muerte materna <abbr data-glossary-key="rmm" data-placement="bottom">RMM</abbr> por causa <span id="evolucion_title"></span></h5>
+        <h5>Evolución de la razón de muerte materna <abbr data-glossary-key="rmm" data-placement="bottom">RMM</abbr> por causa de muerte</h5>
         <div class="row">
             <div class="span2" id="direct-causes-legend">
                 <p class="legend-title">Causas de muerte directas</p>
@@ -73,11 +73,12 @@
                 <p class="legend-title">Causas de muerte indirectas</p>
             </div>
         </div>
-        <a href="#" id="resetarea" style="font-size: 11px; margin-right: 30px" class="pull-right">Reset</a>
+        <a href="#" id="resetarea" style="font-size: 11px; margin-right: 12px;" class="pull-right">Limpiar selección</a>
         <div id="causesByYear"></div>
     </div>
     <div class="span4">
-        <a href="#" id="zoomout" style="font-size: 11px" class="pull-right">Reset</a>
+        <h5 style="min-height: 40px"><abbr data-glossary-key="rmm" data-placement="bottom">RMM</abbr> por provincia <span id="map-title-suffix"></span></h5>
+        <a href="#" id="zoomout" style="font-size: 11px" class="pull-right">Volver al mapa del país</a>
         <div id="map"></div>
         <div class="map-control pull-left">
             <input type="checkbox" id="toggleMedicalCenters"/> Mostrar maternidades
@@ -86,7 +87,7 @@
     <div class="span4">
         <div class="well well-small">
             <div id="nationalContext">
-                <h5>Datos Nacionales</h5>
+                <h4 style="text-align: center">Datos Nacionales</h4>
                 <ul class="context-data unstyled">
                     <li>
                         <div class="number">302</div>
@@ -120,15 +121,15 @@
                     <p class="legend-title">Filtrar maternidades según su cumplimiento de las CONE</p>
                     <label class="radio">
                         <input type="radio" name="coneFilter" value="showAll" checked>
-                        Todos
+                        Todas
                     </label>
                     <label class="radio">
                         <input type="radio" name="coneFilter" value="showFullCompliant">
-                        Los que cumplen todas las CONE
+                        Las que cumplen todas las CONE
                     </label>
                     <label class="radio">
                         <input type="radio" name="coneFilter" value="showFiltered">
-                        Los que no cumplen con alguna de las CONE:
+                        Las que no cumplen con alguna de las CONE:
                     </label>
                     <div class="col" style="margin-right: 10px;">
                         <ul class="cone-list unstyled">
