@@ -480,6 +480,10 @@ abbr {
     fill: steelblue;
 }
 
+#odm-linechart text.pointLabels {
+    fill: steelblue;
+}
+
 #odm-linechart .pointODM {
     fill: rgba(141, 0, 3, 0.92);
 }

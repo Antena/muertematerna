@@ -73,6 +73,44 @@
                 .style("text-anchor", "end")
                 .text("RMM");
 
+            // Path ODM
+            var pathODM = [
+                { year: parseDate("2011"), rmm: 4.0 },
+                { year: parseDate("2015"), rmm: 1.3 }
+            ];
+
+            svg.append("path")
+                .datum(pathODM)
+                .classed("pathODM", true)
+                .attr("d", line)
+                .style("stroke-dasharray", ("3, 3"));
+
+            svg.append("circle")
+                .datum(pathODM[1])
+                .classed("pointODM", true)
+                .attr("cx", function(d) { return x(d.year); })
+                .attr("cy", function(d) { return y(d.rmm); })
+                .attr("r", 3.5);
+
+            svg.append("text")
+                .datum(pathODM[1])
+                .classed("pointLabels", true)
+                .classed("odm", true)
+                .attr("x", function(d) { return x(d.year) + 6;  })
+                .attr("y", function(d) { return y(d.rmm) + 6;  })
+                .attr("dy", ".71em")
+                .style("text-anchor", "end")
+                .text(function(d) { return parseFloat(d.rmm).toFixed(1) });
+
+            svg.append("text")
+                .datum(pathODM[1])
+                .classed("odm", true)
+                .attr("x", function(d) { return x(d.year) + 6;  })
+                .attr("y", function(d) { return y(d.rmm) + 16;  })
+                .attr("dy", ".71em")
+                .style("text-anchor", "end")
+                .text("Cumplimiento ODM");
+
             svg.append("path")
                 .datum(data)
                 .attr("class", "line")
@@ -123,45 +161,6 @@
                 .attr("dy", ".71em")
                 .style("text-anchor", "end")
                 .text(function(d) { return parseFloat(d.rmm).toFixed(1) });
-
-            // Path ODM
-            var pathODM = [
-                { year: parseDate("2011"), rmm: 4.0 },
-                { year: parseDate("2015"), rmm: 1.3 }
-            ];
-
-            svg.append("path")
-                .datum(pathODM)
-                .classed("pathODM", true)
-                .attr("d", line)
-                .style("stroke-dasharray", ("3, 3"));
-
-            svg.append("circle")
-                .datum(pathODM[1])
-                .classed("pointODM", true)
-                .attr("cx", function(d) { return x(d.year); })
-                .attr("cy", function(d) { return y(d.rmm); })
-                .attr("r", 3.5);
-
-            svg.append("text")
-                .datum(pathODM[1])
-                .classed("pointLabels", true)
-                .classed("odm", true)
-                .attr("x", function(d) { return x(d.year) + 6;  })
-                .attr("y", function(d) { return y(d.rmm) + 6;  })
-                .attr("dy", ".71em")
-                .style("text-anchor", "end")
-                .text(function(d) { return parseFloat(d.rmm).toFixed(1) });
-
-            svg.append("text")
-                .datum(pathODM[1])
-                .classed("odm", true)
-                .attr("x", function(d) { return x(d.year) + 6;  })
-                .attr("y", function(d) { return y(d.rmm) + 16;  })
-                .attr("dy", ".71em")
-                .style("text-anchor", "end")
-                .text("Cumplimiento ODM");
-
         });
     }
 
