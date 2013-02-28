@@ -2,9 +2,9 @@
     contextCharts = {}
 
     contextCharts.odm = function() {
-        var margin = {top: 20, right: 20, bottom: 30, left: 30},
+        var margin = {top: 20, right: 20, bottom: 50, left: 30},
             width = 700 - margin.left - margin.right,
-            height = 400 - margin.top - margin.bottom;
+            height = 350 - margin.top - margin.bottom;
 
         var parseDate = d3.time.format("%Y").parse;
 
@@ -51,7 +51,17 @@
                 .attr("x", width)
                 .attr("dy", ".71em")
                 .style("text-anchor", "end")
-                .text("Año");
+                .text("Año")
+
+            svg.append("g")
+                .attr("class", "x axis")
+                .attr("transform", "translate(0," + height + ")")
+                .append("text")
+                .attr("y", 25)
+                .attr("x", width-150)
+                .attr("dy", ".71em")
+                .style("text-anchor", "end")
+                .text("Fuente: OSSyR en base a datos de la DEIS. Ministerio de Salud de la Nación, 2012");
 
             svg.append("g")
                 .attr("class", "y axis")
