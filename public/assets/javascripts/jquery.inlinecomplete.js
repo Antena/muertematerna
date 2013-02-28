@@ -106,8 +106,6 @@
                     if(!options.matchCase) {
                         currentTerm = $._inlineComplete.sub.fn.ignoreAccents(currentTerm.toLowerCase());
                     }
-                    console.log("searchTerm= " + searchTerm);     //TODO(gb): Remove trace!!!
-                    console.log("currentTerm= " + currentTerm);     //TODO(gb): Remove trace!!!
 
                     if(currentTerm.indexOf(searchTerm) === 0) {
                         // True if the current letter equals the next letter

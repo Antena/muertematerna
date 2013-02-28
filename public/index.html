@@ -232,13 +232,11 @@
             <div class="span3" id="province-selector">
                 <form action="#">
                     <input type="text"/>
-                    <button class="btn btn-mini" type="submit">Ir</button>
+                    <a href="#" class="reset-selector" title="Limpiar la selección de la provincia">×</a>
                 </form>
 
             </div>
-            <div class="span3" id="cause-selector">
-
-            </div>
+            <div class="span3" id="cause-selector"></div>
             <div class="span4" id="year-selector">
                 <div id="slider"></div>
                 <div id="slider-labels">
@@ -369,9 +367,21 @@
         var inputText = $("#province-selector input").val();
         var province = provinces.getByName(inputText);
         app.setProvince(province);
-    })
+    });
+    $("#province-selector .reset-selector").click(function(event) {
+        event.preventDefault();
+        app.setProvince(null);
+    });
 
     var causesSelector = $("#cause-selector");
+    var resetCauses = $("<a href='#'>&times;</a>")
+            .addClass("reset-selector")
+            .attr("title", "Limpiar la selección de la causa")
+            .click(function(event) {
+                event.preventDefault();
+                causeOfDeathAreaChart.reset(event);
+            });
+    causesSelector.append(resetCauses);
     app.causesArray.forEach(function(cause) {
         var box = $("<div></div>")
                 .attr("class", "cause-box")
