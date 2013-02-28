@@ -39,7 +39,8 @@
 
     app.setCause = function(cause){
         app.selection.cause = cause;
-        $("#selection_cause").text(cause ? cause.text : "Todas" );
+        var causeText = cause ? app._trunc(cause.text, 25, true) : "Todas";
+        $("#selection_cause").text(causeText).attr("title", cause.text);
         $("#map-title-suffix").text(cause ? "para muertes por " + cause.text : "");
         $("#cause-selector").find(".current").removeClass("current");
         if (cause) {
@@ -389,6 +390,13 @@
             })
 
             return min;
+        }
+
+        app._trunc = function(str, n,useWordBoundary) {
+            var toLong = str.length>n,
+                s_ = toLong ? str.substr(0,n-1) : str;
+            s_ = useWordBoundary && toLong ? s_.substr(0,s_.lastIndexOf(' ')) : s_;
+            return  toLong ? s_ + '...' : s_;
         }
 
         app.drawChartTitles = function() {
