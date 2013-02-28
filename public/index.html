@@ -47,7 +47,7 @@
 
     <div id="chartForMessage1" style="display: none">
         <div class="span12">
-            <h4>Gráfico de la ODM mostrando los últimos 20 años</h4>
+            <div id="odm-linechart"></div>
         </div>
     </div>
     <div id="chartForMessage2" style="display: none">
@@ -270,28 +270,6 @@
 <script src="assets/data/glossary.js"></script>
 <script>
 
-    // Location typeahead
-    $('#locationTypeahead').typeahead({
-        source: function(){
-            return provinces.getNames();
-        }
-        ,
-        matcher: function(item){
-            if (item.toLowerCase().indexOf(this.query.trim().toLowerCase()) != -1) {
-                return true;
-            }
-        },
-        updater: function(item){
-            var province = provinces.getByName(item);
-            app.setProvince(province);
-            var location = province.zoomLocation;
-            if(location!=null){
-                d3choropleth.zoomIn(location.x,location.y,location.k);
-            }
-            return item;
-        }
-    });
-
     // Medical centers checkbox toggle
     $("#toggleMedicalCenters").change(function() {
         var checked = $(this).attr("checked") || false;
@@ -398,6 +376,7 @@
     });
 
     $("#selection_year").text(app.selection.year);
+
 
 
     app.init();

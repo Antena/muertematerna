@@ -113,11 +113,6 @@
 
         d3.csv("/assets/data/razon_muertes.csv", function(data) {
 
-            // Location typeahead
-            $('#locationTypeahead').typeahead({
-                source : ["Buenos Aires"]
-            });
-
             // Year slider
             $('#slider').slider({
                 value : 2010,
