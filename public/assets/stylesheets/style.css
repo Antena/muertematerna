@@ -449,3 +449,41 @@ abbr {
     text-decoration: none;
     opacity: 1;
 }
+
+/***********************************************************************************************************************
+ * CONTEXT CHARTS
+ **********************************************************************************************************************/
+#odm-linechart {
+    font: 10px sans-serif;
+}
+
+#odm-linechart .axis path,
+#odm-linechart .axis line {
+    fill: none;
+    stroke: #000;
+    shape-rendering: crispEdges;
+}
+
+#odm-linechart .line,
+#odm-linechart .projection2015,
+#odm-linechart .pathODM {
+    fill: none;
+    stroke: steelblue;
+    stroke-width: 1.5px;
+}
+
+#odm-linechart .pathODM {
+    stroke: rgba(141, 0, 3, 0.92);
+}
+
+#odm-linechart .point {
+    fill: steelblue;
+}
+
+#odm-linechart .pointODM {
+    fill: rgba(141, 0, 3, 0.92);
+}
+
+#odm-linechart text.odm {
+    fill: rgba(141, 0, 3, 0.92);
+}
