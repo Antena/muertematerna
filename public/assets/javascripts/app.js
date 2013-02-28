@@ -39,6 +39,11 @@
 
     app.setCause = function(cause){
         app.selection.cause = cause;
+        $("#selection_cause").text(cause ? cause.text : "-" );
+        $("#cause-selector").find(".current").removeClass("current");
+        if (cause) {
+            $("#cause-selector").find("[data-key=" + cause.key + "]").addClass("current");
+        }
         this.updateSelection();
     }
 

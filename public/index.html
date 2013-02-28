@@ -239,10 +239,10 @@
                 <p class="title">Estás viendo:</p>
             </div>
             <div class="span3 control">
-                <p class="title">Provincia: <span id="selection_province">-</span> </p>
+                <p class="title">Provincia: <span id="selection_province">-</span></p>
             </div>
             <div class="span3 control">
-                <p class="title">Causa:</p>
+                <p class="title">Causa: <span id="selection_cause">-</span></p>
             </div>
             <div class="span4 control">
                 <p class="title">Año:</p>
@@ -393,10 +393,16 @@
     app.causesArray.forEach(function(cause) {
         var box = $("<div></div>")
                 .attr("class", "cause-box")
+                .attr("data-key", cause.key)
                 .css("background", cause.color)
                 .tooltip({
                     title: cause.text
                 })
+                .click(function() {
+                    var key = $(this).attr("data-key");
+                    var cause = app.causesArray.filter(function(elem) { return elem.key == key})[0];
+                    app.setCause(cause);
+                });
 
         causesSelector.append(box);
     })
