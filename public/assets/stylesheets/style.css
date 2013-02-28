@@ -129,7 +129,7 @@
     padding-right: 0px;
 }
 #locationTypeahead {
-
+    width: 100%;
 }
 
 #zoomout {
@@ -348,6 +348,7 @@
     text-align: center;
     padding: 30px 0;
     margin-top: 70px;
+    margin-bottom: 70px;
     border-top: 1px solid #e5e5e5;
     background-color: #f5f5f5;
 }
@@ -388,4 +389,49 @@ abbr {
 .provinceTooltip p {
     margin-top: 0px;
     margin-bottom: 0px;
+}
+
+/***********************************************************************************************************************
+ * AFFIX
+ **********************************************************************************************************************/
+.affix {
+    height: 70px;
+    bottom: 0px;
+    width: 100%;
+    background: #333333;
+    border-top: solid 2px #e5e5e5;
+}
+
+.affix .container {
+    padding: 10px 0px;
+}
+
+.affix .title {
+    font-size: 11px;
+    color: #999;
+    text-transform: uppercase;
+    font-weight: bold;
+    line-height: 13px;
+}
+
+.affix .control .title {
+    color: #ededed;
+}
+
+#province-selector input {
+    height: 10px;
+    margin-bottom: 0px;
+}
+
+#cause-selector .cause-box {
+    width: 16px;
+    height: 16px;
+    float: left;
+    margin-right: 5px;
+    border: solid 1px #333;
+    cursor: pointer;
+}
+
+#cause-selector .cause-box.current {
+    border: solid 1px #ededed;
 }
