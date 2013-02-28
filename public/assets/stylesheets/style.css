@@ -183,6 +183,26 @@
 /***********************************************************************************************************************
  * RIGHT PANE
  **********************************************************************************************************************/
+.sidebar {
+    background: #f4f4f4;
+    cursor: default;
+    border-radius: 2px;
+    margin-top: 2.5%;
+    display: inline-block;
+    margin-right: 1.6em;
+    border: 1px solid #CCC;
+    border-right: 6px solid #CCC;
+    padding: 2px 6px;
+    -webkit-box-shadow: 0 0 10px 0 rgba(0,0,0,0.2);
+    -moz-box-shadow: 0 0 10px 0 rgba(0,0,0,0.2);
+    box-shadow: 0 0 10px 0 rgba(0,0,0,0.1);
+    -webkit-transition: all .28s ease-out;
+}
+
+#provinceContext, #nationalContext {
+    width: 285px;
+}
+
 .context-data li {
     min-height: 30px;
     margin-bottom: 5px;
