@@ -421,6 +421,9 @@ abbr {
 #province-selector input {
     height: 10px;
     margin-bottom: 0px;
+    float: left;
+    width: 180px;
+    margin-right: 5px;
 }
 
 #cause-selector .cause-box {

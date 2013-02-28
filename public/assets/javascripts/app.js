@@ -49,6 +49,15 @@
 
     app.setProvince = function(province){
         app.selection.province = province;
+        $("#selection_province").text(province ? province.key : "-");
+        if (province) {
+            d3choropleth.mute("provinces", "provinces" + province.value);
+            $("#zoomout").css("visibility", "visible");
+            app.setContext("province");
+        } else {
+
+        }
+
         this.updateSelection();
     }
 
@@ -149,9 +158,7 @@
                         onClick : function() {
                             var province = provinces.getById(this.properties.ID_1);
                             self.setProvince(province);
-                            app.setContext("province", this);
-                            $("#zoomout").css("visibility", "visible");
-                            d3choropleth.mute("provinces", "provinces" + this.properties.ID_1);
+                            $("#province-selector input").val("");
                         },
                         tooltip: function(d, i) {
                             var id;

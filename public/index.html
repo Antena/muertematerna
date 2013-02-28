@@ -239,7 +239,7 @@
                 <p class="title">Estás viendo:</p>
             </div>
             <div class="span3 control">
-                <p class="title">Provincia:</p>
+                <p class="title">Provincia: <span id="selection_province">-</span> </p>
             </div>
             <div class="span3 control">
                 <p class="title">Causa:</p>
@@ -251,7 +251,11 @@
         <div class="row">
             <div class="span2"></div>
             <div class="span3" id="province-selector">
-                <input type="text"/>
+                <form action="#">
+                    <input type="text"/>
+                    <button class="btn btn-mini" type="submit">Ir</button>
+                </form>
+
             </div>
             <div class="span3" id="cause-selector">
 
@@ -377,8 +381,12 @@
 
 
     // Affix
-    $("#province-selector input").inlineComplete({
-        terms: provinces.getNames()
+    $("#province-selector input").inlineComplete({ terms: provinces.getNames() });
+    $("#province-selector form").submit(function(event) {
+        event.preventDefault();
+        var inputText = $("#province-selector input").val();
+        var province = provinces.getByName(inputText);
+        app.setProvince(province);
     })
 
     var causesSelector = $("#cause-selector");
