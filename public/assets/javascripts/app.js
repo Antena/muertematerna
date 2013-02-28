@@ -39,7 +39,7 @@
 
     app.setCause = function(cause){
         app.selection.cause = cause;
-        $("#selection_cause").text(cause ? cause.text : "-" );
+        $("#selection_cause").text(cause ? cause.text : "Todas" );
         $("#map-title-suffix").text(cause ? "para muertes por " + cause.text : "");
         $("#cause-selector").find(".current").removeClass("current");
         if (cause) {
@@ -55,7 +55,7 @@
 
     app.setProvince = function(province){
         app.selection.province = province;
-        $("#selection_province").text(province ? province.key : "-");
+        $("#selection_province").text(province ? province.key : "Todas");
         if (province) {
             d3choropleth.mute("provinces", "provinces" + province.value);
             $("#zoomout").css("visibility", "visible");
