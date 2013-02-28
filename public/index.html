@@ -79,9 +79,6 @@
     <div class="span4">
         <h5><abbr data-glossary-key="rmm" data-placement="bottom">RMM</abbr> <span id="razon_title">país</span></h5>
 
-        <input type="text" class="typeahead span4" id="locationTypeahead"
-               placeholder="Buscar provincia o departamento">
-
         <div class="map-control pull-left">
             <input type="checkbox" id="toggleMedicalCenters"/> Mostrar maternidades
         </div>
@@ -120,25 +117,7 @@
                 <div id="deathRate"></div>
             </div>
             <div id="provinceContext" style="display: none">
-                <h5 class="id-provinceName">Buenos Aires</h5>
-                <ul class="context-data unstyled">
-                    <li>
-                        <div class="number">4.4</div>
-                        razón de muerte materna
-                    </li>
-                    <li>
-                        <div class="number">2.05</div>
-                        tasa global de fecundidad
-                    </li>
-                    <li>
-                        <div class="number">24.22</div>
-                        proporción de egresos por abortos
-                    </li>
-                    <li>
-                        <div class="number">86.43</div>
-                        Proporción de nacidos vivos atendidos por personal capacitado
-                    </li>
-                </ul>
+                <h4 class="id-provinceName" style="text-align: center">Buenos Aires</h4>
                 <div id="province-map"></div>
                 <div id="province-map-filter">
                     <p class="legend-title">Filtrar maternidades según su cumplimiento de las CONE</p>
@@ -381,7 +360,10 @@
 
 
     // Affix
-    $("#province-selector input").inlineComplete({ terms: provinces.getNames() });
+    $("#province-selector input").inlineComplete({
+        terms: provinces.getNames(),
+        submitOnReturn: true
+    });
     $("#province-selector form").submit(function(event) {
         event.preventDefault();
         var inputText = $("#province-selector input").val();

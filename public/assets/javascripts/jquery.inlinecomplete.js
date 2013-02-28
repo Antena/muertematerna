@@ -95,7 +95,7 @@
                 returnValue = true;
 
             if(!options.matchCase) {
-                searchTerm = searchTerm.toLowerCase();
+                searchTerm = $._inlineComplete.sub.fn.ignoreAccents(searchTerm.toLowerCase());
             }
 
             if(searchTerm != '') {
@@ -104,8 +104,10 @@
                     currentTerm = termList[i];
 
                     if(!options.matchCase) {
-                        currentTerm = currentTerm.toLowerCase();
+                        currentTerm = $._inlineComplete.sub.fn.ignoreAccents(currentTerm.toLowerCase());
                     }
+                    console.log("searchTerm= " + searchTerm);     //TODO(gb): Remove trace!!!
+                    console.log("currentTerm= " + currentTerm);     //TODO(gb): Remove trace!!!
 
                     if(currentTerm.indexOf(searchTerm) === 0) {
                         // True if the current letter equals the next letter
@@ -267,6 +269,15 @@
             this.filter('input[type=text], textarea').bind('keyup keydown', function(e) {
                 return $._inlineComplete._performComplete(this, e, options);
             });
+        }
+
+        $._inlineComplete.sub.fn.ignoreAccents = function(term) {
+            return term
+                .replace("á", "a")
+                .replace("é", "e")
+                .replace("í", "i")
+                .replace("ó", "o")
+                .replace("ú", "u");
         }
 
         return this;
