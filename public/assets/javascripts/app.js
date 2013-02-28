@@ -72,6 +72,7 @@
 
     app.setYear = function(year){
         app.selection.year = year;
+        $("#selection_year").text(year);
         this.updateSelection();
     }
 

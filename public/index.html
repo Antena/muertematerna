@@ -245,7 +245,7 @@
                 <p class="title">Causa: <span id="selection_cause">-</span></p>
             </div>
             <div class="span4 control">
-                <p class="title">Año:</p>
+                <p class="title">Año: <span id="selection_year">2010</span></p>
             </div>
         </div>
         <div class="row">
@@ -405,7 +405,9 @@
                 });
 
         causesSelector.append(box);
-    })
+    });
+
+    $("#selection_year").text(app.selection.year);
 
 
     app.init();
