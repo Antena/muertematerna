@@ -337,7 +337,10 @@
             .attr("y", 9)
             .attr("dy", ".35em")
             .text(function(d) { return d.text; })
-            .on("click", causeOfDeathAreaChart.setCause);
+            .on("click", causeOfDeathAreaChart.setCause)
+            .append("title")
+            .text(function(d) { return d.text; });
+
 
         return legend;
     }
