@@ -316,7 +316,7 @@
 
             var total = {};
             total.key = "total";
-            total.values = deathByProvincesByYearByCause[0].values;
+            total.values = $.extend(true, [], deathByProvincesByYearByCause[0].values);
 
             for (var i=1; i<deathByProvincesByYearByCause.length; i++) {
                 var cause = deathByProvincesByYearByCause[i];

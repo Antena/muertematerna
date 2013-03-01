@@ -311,9 +311,6 @@
         if(!indirectLegend){
             indirectLegend = drawLegend(self.options.indirectCausesLegendDivId, 'indirect');
         }
-//        if(!referenceLegend) {
-//            referenceLegend=drawReferenceLegend(self.options.indirectCausesLegendDivId, 'indirect');
-//        }
     }
 
     function drawLegend(divId, type) {
