@@ -40,7 +40,7 @@
     app.setCause = function(cause){
         app.selection.cause = cause;
         var causeText = cause ? app._trunc(cause.text, 25, true) : "Todas";
-        $("#selection_cause").text(causeText).attr("title", cause.text);
+        $("#selection_cause").text(causeText).attr("title", cause ? cause.text : "Todas");
         $("#map-title-suffix").text(cause ? "para muertes por " + cause.text : "");
         $("#cause-selector").find(".current").removeClass("current");
         if (cause) {
