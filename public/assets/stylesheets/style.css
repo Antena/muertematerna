@@ -3,6 +3,10 @@
 /***********************************************************************************************************************
  * MESSAGES
  **********************************************************************************************************************/
+#message-charts p {
+    font-size: 12px;
+    line-height: 18px;
+}
 #messages .message {
     cursor: pointer;
     overflow: hidden;
@@ -128,9 +132,6 @@
     padding-left: 0px;
     padding-right: 0px;
 }
-#locationTypeahead {
-    width: 100%;
-}
 
 #zoomout {
     visibility: hidden;
@@ -186,6 +187,26 @@
 /***********************************************************************************************************************
  * RIGHT PANE
  **********************************************************************************************************************/
+.sidebar {
+    background: #f4f4f4;
+    cursor: default;
+    border-radius: 2px;
+    margin-top: 2.5%;
+    display: inline-block;
+    margin-right: 1.6em;
+    border: 1px solid #CCC;
+    border-right: 6px solid #CCC;
+    padding: 2px 6px;
+    -webkit-box-shadow: 0 0 10px 0 rgba(0,0,0,0.2);
+    -moz-box-shadow: 0 0 10px 0 rgba(0,0,0,0.2);
+    box-shadow: 0 0 10px 0 rgba(0,0,0,0.1);
+    -webkit-transition: all .28s ease-out;
+}
+
+#provinceContext, #nationalContext {
+    width: 285px;
+}
+
 .context-data li {
     min-height: 30px;
     margin-bottom: 5px;
@@ -451,4 +472,77 @@ abbr {
 .affix .reset-selector:hover {
     text-decoration: none;
     opacity: 1;
+}
+
+/***********************************************************************************************************************
+ * CONTEXT CHARTS
+ **********************************************************************************************************************/
+#odm-linechart {
+    font: 10px sans-serif;
+}
+
+#odm-linechart .axis path,
+#odm-linechart .axis line {
+    fill: none;
+    stroke: #000;
+    shape-rendering: crispEdges;
+}
+
+#odm-linechart .line,
+#odm-linechart .projection2015,
+#odm-linechart .pathODM {
+    fill: none;
+    stroke: steelblue;
+    stroke-width: 1.5px;
+}
+
+#odm-linechart .pathODM {
+    stroke: rgba(141, 0, 3, 0.92);
+}
+
+#odm-linechart .point {
+    fill: steelblue;
+}
+
+#odm-linechart text.pointLabels {
+    fill: steelblue;
+}
+
+#odm-linechart .pointODM {
+    fill: rgba(141, 0, 3, 0.92);
+}
+
+#odm-linechart text.odm {
+    fill: rgba(141, 0, 3, 0.92);
+}
+
+#rank-barchart {
+    font: 10px sans-serif;
+}
+
+#rank-barchart .axis path,
+#rank-barchart .axis line {
+    fill: none;
+    stroke: #000;
+    shape-rendering: crispEdges;
+}
+
+#rank-barchart .bar {
+    fill: steelblue;
+}
+
+#rank-barchart .bar.nation {
+    fill: #000;
+}
+
+#rank-barchart .y.axis line.tick {
+    stroke: none;
+}
+
+#rank-barchart text.pointLabels {
+    fill: steelblue;
+}
+
+#rank-barchart text.pointLabels.nation {
+    fill: #000;
 }

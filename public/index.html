@@ -9,199 +9,210 @@
 </head>
 <body>
 <div class="container">
-<h1>Muerte Materna en Argentina</h1>
+    <h1>Muerte Materna en Argentina</h1>
 
-<p class="lead">Es una plataforma de monitoreo de la mortalidad materna para hacer visible un problema complejo y a
-    la vez evitable que padecen muchas mujeres de nuestro país. Tiene el propósito el hacer pública la información
-    reportada en las estadísticas oficiales y enriquecerla con otras fuentes y dimensiones de análisis.</p>
+    <p class="lead">Es una plataforma de monitoreo de la mortalidad materna para hacer visible un problema complejo y a
+        la vez evitable que padecen muchas mujeres de nuestro país. Tiene el propósito el hacer pública la información
+        reportada en las estadísticas oficiales y enriquecerla con otras fuentes y dimensiones de análisis.</p>
 
-<div id="messages" class="row">
-    <div class="span4">
-        <div class="message" id="message1">
-            <img class="pull-left" src="/assets/img/message1.png" width="35" height="35" alt="">
-            <h4>La mortalidad materna está estancada</h4>
-            <p>La mortalidad materna prácticamente no se modificó en los últimos 20 años.</p>
-            <span class="more"><a href="#">Ver más</a></span>
-        </div>
-    </div>
-    <div class="span4">
-        <div class="message" id="message2">
-            <img class="pull-left" src="/assets/img/message2.png" width="35" height="35" alt="">
-            <h4>La variación interpovincial es muy alta</h4>
-            <p>La Razón de Muerte Materna de Formosa es 4 veces mayor a la de CABA, la más baja del país.</p>
-            <span class="more"><a href="#">Ver más</a></span>
-        </div>
-    </div>
-    <div class="span4">
-        <div class="message" id="message3">
-            <img class="pull-left" src="/assets/img/message3.png" width="35" height="35" alt="">
-            <h4>Las causas de muerte son variadas</h4>
-            <p>La mayoría de las muertes son por causas evitables.</p>
-            <span class="more"><a href="#">Ver más</a></span>
-        </div>
-    </div>
-</div>
-
-<div id="message-charts" class="row" style="height: 200px; display: none;">
-    <a class="close" href="#">&times;</a>
-
-    <div id="chartForMessage1" style="display: none">
-        <div class="span12">
-            <h4>Gráfico de la ODM mostrando los últimos 20 años</h4>
-        </div>
-    </div>
-    <div id="chartForMessage2" style="display: none">
-        <div class="span12">
-            <h4>Gráfico de columnas de la tasa por provincia</h4>
-        </div>
-    </div>
-    <div id="chartForMessage3" style="display: none">
-        <div class="span12">
-            <h4>Gráfico de tortas de las causas de muerte</h4>
-        </div>
-    </div>
-</div>
-
-<div class="row" id="main-canvas">
-    <div class="span4">
-        <h5>Evolución de la razón de muerte materna <abbr data-glossary-key="rmm" data-placement="bottom">RMM</abbr> por causa de muerte</h5>
-        <div class="row">
-            <div class="span2" id="direct-causes-legend">
-                <p class="legend-title">Causas de muerte directas</p>
-            </div>
-            <div class="span2" id="indirect-causes-legend">
-                <p class="legend-title">Causas de muerte indirectas</p>
+    <div id="messages" class="row">
+        <div class="span4">
+            <div class="message" id="message1">
+                <img class="pull-left" src="/assets/img/message1.png" width="35" height="35" alt="">
+                <h4>La reducción de la mortalidad materna está estancada</h4>
+                <p>Argentina asumió el compromiso de reducir las muertes en tres cuartas partes en el año 2015.</p>
+                <span class="more"><a href="#">Ver más</a></span>
             </div>
         </div>
-        <a href="#" id="resetarea" style="font-size: 11px; margin-right: 12px;" class="pull-right">Limpiar selección</a>
-        <div id="causesByYear"></div>
-    </div>
-    <div class="span4">
-        <h5 style="min-height: 40px"><abbr data-glossary-key="rmm" data-placement="bottom">RMM</abbr> por provincia <span id="map-title-suffix"></span></h5>
-        <a href="#" id="zoomout" style="font-size: 11px" class="pull-right">Volver al mapa del país</a>
-        <div id="map"></div>
-        <div class="map-control pull-left">
-            <input type="checkbox" id="toggleMedicalCenters"/> Mostrar maternidades
+        <div class="span4">
+            <div class="message" id="message2">
+                <img class="pull-left" src="/assets/img/message2.png" width="35" height="35" alt="">
+                <h4>La variación interpovincial es muy alta</h4>
+                <p>La Razón de Muerte Materna de Formosa es 4 veces mayor a la de CABA, la más baja del país.</p>
+                <span class="more"><a href="#">Ver más</a></span>
+            </div>
+        </div>
+        <div class="span4">
+            <div class="message" id="message3">
+                <img class="pull-left" src="/assets/img/message3.png" width="35" height="35" alt="">
+                <h4>Las causas de muerte son variadas</h4>
+                <p>La mayoría de las muertes son por causas evitables.</p>
+                <span class="more"><a href="#">Ver más</a></span>
+            </div>
         </div>
     </div>
-    <div class="span4">
-        <div class="well well-small">
-            <div id="nationalContext">
-                <h4 style="text-align: center">Datos Nacionales</h4>
-                <ul class="context-data unstyled">
-                    <li>
-                        <div class="number">302</div>
-                        mujeres murieron en el 2011
-                    </li>
-                    <li>
-                        <div class="number">4.0</div>
-                        es la RMM del país en 2011
-                    </li>
-                    <li>
-                        <div class="number">1.3</div>
-                        es la RMM más baja del país, en CABA
-                    </li>
-                    <li>
-                        <div class="number">12.3</div>
-                        es la RMM de Formosa, la más alta del país
-                    </li>
-                    <li>
-                        <div class="number" style="height: 65px">1.3</div>
-                        es la RMM que debe alcanzar la Argentina para cumplir con la meta propuesta para el ODM5 en 2015
-                    </li>
-                </ul>
-                <br/>
-                <h5>Evolución de la <abbr data-glossary-key="rmm" data-placement="top">RMM</abbr> nacional 2006-2010</h5>
-                <div id="deathRate"></div>
+
+    <div id="message-charts" class="row" style="height: 200px; display: none;">
+        <a class="close" href="#">&times;</a>
+
+        <div id="chartForMessage1" style="display: none">
+            <div class="span9">
+                <div id="odm-linechart"></div>
             </div>
-            <div id="provinceContext" style="display: none">
-                <h4 class="id-provinceName" style="text-align: center">Buenos Aires</h4>
-                <div id="province-map"></div>
-                <div id="province-map-filter">
-                    <p class="legend-title">Filtrar maternidades según su cumplimiento de las CONE</p>
-                    <label class="radio">
-                        <input type="radio" name="coneFilter" value="showAll" checked>
-                        Todas
-                    </label>
-                    <label class="radio">
-                        <input type="radio" name="coneFilter" value="showFullCompliant">
-                        Las que cumplen todas las CONE
-                    </label>
-                    <label class="radio">
-                        <input type="radio" name="coneFilter" value="showFiltered">
-                        Las que no cumplen con alguna de las CONE:
-                    </label>
-                    <div class="col" style="margin-right: 10px;">
-                        <ul class="cone-list unstyled">
-                            <li>
-                                <label class="checkbox" title="Quirófano">
-                                    <input type="checkbox" id="CONE_Q" checked disabled> CONE Q
-                                </label>
-                            </li>
-                            <li>
-                                <label class="checkbox" title="Anestesia">
-                                    <input type="checkbox" id="CONE_A" checked disabled> CONE A
-                                </label>
-                            </li>
-                            <li>
-                                <label class="checkbox" title="Sangre segura">
-                                    <input type="checkbox" id="CONE_S" checked disabled> CONE S
-                                </label>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="col">
-                        <ul class="cone-list unstyled" style="margin-right: 10px;">
-                            <li>
-                                <label class="checkbox" title="Tratamiento patologias maternas graves">
-                                    <input type="checkbox" id="CONE_PM" checked disabled> CONE PM
-                                </label>
-                            </li>
-                            <li>
-                                <label class="checkbox" title="RCP neonatal y calor">
-                                    <input type="checkbox" id="CONE_PN" checked disabled> CONE PN
-                                </label>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="col">
-                        <ul class="cone-list unstyled">
-                            <li>
-                                <label class="checkbox" title="Listados de riesgo materno neonatal">
-                                    <input type="checkbox" id="CONE_RMN" checked disabled> CONE RMN
-                                </label>
-                            </li>
-                            <li>
-                                <label class="checkbox" title="Traslado">
-                                    <input type="checkbox" id="CONE_T" checked disabled> CONE T
-                                </label>
-                            </li>
-                        </ul>
+            <div class="span3" style="text-align: right">
+                <h4>ODM</h4>
+                <p>La reducción en tres cuartas partes de la razón de la mortalidad materna en el año 2015 es el 5to de los <a href="http://www.undp.org/content/undp/es/home/mdgoverview/" target="_blank">Objetivos de Desarrollo del Milenio</a>. Argentina ha asumido este <a href="http://www.politicassociales.gov.ar/odm/" target="_blank">compromiso</a>, pero para cumplirlo la RMM del año 2011 debería haber llegado a 1,6 x 10.000 NV (nacidos vivos). Sin embargo, la razón de ese año fue 2,5 veces mayor que la deseada. De continuar el lento ritmo de descenso que se viene observando hasta el presente, se estima que la RMM para el año 2015 será 3,2 veces superior a la meta comprometida.</p>
+            </div>
+        </div>
+        <div id="chartForMessage2" style="display: none">
+            <div class="span9">
+                <div id="rank-barchart"></div>
+            </div>
+            <div class="span3" style="text-align: right">
+                <h4>Ranking</h4>
+                <p>Poner acá algún texto que explique algo sobre el gráfico o algo sobre la variación interprovincial</p>
+            </div>
+        </div>
+        <div id="chartForMessage3" style="display: none">
+            <div class="span9">
+                <div id="causes-piechart" style="width: 700px; height: 352px;"></div>
+            </div>
+            <div class="span3" style="text-align: right">
+                <h4>Gráfico de torta de muertes por causa</h4>
+            </div>
+        </div>
+    </div>
+
+    <div class="row" id="main-canvas">
+        <div class="span4">
+            <h5>Evolución de la razón de muerte materna <abbr data-glossary-key="rmm" data-placement="bottom">RMM</abbr> por causa de muerte</h5>
+            <div class="row">
+                <div class="span2" id="direct-causes-legend">
+                    <p class="legend-title">Causas de muerte directas</p>
+                </div>
+                <div class="span2" id="indirect-causes-legend">
+                    <p class="legend-title">Causas de muerte indirectas</p>
+                </div>
+            </div>
+            <a href="#" id="resetarea" style="font-size: 11px; margin-right: 12px;" class="pull-right">Limpiar selección</a>
+            <div id="causesByYear"></div>
+        </div>
+        <div class="span4">
+            <h5 style="min-height: 40px"><abbr data-glossary-key="rmm" data-placement="bottom">RMM</abbr> por provincia <span id="map-title-suffix"></span></h5>
+            <a href="#" id="zoomout" style="font-size: 11px" class="pull-right">Volver al mapa del país</a>
+            <div id="map"></div>
+            <div class="map-control pull-left">
+                <input type="checkbox" id="toggleMedicalCenters"/> Mostrar maternidades
+            </div>
+        </div>
+        <div class="span4">
+            <div class="sidebar">
+                <div id="nationalContext">
+                    <h4 style="text-align: center">Datos Nacionales</h4>
+                    <ul class="context-data unstyled">
+                        <li>
+                            <div class="number">302</div>
+                            mujeres murieron en el 2011
+                        </li>
+                        <li>
+                            <div class="number">4.0</div>
+                            es la RMM del país en 2011
+                        </li>
+                        <li>
+                            <div class="number">1.3</div>
+                            es la RMM más baja del país, en CABA
+                        </li>
+                        <li>
+                            <div class="number">12.3</div>
+                            es la RMM de Formosa, la más alta del país
+                        </li>
+                        <li>
+                            <div class="number" style="height: 65px">1.3</div>
+                            es la RMM que debe alcanzar la Argentina para cumplir con la meta propuesta para el ODM5 en 2015
+                        </li>
+                    </ul>
+                    <br/>
+                    <h5>Evolución de la <abbr data-glossary-key="rmm" data-placement="top">RMM</abbr> nacional 2006-2010</h5>
+                    <div id="deathRate"></div>
+                </div>
+                <div id="provinceContext" style="display: none">
+                    <h4 class="id-provinceName" style="text-align: center">Buenos Aires</h4>
+                    <div id="province-map"></div>
+                    <div id="province-map-filter">
+                        <p class="legend-title">Filtrar maternidades según su cumplimiento de las CONE</p>
+                        <label class="radio">
+                            <input type="radio" name="coneFilter" value="showAll" checked>
+                            Todas
+                        </label>
+                        <label class="radio">
+                            <input type="radio" name="coneFilter" value="showFullCompliant">
+                            Las que cumplen todas las CONE
+                        </label>
+                        <label class="radio">
+                            <input type="radio" name="coneFilter" value="showFiltered">
+                            Las que no cumplen con alguna de las CONE:
+                        </label>
+                        <div class="col" style="margin-right: 10px;">
+                            <ul class="cone-list unstyled">
+                                <li>
+                                    <label class="checkbox" title="Quirófano">
+                                        <input type="checkbox" id="CONE_Q" checked disabled> CONE Q
+                                    </label>
+                                </li>
+                                <li>
+                                    <label class="checkbox" title="Anestesia">
+                                        <input type="checkbox" id="CONE_A" checked disabled> CONE A
+                                    </label>
+                                </li>
+                                <li>
+                                    <label class="checkbox" title="Sangre segura">
+                                        <input type="checkbox" id="CONE_S" checked disabled> CONE S
+                                    </label>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col">
+                            <ul class="cone-list unstyled" style="margin-right: 10px;">
+                                <li>
+                                    <label class="checkbox" title="Tratamiento patologias maternas graves">
+                                        <input type="checkbox" id="CONE_PM" checked disabled> CONE PM
+                                    </label>
+                                </li>
+                                <li>
+                                    <label class="checkbox" title="RCP neonatal y calor">
+                                        <input type="checkbox" id="CONE_PN" checked disabled> CONE PN
+                                    </label>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col">
+                            <ul class="cone-list unstyled">
+                                <li>
+                                    <label class="checkbox" title="Listados de riesgo materno neonatal">
+                                        <input type="checkbox" id="CONE_RMN" checked disabled> CONE RMN
+                                    </label>
+                                </li>
+                                <li>
+                                    <label class="checkbox" title="Traslado">
+                                        <input type="checkbox" id="CONE_T" checked disabled> CONE T
+                                    </label>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
 
+        </div>
     </div>
-</div>
-<br/>
-<div class="row">
-    <div class="span2 pieChart" id="pieChart1">
-        <h5 style="text-align: center; min-height: 40px;">¿Tenían cobertura médica?</h5>
+    <br/>
+    <div class="row">
+        <div class="span2 pieChart" id="pieChart1">
+            <h5 style="text-align: center; min-height: 40px;">¿Tenían cobertura médica?</h5>
+        </div>
+        <div class="span2 pieChart" id="pieChart2">
+            <h5 style="text-align: center; min-height: 40px;">¿Donde murieron?</h5>
+        </div>
+        <div class="span2 pieChart" id="pieChart3">
+            <h5 style="text-align: center; min-height: 40px;">¿Tuvieron atención médica?</h5>
+        </div>
+        <div class="span2 pieChart" id="pieChart4">
+            <h5 style="text-align: center; min-height: 40px;">¿Habían ido a la escuela?</h5>
+        </div>
+        <div class="span2 pieChart" id="pieChart5" style="margin-right: 0px;">
+            <h5 style="text-align: center; min-height: 40px;">¿Qué edad tenían?</h5>
+        </div>
     </div>
-    <div class="span2 pieChart" id="pieChart2">
-        <h5 style="text-align: center; min-height: 40px;">¿Donde murieron?</h5>
-    </div>
-    <div class="span2 pieChart" id="pieChart3">
-        <h5 style="text-align: center; min-height: 40px;">¿Tuvieron atención médica?</h5>
-    </div>
-    <div class="span2 pieChart" id="pieChart4">
-        <h5 style="text-align: center; min-height: 40px;">¿Habían ido a la escuela?</h5>
-    </div>
-    <div class="span2 pieChart" id="pieChart5" style="margin-right: 0px;">
-        <h5 style="text-align: center; min-height: 40px;">¿Qué edad tenían?</h5>
-    </div>
-</div>
 </div>
 
 <footer class="footer">
@@ -216,10 +227,10 @@
                 <p class="title">Estás viendo:</p>
             </div>
             <div class="span3 control">
-                <p class="title">Provincia: <span id="selection_province">-</span></p>
+                <p class="title">Provincia: <span id="selection_province">Todas</span></p>
             </div>
             <div class="span3 control">
-                <p class="title">Causa: <span id="selection_cause">-</span></p>
+                <p class="title">Causa: <span id="selection_cause" title="Todas">Todas</span></p>
             </div>
             <div class="span4 control">
                 <p class="title">Año: <span id="selection_year">2010</span></p>
@@ -264,34 +275,13 @@
 <script src="/assets/javascripts/d3choropleth.js"></script>
 <script src="/assets/javascripts/causeOfDeathAreaChart.js"></script>
 <script src="/assets/javascripts/deathRateLineChart.js"></script>
+<script src="/assets/javascripts/contextCharts.js"></script>
 <script src="/assets/javascripts/filterPieCharts.js"></script>
 <script src="/assets/javascripts/pieChart.js"></script>
 <script src="/assets/javascripts/provinceMap.js"></script>
 <script src="/assets/javascripts/app.js"></script>
 <script src="assets/data/glossary.js"></script>
 <script>
-
-    // Location typeahead
-    $('#locationTypeahead').typeahead({
-        source: function(){
-            return provinces.getNames();
-        }
-        ,
-        matcher: function(item){
-            if (item.toLowerCase().indexOf(this.query.trim().toLowerCase()) != -1) {
-                return true;
-            }
-        },
-        updater: function(item){
-            var province = provinces.getByName(item);
-            app.setProvince(province);
-            var location = province.zoomLocation;
-            if(location!=null){
-                d3choropleth.zoomIn(location.x,location.y,location.k);
-            }
-            return item;
-        }
-    });
 
     // Medical centers checkbox toggle
     $("#toggleMedicalCenters").change(function() {
@@ -400,6 +390,9 @@
 
     $("#selection_year").text(app.selection.year);
 
+    // Context charts
+    contextCharts.odm();
+    contextCharts.rank();
 
     app.init();
 </script>

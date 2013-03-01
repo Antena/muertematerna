@@ -39,7 +39,8 @@
 
     app.setCause = function(cause){
         app.selection.cause = cause;
-        $("#selection_cause").text(cause ? cause.text : "-" );
+        var causeText = cause ? app._trunc(cause.text, 25, true) : "Todas";
+        $("#selection_cause").text(causeText).attr("title", cause ? cause.text : "Todas");
         $("#map-title-suffix").text(cause ? "para muertes por " + cause.text : "");
         $("#cause-selector").find(".current").removeClass("current");
         if (cause) {
@@ -55,7 +56,7 @@
 
     app.setProvince = function(province){
         app.selection.province = province;
-        $("#selection_province").text(province ? province.key : "-");
+        $("#selection_province").text(province ? province.key : "Todas");
         if (province) {
             d3choropleth.mute("provinces", "provinces" + province.value);
             $("#zoomout").css("visibility", "visible");
@@ -112,11 +113,6 @@
         var self = this;
 
         d3.csv("/assets/data/razon_muertes.csv", function(data) {
-
-            // Location typeahead
-            $('#locationTypeahead').typeahead({
-                source : ["Buenos Aires"]
-            });
 
             // Year slider
             $('#slider').slider({
@@ -178,13 +174,13 @@
                             // Province rate
                             var rate = app.ratesData[8].values[id-1].values[app.selection.year-2006].values.toFixed(1);
                             content.append('<div class="province-bar" style="width: ' + (rate * 10) + 'px"></div>');
-                            content.append('<p>RMM: ' + rate + '</p>');
+                            content.append('<p>RMM: <span class="provinceRate">' + rate + '</span></p>');
                             content.append('<br/>');
 
                             // National rate
                             var nationalRate = app.nationalRates.filter(function(rate) { return rate.year == app.selection.year})[0].rate.toFixed(1);
                             content.append('<div class="national-bar" style="width: ' + (nationalRate * 10) + 'px"></div>');
-                            content.append('<p>RMM: ' + nationalRate + '</p>');
+                            content.append('<p>RMM: <span class="nationalRate">' + nationalRate + '</span></p>');
 
                             return {
                                 class: "provinceTooltip",
@@ -194,7 +190,16 @@
                                 show: function() {
                                     return !d3choropleth.isZoomedIn();
                                 },
-                                displacement: [5, 0]
+                                displacement: [5, 0],
+                                updateContent: function() {
+                                    var rate = app.ratesData[8].values[id-1].values[app.selection.year-2006].values.toFixed(1);
+                                    $(".provinceTooltip").find("span.provinceRate").text(rate);
+                                    $(".province-bar").css("width", rate*10);
+
+                                    var nationalRate = app.nationalRates.filter(function(rate) { return rate.year == app.selection.year})[0].rate.toFixed(1);
+                                    $(".provinceTooltip").find("span.nationalRate").text(nationalRate);
+                                    $(".national-bar").css("width", nationalRate*10);
+                                }
                             };
                         }
                     }
@@ -313,7 +318,7 @@
 
             var total = {};
             total.key = "total";
-            total.values = deathByProvincesByYearByCause[0].values;
+            total.values = $.extend(true, [], deathByProvincesByYearByCause[0].values);
 
             for (var i=1; i<deathByProvincesByYearByCause.length; i++) {
                 var cause = deathByProvincesByYearByCause[i];
@@ -396,6 +401,13 @@
             })
 
             return min;
+        }
+
+        app._trunc = function(str, n,useWordBoundary) {
+            var toLong = str.length>n,
+                s_ = toLong ? str.substr(0,n-1) : str;
+            s_ = useWordBoundary && toLong ? s_.substr(0,s_.lastIndexOf(' ')) : s_;
+            return  toLong ? s_ + '...' : s_;
         }
 
         app.drawChartTitles = function() {
