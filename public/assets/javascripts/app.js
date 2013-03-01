@@ -122,7 +122,7 @@
             $('#slider').slider({
                 value : 2010,
                 min : 2006,
-                max : 2010,
+                max : 2011,
                 step : 1,
                 slide : function(event, ui) {
                     app.setYear(ui.value);
@@ -308,6 +308,8 @@
                     return val ? val : 0.0;
                 })
                 .entries(revisedData);
+
+
 
             var total = {};
             total.key = "total";
