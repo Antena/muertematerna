@@ -25,7 +25,8 @@
         { year: 2007, rate: 4.4 },
         { year: 2008, rate: 4.0 },
         { year: 2009, rate: 5.5 },
-        { year: 2010, rate: 4.4 }
+        { year: 2010, rate: 4.4 },
+        { year: 2011, rate: 4.0 }
     ];
 
     app.quartiles = [];
@@ -33,7 +34,7 @@
     app.selection = {
         cause : null,
         province : null,
-        year : 2010
+        year : 2011
     };
 
 
@@ -116,7 +117,7 @@
 
             // Year slider
             $('#slider').slider({
-                value : 2010,
+                value : 2011,
                 min : 2006,
                 max : 2011,
                 step : 1,
