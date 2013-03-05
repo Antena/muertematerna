@@ -159,15 +159,14 @@
         }, "departamento", true);
 
         map.selectAll(".department")
-            .style("fill", function(d) { return threshold(getDeathCount(d, departmentData)) });
+            .style("fill", function(d) { return threshold(getDeathCount(d.properties.ID_2, departmentData)) });
     }
 
-    function getDeathCount(d, departmentData) {
+    function getDeathCount(departmentId, departmentData) {
         if (!departmentData) {
             return 0;
         }
 
-        var departmentId = d.properties.ID_2;
         var theDepartment = departmentData.filter(function(datum) { return datum.key == departmentId});
         var deaths = theDepartment.length > 0 ? theDepartment[0].values.length : 0;
 
@@ -230,17 +229,25 @@
                 .classed("department", true)
                 .classed("zoomable", true)
                 .attr("d", path)
-                .style("fill", function(d) { return threshold(getDeathCount(d, departmentData))})
+                .style("fill", function(d) { return threshold(getDeathCount(d.properties.ID_2, departmentData))})
                 .tooltip(function(d,i) {
                     var content = $("<div></div>")
-                        .append("<p><strong>" + d.properties.NAME_2 + "</strong></p>")
-                        .append("<p><span class='deathCount'>" + getDeathCount(d, departmentData) + "</span> muertes (<span class='year'>" + app.selection.year + "</span>) </p>")
+                        .append('<p><strong>' + d.properties.NAME_2 + '</strong></p>')
+                        .append('<p><span class="deathCount"></span> muertes (<span class="year"></span>) </p>')
 
                     return {
                         class: "departmentTooltip",
                         type: "mouse",
                         content: content.html(),
-                        displacement: [0, 15]
+                        displacement: [0, 15],
+                        updateContent: function() {
+                            $(".departmentTooltip").find(".deathCount").text(
+                                getDeathCount(d.properties.ID_2, filterPieCharts.doAggregation(function(d) {
+                                    return d.department;
+                                }, "departamento", true))
+                            );
+                            $(".departmentTooltip").find(".year").text(app.selection.year);
+                        }
                     };
                 });
 
