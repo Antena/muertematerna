@@ -6,6 +6,7 @@
     var colorGorup = "Blues";
     var legend;
     var coneTypes = [], allConeTypes = [];
+    var threshold;
 
     provinceMap.init = function() {
         this.drawLegend();
@@ -86,21 +87,21 @@
     provinceMap.drawLegend = function() {
         var formatNumber = d3.format(".0f");
 
-        var threshold = d3.scale.threshold()
-            .domain([1, 2, 3, 4, 5, 6])
-            .range(colorbrewer[colorGorup][6]);
+        threshold = d3.scale.threshold()
+            .domain([1, 2, 2.9, 4.1, 7.1, 12.1])
+            .range(colorbrewer[colorGorup][7]);
 
         // A position encoding for the key only.
         var x = d3.scale.linear()
-            .domain([0, 6])
+            .domain([0, 22])
             .range([0, 240]);
 
         var xAxis = d3.svg.axis()
             .scale(x)
             .orient("bottom")
             .tickSize(13)
-            .tickValues(threshold.domain())
-            .tickFormat(function(d) { return formatNumber(d-1); });
+            .tickValues([0].concat(threshold.domain()))
+            .tickFormat(function(d) { return formatNumber(d); });
 
         var svg = d3.select("#province-map").append("svg")
             .attr("width", 280)
@@ -158,21 +159,27 @@
         }, "departamento", true);
 
         map.selectAll(".department")
-            .style("fill", function(d) {
-                if (!departmentData) {
-                    return colorbrewer[colorGorup]['6'][0];
-                }
-                var departmentId = d.properties.ID_2;
-                var theDepartment = departmentData.filter(function(datum) { return datum.key == departmentId});
-                var deaths = theDepartment.length > 0 ? theDepartment[0].values.length : 0;
-                return colorbrewer[colorGorup]['6'][deaths];
-            });
+            .style("fill", function(d) { return threshold(getDeathCount(d, departmentData)) });
     }
 
+    function getDeathCount(d, departmentData) {
+        if (!departmentData) {
+            return 0;
+        }
+
+        var departmentId = d.properties.ID_2;
+        var theDepartment = departmentData.filter(function(datum) { return datum.key == departmentId});
+        var deaths = theDepartment.length > 0 ? theDepartment[0].values.length : 0;
+
+        return deaths;
+    }
+
+
     provinceMap.recolorLegend = function() {
+        threshold.range(colorbrewer[colorGorup][7])
         legend.selectAll("rect")
             .style("fill", function(d, i) {
-                return colorbrewer[colorGorup][6][i];
+                return threshold.range()[i];
             });
     }
 
@@ -223,18 +230,11 @@
                 .classed("department", true)
                 .classed("zoomable", true)
                 .attr("d", path)
-                .style("fill", function(d) {
-                    if (!departmentData) {
-                        return colorbrewer[colorGorup]['6'][0];
-                    }
-                    var departmentId = d.properties.ID_2;
-                    var theDepartment = departmentData.filter(function(datum) { return datum.key == departmentId});
-                    var deaths = theDepartment.length > 0 ? theDepartment[0].values.length : 0;
-                    return colorbrewer[colorGorup]['6'][deaths];
-                })
+                .style("fill", function(d) { return threshold(getDeathCount(d, departmentData))})
                 .tooltip(function(d,i) {
                     var content = $("<div></div>")
-                        .append("<p>" + d.properties.NAME_2 + "</p>")
+                        .append("<p><strong>" + d.properties.NAME_2 + "</strong></p>")
+                        .append("<p><span class='deathCount'>" + getDeathCount(d, departmentData) + "</span> muertes (<span class='year'>" + app.selection.year + "</span>) </p>")
 
                     return {
                         class: "departmentTooltip",
