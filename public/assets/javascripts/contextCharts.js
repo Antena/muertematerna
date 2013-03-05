@@ -165,11 +165,14 @@
     }
 
     contextCharts.rank = function() {
+        var marginLeft = 100;
+        var newWidth = 700 - marginLeft - margin.right;
+
         var y = d3.scale.ordinal()
             .rangeRoundBands([0, height], .1);
 
         var x = d3.scale.linear()
-            .range([0, width]);
+            .range([0, newWidth]);
 
         var xAxis = d3.svg.axis()
             .scale(x)
@@ -180,9 +183,9 @@
             .ticks(0)
             .orient("left");
 
-        var marginLeft = 100;
+
         var svg = d3.select("#rank-barchart").append("svg")
-            .attr("width", width + marginLeft + margin.right)
+            .attr("width", newWidth + marginLeft + margin.right)
             .attr("height", height + margin.top + margin.bottom)
             .append("g")
             .attr("transform", "translate(" + marginLeft + "," + margin.top + ")");
@@ -202,7 +205,7 @@
                 .call(xAxis)
                 .append("text")
                 .attr("y",-10)
-                .attr("x", width)
+                .attr("x", newWidth)
                 .attr("dy", ".71em")
                 .style("text-anchor", "end")
                 .text("RMM");
@@ -212,7 +215,7 @@
                 .attr("transform", "translate(0," + height + ")")
                 .append("text")
                 .attr("y", 25)
-                .attr("x", width/2 + 50)
+                .attr("x", newWidth/2 + 50)
                 .attr("dy", ".71em")
                 .style("text-anchor", "end")
                 .text("Fuente: DEIS 2012");
