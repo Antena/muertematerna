@@ -546,3 +546,12 @@ abbr {
 #rank-barchart text.pointLabels.nation {
     fill: #000;
 }
+
+#causes-piechart {
+    font: 10px sans-serif;
+}
+
+#causes-piechart .arc-label {
+    width: 100px;
+    position: relative;
+}

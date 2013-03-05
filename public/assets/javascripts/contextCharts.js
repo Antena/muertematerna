@@ -243,4 +243,92 @@
                 .text(function(d) { return parseFloat(d.rmm).toFixed(1) });
         });
     }
+
+    contextCharts.causes = function() {
+        var radius = Math.min(width, height) / 2;
+
+        var color = d3.scale.ordinal()
+            .range(["#a8251d", "#bf66b1", "#b74c00", "#e6a827", "#486fb7", "#ad5000", "#6151a5", "#789b41"]);
+
+        var arc = d3.svg.arc()
+            .outerRadius(radius - 10)
+            .innerRadius(radius - 70);
+
+        var pie = d3.layout.pie()
+            .sort(null)
+            .value(function(d) { return d.share; });
+
+        var line = d3.svg.line()
+            .x(function(d) { return d.x; })
+            .y(function(d) { return d.y; })
+            .interpolate("basis");
+
+        var svg = d3.select("#causes-piechart").append("svg")
+            .attr("width", width)
+            .attr("height", 350)
+            .append("g")
+            .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+
+        d3.csv("/assets/data/causes.csv", function(error, data) {
+
+            var g = svg.selectAll(".arc")
+                .data(pie(data))
+                .enter().append("g")
+                .attr("class", "arc");
+
+            g.append("path")
+                .attr("d", arc)
+                .style("fill", function(d) { return color(d.data.causa); });
+
+            for (var i=0; i<data.length; i++) {
+                var cause = data[i];
+                $("#causes-piechart").append(
+                    $(
+                        '<div class="arc-label">' +
+                            cause.causa + '<br/>' +
+                            '<strong>' + cause.share + '%</strong>' +
+                            '</div>'
+                    )
+                        .css("left", cause.xpos + "px")
+                        .css("top", cause.ypos + "px")
+                        .css("text-align", cause.textalign)
+                )
+            }
+
+            svg.append('svg:line')
+                .attr('x1', -12)
+                .attr('y1', 166)
+                .attr('x2', -12)
+                .attr('y2', 131)
+                .attr('stroke', 'black');
+
+            svg.append('svg:line')
+                .attr('x1', -57)
+                .attr('y1', 118)
+                .attr('x2', -75)
+                .attr('y2', 154)
+                .attr('stroke', 'black');
+
+            svg.append('svg:line')
+                .attr('x1', -75)
+                .attr('y1', 154)
+                .attr('x2', -85)
+                .attr('y2', 154)
+                .attr('stroke', 'black');
+
+            svg.append('svg:line')
+                .attr('x1', -74)
+                .attr('y1', 113)
+                .attr('x2', -81)
+                .attr('y2', 123)
+                .attr('stroke', 'black');
+
+            svg.append('svg:line')
+                .attr('x1', -81)
+                .attr('y1', 123)
+                .attr('x2', -181)
+                .attr('y2', 123)
+                .attr('stroke', 'black');
+        });
+    }
 })()
