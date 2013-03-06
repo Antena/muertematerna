@@ -195,6 +195,10 @@
 
         // Draw the map
         d3.json("/assets/data/" + province.departments.file, function(error, theProvince) {
+            if (app.selection.province.value != province.value) {
+                return false;
+            }
+
             var departments = topojson.object(theProvince, theProvince.objects.departments);
             projection = d3.geo.mercator()
                 .scale(province.departments.scale)
