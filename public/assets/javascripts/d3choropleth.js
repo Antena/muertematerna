@@ -138,7 +138,21 @@
                 if (layerOptions.onClick) {
                     layerOptions.onClick.call(d);
                 }
-            });
+            })
+            .attr("transform", function(d) {
+                if (d.properties.ID_1 == 5) {
+                    return "translate(-237, 592)scale(8, 8)";
+                } else {
+                    return null;
+                }
+            })
+            .style("stroke-width", function(d) {
+                if (d.properties.ID_1 == 5) {
+                    return 0.1;
+                } else {
+                    return 1;
+                }
+            })
 
         if (layerOptions.tooltip)
             layers[name].path.tooltip(layerOptions.tooltip);
