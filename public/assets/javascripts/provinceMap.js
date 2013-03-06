@@ -100,7 +100,7 @@
             .scale(x)
             .orient("bottom")
             .tickSize(13)
-            .tickValues([0].concat(threshold.domain()))
+            .tickValues([0,1,2,3,5,8,13])
             .tickFormat(function(d) { return formatNumber(d); });
 
         var svg = d3.select("#province-map").append("svg")
@@ -114,8 +114,8 @@
         legend.selectAll("rect")
             .data(threshold.range().map(function(d, i) {
                 return {
-                    x0: i ? x(threshold.domain()[i - 1]) : x.range()[0],
-                    x1: i < 4 ? x(threshold.domain()[i]) : x.range()[1],
+                    x0: i ? x(Math.ceil(threshold.domain()[i - 1])) : x.range()[0],
+                    x1: i < 5 ? x(threshold.domain()[i+1]) : x.range()[1],
                     z: d
                 };
             }))
