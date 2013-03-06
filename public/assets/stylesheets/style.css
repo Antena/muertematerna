@@ -271,7 +271,7 @@
 }
 
 #provinceMapCanvas {
-    /*cursor: move;*/
+    cursor: move;
 }
 
 #provinceMapCanvas .background {
