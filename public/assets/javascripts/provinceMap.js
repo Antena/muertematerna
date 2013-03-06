@@ -195,8 +195,6 @@
 
         // Draw the map
         d3.json("/assets/data/" + province.departments.file, function(error, theProvince) {
-            console.log("sdaadsads");        //TODO(gb): Remove trace!!!
-            svg.select(".provinceMap").empty();
             var departments = topojson.object(theProvince, theProvince.objects.departments);
             projection = d3.geo.mercator()
                 .scale(province.departments.scale)
@@ -214,7 +212,7 @@
                     map.selectAll(".department.zoomable").attr("d", path);
                 });
 
-
+            svg.selectAll("g").remove();
             map = svg.append("g")
                 .attr("id", "province-" + province.value)
                 .classed("provinceMap", true)
