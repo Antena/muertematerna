@@ -97,7 +97,7 @@
 
             svg = d3.select("#" + containerDiv).append("svg")
                 .attr("width", width + margin.left + margin.right)
-                .attr("height", height + margin.top + margin.bottom)
+                .attr("height", height + margin.top + margin.bottom + 20)
                 .append("g")
                 .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
@@ -107,6 +107,20 @@
 
             svg.append("g")
                 .attr("class", "y axis");
+
+            svg.append("line")
+                .attr("x1", 159)
+                .attr("y1", height + 30)
+                .attr("x2", 179)
+                .attr("y2", height + 30)
+                .style("stroke", app.causesReferenceLine.color);
+
+            svg.append("text")
+                .attr("x", 185)
+                .attr("y", height + 30)
+                .attr("dy", ".35em")
+                .text("RMM Nacional")
+                .style("fill", app.causesReferenceLine.color);
         }
 
         x.domain([2006, 2011]);
@@ -148,21 +162,26 @@
         //reference line
         var references = svg.selectAll(".reference").data(referenceData);
 
-        references.enter().append("path").attr("class", "reference").attr("d", function (d) {
-            return line(d.values);
-        }).style("fill","none").style("stroke", app.causesReferenceLine.color).style("z-index",1000);
+        references
+            .enter().append("path")
+            .attr("class", "reference")
+            .attr("d", function (d) { return line(d.values); })
+            .style("fill","none")
+            .style("stroke", app.causesReferenceLine.color)
+            .style("z-index", 1000);
 
-        references.transition().duration(1000).attr("d",function(d){
-            return line(d.values);
-        }).style("fill","none");
+        references
+            .transition().duration(1000)
+            .attr("d",function(d){ return line(d.values); })
+            .style("fill","none");
 
-        references.exit().selectAll(".reference").transition().duration(2000).remove();
-
+        references
+            .exit().selectAll(".reference")
+            .transition().duration(2000)
+            .remove();
 
         svg.select('.x.axis').transition().duration(1000).call(xAxis);
         svg.select('.y.axis').transition().duration(1000).call(yAxis);
-
-
     }
 
     causeOfDeathAreaChart.loadData = function (callback) {
@@ -342,37 +361,8 @@
             .append("title")
             .text(function(d) { return d.text; });
 
-
         return legend;
     }
-
-
-    function drawReferenceLegend(divId, type) {
-        var position=app.causesArray.filter(function (cause) {
-            return cause.type == type
-        }).length;
-
-        var legend = d3.select('#' + divId).select(".legend-box")
-            ;
-        legend.append("rect")
-            .attr("x", 0)
-            .attr("width", 18)
-            .attr("height", 18)
-            .style("fill", function(d) {
-                return app.causesReferenceLine.color })
-            .attr("transform", function(d, i) { return "translate(0," + position * 20 + ")"; });
-        ;
-
-        legend.append("text")
-            .attr("x", 24)
-            .attr("y", 9)
-            .attr("dy", ".35em")
-            .attr("transform", function(d, i) { return "translate(0," + position * 20 + ")"; })
-            .text(function(d) { return "RMM Argentina"; });
-
-        return legend;
-    }
-
 
     function getMax(layers) {
         if (!layers || layers.length == 0) {
