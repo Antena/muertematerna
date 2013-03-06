@@ -147,6 +147,8 @@
 
             // Map
             app.ratesData = processRateData(data);
+            app.deathsData = processDeathsData(data);
+            app.rawdata = data;
             d3choropleth.map("map", {
                 width : 300,
                 height: 500,
@@ -172,16 +174,25 @@
                             content.empty();
                             content.append("<h5>" + d.properties.NAME_1 + "</h5>");
 
+
+                            //deaths
+                            var provinceDeaths = app.deathsData[8].values[id-1].values[app.selection.year-2006].values[0].nac_deaths
+
                             // Province rate
                             var rate = app.ratesData[8].values[id-1].values[app.selection.year-2006].values.toFixed(1);
+
                             content.append('<div class="province-bar" style="width: ' + (rate * 10) + 'px"></div>');
                             content.append('<p>RMM: <span class="provinceRate">' + rate + '</span></p>');
                             content.append('<br/>');
-
                             // National rate
                             var nationalRate = app.nationalRates.filter(function(rate) { return rate.year == app.selection.year})[0].rate.toFixed(1);
+
                             content.append('<div class="national-bar" style="width: ' + (nationalRate * 10) + 'px"></div>');
                             content.append('<p>RMM: <span class="nationalRate">' + nationalRate + '</span></p>');
+                            content.append('<br/>');
+
+                            //total deaths
+                            content.append('<p>Muertes: <span class="provinceDeaths">' + provinceDeaths + '</span></p>');
 
                             return {
                                 class: "provinceTooltip",
@@ -193,7 +204,21 @@
                                 },
                                 displacement: [5, 0],
                                 updateContent: function() {
-                                    var rate = app.ratesData[8].values[id-1].values[app.selection.year-2006].values.toFixed(1);
+                                    var causeIndex = getCauseIndex();
+                                    if(causeIndex==null) {
+                                        causeIndex = 8;
+                                    }
+
+                                    var provinceDeaths = 0;
+                                    if(causeIndex!=8) {
+                                        provinceDeaths = app.deathsData[causeIndex].values[id - 1].values[app.selection.year - 2006].values[0].total_deaths;
+                                    }else{
+                                        provinceDeaths = app.deathsData[causeIndex].values[id - 1].values[app.selection.year - 2006].values[0].nac_deaths;
+                                    }
+
+                                    $(".provinceTooltip").find("span.provinceDeaths").text(provinceDeaths);
+
+                                    var rate = app.ratesData[causeIndex].values[id-1].values[app.selection.year-2006].values.toFixed(1);
                                     $(".provinceTooltip").find("span.provinceRate").text(rate);
                                     $(".province-bar").css("width", rate*10);
 
@@ -258,11 +283,14 @@
         };
 
         function getCauseIndex() {
-            for (var i=0; i<app.causesArray.length; i++) {
-                if (app.causesArray[i].key == app.selection.cause.key) {
-                    return i;
+            if (app.selection.cause) {
+                for (var i = 0; i < app.causesArray.length; i++) {
+                    if (app.causesArray[i].key == app.selection.cause.key) {
+                        return i;
+                    }
                 }
             }
+            return null;
         }
 
         app.quartile = function(provinceId) {
@@ -282,6 +310,46 @@
             return app.quartiles.length;
         }
 
+        function processDeathsData(data){
+            var revisedData = [];
+            var causesCols = ['aborto_cant','hipert_cant','placenta_cant','otras_directas_cant','hemorragias_cant','sepsis_cant','vih_cant','otras_ind_cant']
+            // Process data
+            data.forEach(function (d) {
+                for (i = 0; i < app.causesArray.length; i++) {
+                    var cause = app.causesArray[i].key;
+                    revisedData.push({
+                        'anio': d['anio'],
+                        'cod_prov': d['cod_prov'],
+                        'provincia': d['provincia'],
+                        'cause': cause,
+                        'total_deaths': d[causesCols[i]],
+                        'nac_deaths': d['total muertes']
+                    });
+                }
+            });
+
+            var deathsByProvincesByYearByCause = d3.nest()
+                .key(function (d) {
+                    return d.cause
+                })
+                .key(function (d) {
+                    return d.provincia
+                })
+                .key(function (d) {
+                    return d.anio
+                })
+                .entries(revisedData);
+
+
+            var total = {};
+            total.key = "total";
+            total.values = $.extend(true, [], deathsByProvincesByYearByCause[0].values);
+            deathsByProvincesByYearByCause.push(total);
+
+            return deathsByProvincesByYearByCause;
+
+        }
+
         function processRateData(data) {
             var revisedData = [];
 
@@ -299,7 +367,8 @@
                 }
             });
 
-            var deathByProvincesByYearByCause = d3.nest()
+
+            var rmmByProvincesByYearByCause = d3.nest()
                 .key(function (d) {
                     return d.cause
                 })
@@ -319,10 +388,10 @@
 
             var total = {};
             total.key = "total";
-            total.values = $.extend(true, [], deathByProvincesByYearByCause[0].values);
+            total.values = $.extend(true, [], rmmByProvincesByYearByCause[0].values);
 
-            for (var i=1; i<deathByProvincesByYearByCause.length; i++) {
-                var cause = deathByProvincesByYearByCause[i];
+            for (var i=1; i<rmmByProvincesByYearByCause.length; i++) {
+                var cause = rmmByProvincesByYearByCause[i];
                 for (var j=0; j<cause.values.length; j++) {
                     var year = cause.values[j].values;
                     var totalYear = total.values[j].values;
@@ -331,9 +400,9 @@
                     }
                 }
             }
-            deathByProvincesByYearByCause.push(total);
+            rmmByProvincesByYearByCause.push(total);
 
-            return deathByProvincesByYearByCause;
+            return rmmByProvincesByYearByCause;
         }
 
         app.calculateQuartiles = function() {
