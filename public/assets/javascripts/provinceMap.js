@@ -193,8 +193,11 @@
             return d.department;
         }, "departamento", true);
 
+        svg.select(".provinceMap").empty();
+
         // Draw the map
         d3.json("/assets/data/" + province.departments.file, function(error, theProvince) {
+
             var departments = topojson.object(theProvince, theProvince.objects.departments);
             projection = d3.geo.mercator()
                 .scale(province.departments.scale)
