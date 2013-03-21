@@ -76,9 +76,13 @@ def main(csv_file):
         est['CONE_RMN'] = row[7]
         est['CONE_T'] = row[8]
 
-        geometry = { 'type' : 'Point', 'coordinates' : [float(est['Establecimiento_coordenadasDeMapa_latitud']),float(est['Establecimiento_coordenadasDeMapa_longitud'])] }
-        feature = { 'type' : 'Feature', 'properties' : est, 'geometry' : geometry }
-        features.append(feature)
+        lat = est['Establecimiento_coordenadasDeMapa_latitud']
+        lng = est['Establecimiento_coordenadasDeMapa_longitud']
+        
+        if lat != 'null' and lng != 'null':
+            geometry = { 'type' : 'Point', 'coordinates' : [float(lat), float(lng)] }
+            feature = { 'type' : 'Feature', 'properties' : est, 'geometry' : geometry }
+            features.append(feature)
 
     result = { 'type' : 'FeatureCollection', 'features' : features}
     print json.dumps(result, sort_keys=True, indent=4, separators=(',', ': '))
