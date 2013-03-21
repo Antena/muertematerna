@@ -56,6 +56,21 @@
             });
     }
 
+    provinceMap.resetFilters = function() {
+        $("#province-map-filter input[type=checkbox]")
+            .attr("disabled", true)
+            .attr("checked", true);
+
+        $("#province-map-filter input[type=radio]").each(function() {
+            var val = $(this).val();
+            if (val == "showAll") {
+                $(this).attr("checked", true);
+            } else {
+                $(this).removeAttr("checked");
+            }
+        });
+    }
+
     provinceMap.showAllHealthcareCenters = function() {
         map.selectAll(".place").style("display", "inline");
     }
@@ -132,6 +147,8 @@
     }
 
     provinceMap.update = function() {
+        var self = this;
+
         // Color group
         var newcolorGroup = app.selection.cause ? app.selection.cause.colorGroup : "Blues";
         if (newcolorGroup != colorGorup) {
@@ -143,9 +160,11 @@
         var svg = d3.select("#provinceMapCanvas");
         var theMap = svg.select(".provinceMap");
         if (theMap.empty()) {
+            self.resetFilters();
             this.draw(province);
         } else if (svg.select("#province-" + province.value).empty()) {
             theMap.remove();
+            self.resetFilters();
             this.draw(province);
         } else {
             this.recolorMap();
