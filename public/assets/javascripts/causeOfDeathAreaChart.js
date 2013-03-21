@@ -190,7 +190,7 @@
         d3.csv("/assets/data/razon_muertes.csv", function (data) {
             var revisedData = [];
             // Process data
-            data.forEach(function (d) {
+            $.each(data, function (i, d) {
                 /*keys [anio, cod_prov ,provincia ,Aborto_P ,T_Hipert_P ,T_Placenta_P ,Otras_directas_P ,Hemorragia_post_P ,Sepsis_y_O_P ,Enf_por_VIH_P ,Otras_ind_P];
                  */
                 var i = 0;
