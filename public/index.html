@@ -77,7 +77,7 @@
 <div class="row" id="main-canvas">
     <div class="span4">
         <h5>Evolución de la razón de muerte materna <abbr data-glossary-key="rmm" data-placement="bottom">RMM</abbr> por causa de muerte</h5>
-        <div class="row">
+        <div class="row" style="min-height: 161px">
             <div class="span2" id="direct-causes-legend">
                 <p class="legend-title">Causas de muerte directas</p>
             </div>
@@ -91,7 +91,7 @@
     <div class="span4">
         <h5 style="min-height: 40px"><abbr data-glossary-key="rmm" data-placement="bottom">RMM</abbr> por provincia <span id="map-title-suffix"></span></h5>
         <a href="#" id="zoomout" style="font-size: 11px" class="pull-right">Volver al mapa del país</a>
-        <div id="map"></div>
+        <div id="map" class="loading"></div>
         <div class="map-control pull-left">
             <input type="checkbox" id="toggleMedicalCenters"/> Mostrar maternidades
         </div>
@@ -197,7 +197,7 @@
     </div>
 </div>
 <br/>
-<div class="row">
+<div class="row" style="min-height: 215px">
     <div class="span2 pieChart" id="pieChart1">
         <h5 style="text-align: center; min-height: 40px;">¿Tenían cobertura médica?</h5>
     </div>

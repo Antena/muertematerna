@@ -235,6 +235,7 @@
                     d3choropleth.colorize("provinces", d3choropleth.currentColorGorup, function() {
                         return self.quartile(this.properties.ID_1);
                     });
+                    $("#map").removeClass("loading");
                 },
                 update: function() {
                     //update cause

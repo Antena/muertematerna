@@ -65,6 +65,11 @@
  **********************************************************************************************************************/
 #map {
     margin-top: 10px;
+    min-height: 525px;
+}
+
+#map.loading {
+    background-position: 125px 237px;
 }
 
 #map .background, #province-map .background {
@@ -172,6 +177,7 @@
 #causesByYear {
     font-size: 11px;
     fill: #333;
+    min-height: 346px;
 }
 
 #causesByYear.loading {
@@ -235,6 +241,7 @@
 
 #deathRate {
     font-size: 10px;
+    min-height: 206px;
 }
 
 #deathRate .line {
