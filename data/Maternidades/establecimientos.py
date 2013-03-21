@@ -76,8 +76,8 @@ def main(csv_file):
         est['CONE_RMN'] = row[7]
         est['CONE_T'] = row[8]
 
-        lat = est['Establecimiento_coordenadasDeMapa_latitud']
-        lng = est['Establecimiento_coordenadasDeMapa_longitud']
+        lat = est['Establecimiento_coordenadasDeMapa_latitud'].replace(',', '.')
+        lng = est['Establecimiento_coordenadasDeMapa_longitud'].replace(',', '.')
         
         if lat != 'null' and lng != 'null':
             geometry = { 'type' : 'Point', 'coordinates' : [float(lat), float(lng)] }
