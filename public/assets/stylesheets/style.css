@@ -174,8 +174,8 @@
     fill: #333;
 }
 
-#causesByYear svg.loading {
-    background-position: 125px 135px;
+#causesByYear.loading {
+    background-position: 125px 148px;
 }
 
 .cause {

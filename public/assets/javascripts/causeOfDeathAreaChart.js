@@ -97,7 +97,6 @@
             svg = d3.select("#" + containerDiv).append("svg")
                 .attr("width", width + margin.left + margin.right)
                 .attr("height", height + margin.top + margin.bottom + 20)
-                .classed("loading", true)
                 .append("g")
                 .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
@@ -122,6 +121,8 @@
                 .attr("dy", ".35em")
                 .text("RMM Nacional")
                 .style("fill", app.causesReferenceLine.color);
+
+            $("#causesByYear").removeClass("loading");
         }
 
         x.domain([2006, 2011]);
@@ -158,8 +159,6 @@
             });
 
         paths.exit().selectAll(".cause").transition().duration(2000).remove();
-
-        d3.select("#causesByYear svg").classed("loading", false);
 
         //reference line
         var references = svg.selectAll(".reference").data(referenceData);
