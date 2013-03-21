@@ -203,6 +203,7 @@
 
     provinceMap.draw = function(province) {
         var svg = d3.select("#provinceMapCanvas");
+        svg.classed("loading", true);
 
         // Sidebar title
         $(".id-provinceName").text(province.key);
@@ -308,6 +309,7 @@
                     })
 
             }
+            svg.classed("loading", false);
         });
     }
 })()

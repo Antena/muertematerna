@@ -274,6 +274,14 @@
     cursor: move;
 }
 
+.loading {
+    background-image: url("/assets/img/loading.gif");
+    background-repeat: no-repeat;
+}
+#provinceMapCanvas.loading {
+    background-position: 115px 125px;
+}
+
 #provinceMapCanvas .background {
     fill: none;
     pointer-events: all;
