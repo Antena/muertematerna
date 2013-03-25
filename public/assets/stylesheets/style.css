@@ -394,6 +394,7 @@
 
 .footer a.download {
     color: #333;
+    font-weight: bolder;
 }
 
 .footer a.download:hover {
