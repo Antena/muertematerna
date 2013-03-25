@@ -9,215 +9,223 @@
 </head>
 <body>
 <div class="container">
-    <h1>Muerte Materna en Argentina</h1>
+<h1>Muerte Materna en Argentina</h1>
 
-    <p class="lead">Es una plataforma de monitoreo de la mortalidad materna para hacer visible un problema complejo y a
-        la vez evitable que padecen muchas mujeres de nuestro país. Tiene el propósito el hacer pública la información
-        reportada en las estadísticas oficiales y enriquecerla con otras fuentes y dimensiones de análisis.</p>
+<p class="lead">Es una plataforma de monitoreo de la mortalidad materna para hacer visible un problema complejo y a
+    la vez evitable que padecen muchas mujeres de nuestro país. Tiene el propósito el hacer pública la información
+    reportada en las estadísticas oficiales y enriquecerla con otras fuentes y dimensiones de análisis.</p>
 
-    <div id="messages" class="row">
-        <div class="span4">
-            <div class="message" id="message1">
-                <img class="pull-left" src="/assets/img/message1.png" width="35" height="35" alt="">
-                <h4>La reducción de la mortalidad materna está estancada</h4>
-                <p>Argentina asumió el compromiso de reducir las muertes en tres cuartas partes en el año 2015.</p>
-                <span class="more"><a href="#">Ver más</a></span>
-            </div>
-        </div>
-        <div class="span4">
-            <div class="message" id="message2">
-                <img class="pull-left" src="/assets/img/message2.png" width="35" height="35" alt="">
-                <h4>La variación interpovincial es muy alta</h4>
-                <p>La Razón de Muerte Materna de Formosa es 3 veces mayor a la nacional.</p>
-                <span class="more"><a href="#">Ver más</a></span>
-            </div>
-        </div>
-        <div class="span4">
-            <div class="message" id="message3">
-                <img class="pull-left" src="/assets/img/message3.png" width="35" height="35" alt="">
-                <h4>Las causas de muerte son variadas</h4>
-                <p>La mayoría de las muertes son por causas evitables.</p>
-                <span class="more"><a href="#">Ver más</a></span>
-            </div>
+<div id="messages" class="row">
+    <div class="span4">
+        <div class="message" id="message1">
+            <img class="pull-left" src="/assets/img/message1.png" width="35" height="35" alt="">
+            <h4>La reducción de la mortalidad materna está estancada</h4>
+            <p>Argentina asumió el compromiso de reducir las muertes en tres cuartas partes en el año 2015.</p>
+            <span class="more"><a href="#">Ver más</a></span>
         </div>
     </div>
-
-    <div id="message-charts" class="row" style="height: 200px; display: none;">
-        <a class="close" href="#">&times;</a>
-
-        <div id="chartForMessage1" style="display: none">
-            <div class="span9">
-                <div id="odm-linechart"></div>
-            </div>
-            <div class="span3" style="text-align: right">
-                <h4>ODM</h4>
-                <p>La reducción en tres cuartas partes de la razón de la mortalidad materna en el año 2015 es el 5to de los <a href="http://www.undp.org/content/undp/es/home/mdgoverview/" target="_blank">Objetivos de Desarrollo del Milenio</a>. Argentina ha asumido este <a href="http://www.politicassociales.gov.ar/odm/" target="_blank">compromiso</a>, pero para cumplirlo la RMM del año 2011 debería haber llegado a 1,6 x 10.000 NV (nacidos vivos). Sin embargo, la razón de ese año fue 2,5 veces mayor que la deseada. De continuar el lento ritmo de descenso que se viene observando hasta el presente, se estima que la RMM para el año 2015 será 3,2 veces superior a la meta comprometida.</p>
-            </div>
-        </div>
-        <div id="chartForMessage2" style="display: none">
-            <div class="span9">
-                <div id="rank-barchart"></div>
-            </div>
-            <div class="span3" style="text-align: right">
-                <h4>Provincias</h4>
-                <p>Más de la mitad de las provincias (13 de 24) superan la RMM nacional y 4 llegan a duplicarla o triplicarla (Chaco, Formosa, Jujuy y Misiones). Esto indica un riesgo desproporcionado para las mujeres que viven en diferentes jurisdicciones.</p>
-            </div>
-        </div>
-        <div id="chartForMessage3" style="display: none">
-            <div class="span9">
-                <div id="causes-piechart" style="width: 700px; height: 352px;"></div>
-            </div>
-            <div class="span3" style="text-align: right">
-                <h4>Estructura de causas de muerte materna</h4>
-                <p>La mayoría de las muertes son por causas evitables y el aborto es la principal causa en más de la mitad de las provincias del país. El gráfico resume la distribución de las causas en el quinquenio 2007-2011. Los datos fueron extraídos de las Estadísticas Vitales de la Dirección de Estadísticas e Información en Salud, Ministerio de Salud.</p>
-            </div>
+    <div class="span4">
+        <div class="message" id="message2">
+            <img class="pull-left" src="/assets/img/message2.png" width="35" height="35" alt="">
+            <h4>La variación interpovincial es muy alta</h4>
+            <p>La Razón de Muerte Materna de Formosa es 3 veces mayor a la nacional.</p>
+            <span class="more"><a href="#">Ver más</a></span>
         </div>
     </div>
-
-    <div class="row" id="main-canvas">
-        <div class="span4">
-            <h5>Evolución de la razón de muerte materna <abbr data-glossary-key="rmm" data-placement="bottom">RMM</abbr> por causa de muerte</h5>
-            <div class="row">
-                <div class="span2" id="direct-causes-legend">
-                    <p class="legend-title">Causas de muerte directas</p>
-                </div>
-                <div class="span2" id="indirect-causes-legend">
-                    <p class="legend-title">Causas de muerte indirectas</p>
-                </div>
-            </div>
-            <a href="#" id="resetarea" style="font-size: 11px; margin-right: 12px;" class="pull-right">Limpiar selección</a>
-            <div id="causesByYear"></div>
-        </div>
-        <div class="span4">
-            <h5 style="min-height: 40px"><abbr data-glossary-key="rmm" data-placement="bottom">RMM</abbr> por provincia <span id="map-title-suffix"></span></h5>
-            <a href="#" id="zoomout" style="font-size: 11px" class="pull-right">Volver al mapa del país</a>
-            <div id="map"></div>
-            <div class="map-control pull-left">
-                <input type="checkbox" id="toggleMedicalCenters"/> Mostrar maternidades
-            </div>
-        </div>
-        <div class="span4">
-            <div class="sidebar">
-                <div id="nationalContext">
-                    <h4 style="text-align: center">Datos Nacionales</h4>
-                    <ul class="context-data unstyled">
-                        <li>
-                            <div class="number">302</div>
-                            mujeres murieron en el 2011
-                        </li>
-                        <li>
-                            <div class="number">4.0</div>
-                            es la RMM del país en 2011
-                        </li>
-                        <li>
-                            <div class="number">1.3</div>
-                            es la RMM más baja del país, en CABA
-                        </li>
-                        <li>
-                            <div class="number">12.3</div>
-                            es la RMM de Formosa, la más alta del país
-                        </li>
-                        <li>
-                            <div class="number" style="height: 65px">1.3</div>
-                            es la RMM que debe alcanzar la Argentina para cumplir con la meta propuesta para el ODM5 en 2015
-                        </li>
-                    </ul>
-                    <br/>
-                    <h5>Evolución de la <abbr data-glossary-key="rmm" data-placement="top">RMM</abbr> nacional 2006-2011</h5>
-                    <div id="deathRate"></div>
-                </div>
-                <div id="provinceContext" style="display: none">
-                    <h4 class="id-provinceName" style="text-align: center">Buenos Aires</h4>
-                    <div id="province-map"></div>
-                    <div id="province-map-filter">
-                        <p class="legend-title">Filtrar maternidades según su cumplimiento de las CONE</p>
-                        <label class="radio">
-                            <input type="radio" name="coneFilter" value="showAll" checked>
-                            Todas
-                        </label>
-                        <label class="radio">
-                            <input type="radio" name="coneFilter" value="showFullCompliant">
-                            Las que cumplen todas las CONE
-                        </label>
-                        <label class="radio">
-                            <input type="radio" name="coneFilter" value="showFiltered">
-                            Las que no cumplen con alguna de las CONE:
-                        </label>
-                        <div class="col" style="margin-right: 10px;">
-                            <ul class="cone-list unstyled">
-                                <li>
-                                    <label class="checkbox" title="Quirófano">
-                                        <input type="checkbox" id="CONE_Q" checked disabled> CONE Q
-                                    </label>
-                                </li>
-                                <li>
-                                    <label class="checkbox" title="Anestesia">
-                                        <input type="checkbox" id="CONE_A" checked disabled> CONE A
-                                    </label>
-                                </li>
-                                <li>
-                                    <label class="checkbox" title="Sangre segura">
-                                        <input type="checkbox" id="CONE_S" checked disabled> CONE S
-                                    </label>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="col">
-                            <ul class="cone-list unstyled" style="margin-right: 10px;">
-                                <li>
-                                    <label class="checkbox" title="Tratamiento patologias maternas graves">
-                                        <input type="checkbox" id="CONE_PM" checked disabled> CONE PM
-                                    </label>
-                                </li>
-                                <li>
-                                    <label class="checkbox" title="RCP neonatal y calor">
-                                        <input type="checkbox" id="CONE_PN" checked disabled> CONE PN
-                                    </label>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="col">
-                            <ul class="cone-list unstyled">
-                                <li>
-                                    <label class="checkbox" title="Listados de riesgo materno neonatal">
-                                        <input type="checkbox" id="CONE_RMN" checked disabled> CONE RMN
-                                    </label>
-                                </li>
-                                <li>
-                                    <label class="checkbox" title="Traslado">
-                                        <input type="checkbox" id="CONE_T" checked disabled> CONE T
-                                    </label>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </div>
-    <br/>
-    <div class="row">
-        <div class="span2 pieChart" id="pieChart1">
-            <h5 style="text-align: center; min-height: 40px;">¿Tenían cobertura médica?</h5>
-        </div>
-        <div class="span2 pieChart" id="pieChart2">
-            <h5 style="text-align: center; min-height: 40px;">¿Donde murieron?</h5>
-        </div>
-        <div class="span2 pieChart" id="pieChart3">
-            <h5 style="text-align: center; min-height: 40px;">¿Tuvieron atención médica?</h5>
-        </div>
-        <div class="span2 pieChart" id="pieChart4">
-            <h5 style="text-align: center; min-height: 40px;">¿Habían ido a la escuela?</h5>
-        </div>
-        <div class="span2 pieChart" id="pieChart5" style="margin-right: 0px;">
-            <h5 style="text-align: center; min-height: 40px;">¿Qué edad tenían?</h5>
+    <div class="span4">
+        <div class="message" id="message3">
+            <img class="pull-left" src="/assets/img/message3.png" width="35" height="35" alt="">
+            <h4>Las causas de muerte son variadas</h4>
+            <p>La mayoría de las muertes son por causas evitables.</p>
+            <span class="more"><a href="#">Ver más</a></span>
         </div>
     </div>
 </div>
 
+<div id="message-charts" class="row" style="height: 200px; display: none;">
+    <a class="close" href="#">&times;</a>
+
+    <div id="chartForMessage1" style="display: none">
+        <div class="span9">
+            <div id="odm-linechart"></div>
+        </div>
+        <div class="span3" style="text-align: right">
+            <h4>ODM</h4>
+            <p>La reducción en tres cuartas partes de la razón de la mortalidad materna en el año 2015 es el 5to de los <a href="http://www.undp.org/content/undp/es/home/mdgoverview/" target="_blank">Objetivos de Desarrollo del Milenio</a>. Argentina ha asumido este <a href="http://www.politicassociales.gov.ar/odm/" target="_blank">compromiso</a>, pero para cumplirlo la RMM del año 2011 debería haber llegado a 1,6 x 10.000 NV (nacidos vivos). Sin embargo, la razón de ese año fue 2,5 veces mayor que la deseada. De continuar el lento ritmo de descenso que se viene observando hasta el presente, se estima que la RMM para el año 2015 será 3,2 veces superior a la meta comprometida.</p>
+        </div>
+    </div>
+    <div id="chartForMessage2" style="display: none">
+        <div class="span9">
+            <div id="rank-barchart"></div>
+        </div>
+        <div class="span3" style="text-align: right">
+            <h4>Provincias</h4>
+            <p>Más de la mitad de las provincias (13 de 24) superan la RMM nacional y 4 llegan a duplicarla o triplicarla (Chaco, Formosa, Jujuy y Misiones). Esto indica un riesgo desproporcionado para las mujeres que viven en diferentes jurisdicciones.</p>
+        </div>
+    </div>
+    <div id="chartForMessage3" style="display: none">
+        <div class="span9">
+            <div id="causes-piechart" style="width: 700px; height: 352px;"></div>
+        </div>
+        <div class="span3" style="text-align: right">
+            <h4>Estructura de causas de muerte materna</h4>
+            <p>La mayoría de las muertes son por causas evitables y el aborto es la principal causa en más de la mitad de las provincias del país. El gráfico resume la distribución de las causas en el quinquenio 2007-2011. Los datos fueron extraídos de las Estadísticas Vitales de la Dirección de Estadísticas e Información en Salud, Ministerio de Salud.</p>
+        </div>
+    </div>
+</div>
+
+<div class="row" id="main-canvas">
+    <div class="span4">
+        <h5>Evolución de la razón de muerte materna <abbr data-glossary-key="rmm" data-placement="bottom">RMM</abbr> por causa de muerte</h5>
+        <div class="row" style="min-height: 161px">
+            <div class="span2" id="direct-causes-legend">
+                <p class="legend-title">Causas de muerte directas</p>
+            </div>
+            <div class="span2" id="indirect-causes-legend">
+                <p class="legend-title">Causas de muerte indirectas</p>
+            </div>
+        </div>
+        <a href="#" id="resetarea" style="font-size: 11px; margin-right: 12px;" class="pull-right">Limpiar selección</a>
+        <div id="causesByYear" class="loading"></div>
+    </div>
+    <div class="span4">
+        <h5 style="min-height: 40px"><abbr data-glossary-key="rmm" data-placement="bottom">RMM</abbr> por provincia <span id="map-title-suffix"></span></h5>
+        <a href="#" id="zoomout" style="font-size: 11px" class="pull-right">Volver al mapa del país</a>
+        <div id="map" class="loading"></div>
+        <div class="map-control pull-left">
+            <input type="checkbox" id="toggleMedicalCenters"/> Mostrar maternidades
+        </div>
+    </div>
+    <div class="span4">
+        <div class="sidebar">
+            <div id="nationalContext">
+                <h4 style="text-align: center">Datos Nacionales</h4>
+                <ul class="context-data unstyled">
+                    <li>
+                        <div class="number">302</div>
+                        mujeres murieron en el 2011
+                    </li>
+                    <li>
+                        <div class="number">4.0</div>
+                        es la RMM del país en 2011
+                    </li>
+                    <li>
+                        <div class="number">1.3</div>
+                        es la RMM más baja del país, en CABA
+                    </li>
+                    <li>
+                        <div class="number">12.3</div>
+                        es la RMM de Formosa, la más alta del país
+                    </li>
+                    <li>
+                        <div class="number" style="height: 65px">1.3</div>
+                        es la RMM que debe alcanzar la Argentina para cumplir con la meta propuesta para el ODM5 en 2015
+                    </li>
+                </ul>
+                <br/>
+                <h5>Evolución de la <abbr data-glossary-key="rmm" data-placement="top">RMM</abbr> nacional 2006-2011</h5>
+                <div id="deathRate"></div>
+            </div>
+            <div id="provinceContext" style="display: none">
+                <h4 class="id-provinceName" style="text-align: center">Buenos Aires</h4>
+                <div id="province-map"></div>
+                <div id="province-map-filter">
+                    <p class="legend-title">Filtrar maternidades según su cumplimiento de las CONE</p>
+                    <label class="radio">
+                        <input type="radio" name="coneFilter" value="showAll" checked>
+                        Todas
+                    </label>
+                    <label class="radio">
+                        <input type="radio" name="coneFilter" value="showFullCompliant">
+                        Las que cumplen todas las CONE
+                    </label>
+                    <label class="radio">
+                        <input type="radio" name="coneFilter" value="showFiltered">
+                        Las que no cumplen con alguna de las CONE:
+                    </label>
+                    <div class="col" style="margin-right: 10px;">
+                        <ul class="cone-list unstyled">
+                            <li>
+                                <label class="checkbox" title="Quirófano">
+                                    <input type="checkbox" id="CONE_Q" checked disabled> CONE Q
+                                </label>
+                            </li>
+                            <li>
+                                <label class="checkbox" title="Anestesia">
+                                    <input type="checkbox" id="CONE_A" checked disabled> CONE A
+                                </label>
+                            </li>
+                            <li>
+                                <label class="checkbox" title="Sangre segura">
+                                    <input type="checkbox" id="CONE_S" checked disabled> CONE S
+                                </label>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col">
+                        <ul class="cone-list unstyled" style="margin-right: 10px;">
+                            <li>
+                                <label class="checkbox" title="Tratamiento patologias maternas graves">
+                                    <input type="checkbox" id="CONE_PM" checked disabled> CONE PM
+                                </label>
+                            </li>
+                            <li>
+                                <label class="checkbox" title="RCP neonatal y calor">
+                                    <input type="checkbox" id="CONE_PN" checked disabled> CONE PN
+                                </label>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col">
+                        <ul class="cone-list unstyled">
+                            <li>
+                                <label class="checkbox" title="Listados de riesgo materno neonatal">
+                                    <input type="checkbox" id="CONE_RMN" checked disabled> CONE RMN
+                                </label>
+                            </li>
+                            <li>
+                                <label class="checkbox" title="Traslado">
+                                    <input type="checkbox" id="CONE_T" checked disabled> CONE T
+                                </label>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<br/>
+<div class="row" style="min-height: 215px">
+    <div class="span2 pieChart" id="pieChart1">
+        <h5 style="text-align: center; min-height: 40px;">¿Tenían cobertura médica?</h5>
+    </div>
+    <div class="span2 pieChart" id="pieChart2">
+        <h5 style="text-align: center; min-height: 40px;">¿Donde murieron?</h5>
+    </div>
+    <div class="span2 pieChart" id="pieChart3">
+        <h5 style="text-align: center; min-height: 40px;">¿Tuvieron atención médica?</h5>
+    </div>
+    <div class="span2 pieChart" id="pieChart4">
+        <h5 style="text-align: center; min-height: 40px;">¿Habían ido a la escuela?</h5>
+    </div>
+    <div class="span2 pieChart" id="pieChart5" style="margin-right: 0px;">
+        <h5 style="text-align: center; min-height: 40px;">¿Qué edad tenían?</h5>
+    </div>
+</div>
+</div>
+
 <footer class="footer">
     <div class="container">
+        <div class="row">
+            <div class="span9"></div>
+            <div class="span3">
+                <h5>Dataset</h5>
+                <p><small>Descargue el dataset completo utilizado para realizar esta visualización.</small></p>
+                <a href="/assets/data/merge-2011.csv" class="download"><i class="icon-download-alt"></i> CSV</a>
+            </div>
+        </div>
     </div>
 </footer>
 
@@ -283,120 +291,121 @@
 <script src="/assets/javascripts/app.js"></script>
 <script src="assets/data/glossary.js"></script>
 <script>
+    $(window).load(function () {
+        // Medical centers checkbox toggle
+        $("#toggleMedicalCenters").change(function() {
+            var checked = $(this).attr("checked") || false;
+            if (checked) {
+                d3.selectAll(".circle")
+                        .transition()
+                        .attr("r", function(d) { return d.r });
+            } else {
+                d3.selectAll(".circle")
+                        .transition()
+                        .attr("r", 0);
+            }
+        });
 
-    // Medical centers checkbox toggle
-    $("#toggleMedicalCenters").change(function() {
-        var checked = $(this).attr("checked") || false;
-        if (checked) {
-            d3.selectAll(".circle")
-                    .transition()
-                    .attr("r", function(d) { return d.r });
-        } else {
-            d3.selectAll(".circle")
-                    .transition()
-                    .attr("r", 0);
-        }
-    });
-
-    // Messages
-    $("#messages .message")
-            .hover(function() {
-                if (!$(this).hasClass('current')) {
-                    $(this).toggleClass('hover');
-                }
-            })
-            .click(function(event) {
-                event.preventDefault();
-                var clickedMessage = $(this).attr("id");
-                var currentMessage = $("#messages .message.current").attr("id");
-                var chart = $("#chartFor" + clickedMessage.charAt(0).toUpperCase() + clickedMessage.slice(1));
-                $("#" + currentMessage).removeClass("current");
-                $(this).addClass("current").removeClass("hover");
-                if (!$("#message-charts").is(":visible")) {
-                    chart.addClass("current").fadeIn();
-                    $("#message-charts").slideDown();
-                } else if (clickedMessage == currentMessage) {
-                    $("#" + currentMessage).removeClass("current").addClass("hover");
-                    $("#message-charts .current").removeClass("current").fadeOut();
-                    $("#message-charts").slideUp();
-                } else {
-                    $("#message-charts .current").removeClass("current").fadeOut(function() {
-                        chart.addClass("current").fadeIn();
-                    });
-                }
-            });
-
-    $("#message-charts .close").click(function(event) {
-        event.preventDefault();
-        var currentMessage = $("#messages .message.current").attr("id");
-        $("#" + currentMessage).removeClass("current");
-        $("#message-charts .current").removeClass("current").fadeOut();
-        $("#message-charts").slideUp();
-    });
-
-    // Glossary
-    $("abbr").click(function() {
-        if (!$(this).data("popover")) {
-            var key = $(this).attr("data-glossary-key");
-            $(this).popover({
-                title: glossary.getTitle(key),
-                content : glossary.getContent(key)
-            });
-            $(this).popover("show");
-        }
-    })
-
-
-    // Affix
-    $("#province-selector input").inlineComplete({
-        terms: provinces.getNames(),
-        submitOnReturn: true
-    });
-    $("#province-selector form").submit(function(event) {
-        event.preventDefault();
-        var inputText = $("#province-selector input").val();
-        var province = provinces.getByName(inputText);
-        app.setProvince(province);
-    });
-    $("#province-selector .reset-selector").click(function(event) {
-        event.preventDefault();
-        app.setProvince(null);
-    });
-
-    var causesSelector = $("#cause-selector");
-    var resetCauses = $("<a href='#'>&times;</a>")
-            .addClass("reset-selector")
-            .attr("title", "Limpiar la selección de la causa")
-            .click(function(event) {
-                event.preventDefault();
-                causeOfDeathAreaChart.reset(event);
-            });
-    causesSelector.append(resetCauses);
-    app.causesArray.forEach(function(cause) {
-        var box = $("<div></div>")
-                .attr("class", "cause-box")
-                .attr("data-key", cause.key)
-                .css("background", cause.color)
-                .tooltip({
-                    title: cause.text
+        // Messages
+        $("#messages .message")
+                .hover(function() {
+                    if (!$(this).hasClass('current')) {
+                        $(this).toggleClass('hover');
+                    }
                 })
-                .click(function() {
-                    var key = $(this).attr("data-key");
-                    var cause = app.causesArray.filter(function(elem) { return elem.key == key})[0];
-                    app.setCause(cause);
+                .click(function(event) {
+                    event.preventDefault();
+                    var clickedMessage = $(this).attr("id");
+                    var currentMessage = $("#messages .message.current").attr("id");
+                    var chart = $("#chartFor" + clickedMessage.charAt(0).toUpperCase() + clickedMessage.slice(1));
+                    $("#" + currentMessage).removeClass("current");
+                    $(this).addClass("current").removeClass("hover");
+                    if (!$("#message-charts").is(":visible")) {
+                        chart.addClass("current").fadeIn();
+                        $("#message-charts").slideDown();
+                    } else if (clickedMessage == currentMessage) {
+                        $("#" + currentMessage).removeClass("current").addClass("hover");
+                        $("#message-charts .current").removeClass("current").fadeOut();
+                        $("#message-charts").slideUp();
+                    } else {
+                        $("#message-charts .current").removeClass("current").fadeOut(function() {
+                            chart.addClass("current").fadeIn();
+                        });
+                    }
                 });
 
-        causesSelector.append(box);
+        $("#message-charts .close").click(function(event) {
+            event.preventDefault();
+            var currentMessage = $("#messages .message.current").attr("id");
+            $("#" + currentMessage).removeClass("current");
+            $("#message-charts .current").removeClass("current").fadeOut();
+            $("#message-charts").slideUp();
+        });
+
+        // Glossary
+        $("abbr").click(function() {
+            if (!$(this).data("popover")) {
+                var key = $(this).attr("data-glossary-key");
+                $(this).popover({
+                    title: glossary.getTitle(key),
+                    content : glossary.getContent(key)
+                });
+                $(this).popover("show");
+            }
+        })
+
+
+        // Affix
+        $("#province-selector input").inlineComplete({
+            terms: provinces.getNames(),
+            submitOnReturn: true
+        });
+        $("#province-selector form").submit(function(event) {
+            event.preventDefault();
+            var inputText = $("#province-selector input").val();
+            var province = provinces.getByName(inputText);
+            app.setProvince(province);
+        });
+        $("#province-selector .reset-selector").click(function(event) {
+            event.preventDefault();
+            app.setProvince(null);
+        });
+
+        var causesSelector = $("#cause-selector");
+        var resetCauses = $("<a href='#'>&times;</a>")
+                .addClass("reset-selector")
+                .attr("title", "Limpiar la selección de la causa")
+                .click(function(event) {
+                    event.preventDefault();
+                    causeOfDeathAreaChart.reset(event);
+                });
+        causesSelector.append(resetCauses);
+        app.causesArray.forEach(function(cause) {
+            var box = $("<div></div>")
+                    .attr("class", "cause-box")
+                    .attr("data-key", cause.key)
+                    .css("background", cause.color)
+                    .tooltip({
+                        title: cause.text
+                    })
+                    .click(function() {
+                        var key = $(this).attr("data-key");
+                        var cause = app.causesArray.filter(function(elem) { return elem.key == key})[0];
+                        app.setCause(cause);
+                    });
+
+            causesSelector.append(box);
+        });
+
+        $("#selection_year").text(app.selection.year);
+
+        // Context charts
+        contextCharts.odm();
+        contextCharts.rank();
+        contextCharts.causes();
+
+        app.init();
     });
-
-    $("#selection_year").text(app.selection.year);
-
-    // Context charts
-    contextCharts.odm();
-    contextCharts.rank();
-    contextCharts.causes();
-
-    app.init();
 </script>
 </body>
 

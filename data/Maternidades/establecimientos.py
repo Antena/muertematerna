@@ -66,19 +66,23 @@ def get_establecimiento(sissa_id):
 def main(csv_file):
     features = []
     for row in list(csv.reader(open(csv_file, 'rU')))[1:]:
-        est = get_establecimiento(row[7])
-        est['Partos'] = row[17]
-        est['CONE_Q'] = row[18]
-        est['CONE_A'] = row[19]
-        est['CONE_S'] = row[20]
-        est['CONE_PM'] = row[21]
-        est['CONE_PN'] = row[22]
-        est['CONE_RMN'] = row[23]
-        est['CONE_T'] = row[24]
+        est = get_establecimiento(row[0])
+        est['Partos'] = row[1]
+        est['CONE_Q'] = row[2]
+        est['CONE_A'] = row[3]
+        est['CONE_S'] = row[4]
+        est['CONE_PM'] = row[5]
+        est['CONE_PN'] = row[6]
+        est['CONE_RMN'] = row[7]
+        est['CONE_T'] = row[8]
 
-        geometry = { 'type' : 'Point', 'coordinates' : [float(est['Establecimiento_coordenadasDeMapa_latitud']),float(est['Establecimiento_coordenadasDeMapa_longitud'])] }
-        feature = { 'type' : 'Feature', 'properties' : est, 'geometry' : geometry }
-        features.append(feature)
+        lat = est['Establecimiento_coordenadasDeMapa_latitud'].replace(',', '.')
+        lng = est['Establecimiento_coordenadasDeMapa_longitud'].replace(',', '.')
+        
+        if lat != 'null' and lng != 'null':
+            geometry = { 'type' : 'Point', 'coordinates' : [float(lat), float(lng)] }
+            feature = { 'type' : 'Feature', 'properties' : est, 'geometry' : geometry }
+            features.append(feature)
 
     result = { 'type' : 'FeatureCollection', 'features' : features}
     print json.dumps(result, sort_keys=True, indent=4, separators=(',', ': '))

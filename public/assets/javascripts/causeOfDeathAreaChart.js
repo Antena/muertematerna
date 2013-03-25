@@ -94,12 +94,12 @@
             });
 
         if (!svg) {
-
             svg = d3.select("#" + containerDiv).append("svg")
                 .attr("width", width + margin.left + margin.right)
                 .attr("height", height + margin.top + margin.bottom + 20)
                 .append("g")
                 .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
 
             svg.append("g")
                 .attr("class", "x axis")
@@ -121,6 +121,8 @@
                 .attr("dy", ".35em")
                 .text("RMM Nacional")
                 .style("fill", app.causesReferenceLine.color);
+
+            $("#causesByYear").removeClass("loading");
         }
 
         x.domain([2006, 2011]);
@@ -156,7 +158,6 @@
                     return z(i);
             });
 
-
         paths.exit().selectAll(".cause").transition().duration(2000).remove();
 
         //reference line
@@ -189,7 +190,7 @@
         d3.csv("/assets/data/razon_muertes.csv", function (data) {
             var revisedData = [];
             // Process data
-            data.forEach(function (d) {
+            $.each(data, function (i, d) {
                 /*keys [anio, cod_prov ,provincia ,Aborto_P ,T_Hipert_P ,T_Placenta_P ,Otras_directas_P ,Hemorragia_post_P ,Sepsis_y_O_P ,Enf_por_VIH_P ,Otras_ind_P];
                  */
                 var i = 0;

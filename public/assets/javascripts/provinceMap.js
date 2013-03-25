@@ -56,6 +56,21 @@
             });
     }
 
+    provinceMap.resetFilters = function() {
+        $("#province-map-filter input[type=checkbox]")
+            .attr("disabled", true)
+            .attr("checked", true);
+
+        $("#province-map-filter input[type=radio]").each(function() {
+            var val = $(this).val();
+            if (val == "showAll") {
+                $(this).attr("checked", true);
+            } else {
+                $(this).removeAttr("checked");
+            }
+        });
+    }
+
     provinceMap.showAllHealthcareCenters = function() {
         map.selectAll(".place").style("display", "inline");
     }
@@ -132,6 +147,8 @@
     }
 
     provinceMap.update = function() {
+        var self = this;
+
         // Color group
         var newcolorGroup = app.selection.cause ? app.selection.cause.colorGroup : "Blues";
         if (newcolorGroup != colorGorup) {
@@ -143,9 +160,11 @@
         var svg = d3.select("#provinceMapCanvas");
         var theMap = svg.select(".provinceMap");
         if (theMap.empty()) {
+            self.resetFilters();
             this.draw(province);
         } else if (svg.select("#province-" + province.value).empty()) {
             theMap.remove();
+            self.resetFilters();
             this.draw(province);
         } else {
             this.recolorMap();
@@ -184,6 +203,7 @@
 
     provinceMap.draw = function(province) {
         var svg = d3.select("#provinceMapCanvas");
+        svg.classed("loading", true);
 
         // Sidebar title
         $(".id-provinceName").text(province.key);
@@ -237,8 +257,9 @@
                 .style("fill", function(d) { return threshold(getDeathCount(d.properties.ID_2, departmentData))})
                 .tooltip(function(d,i) {
                     var content = $("<div></div>")
-                        .append('<p><strong>' + d.properties.NAME_2 + '</strong></p>')
-                        .append('<p><span class="deathCount"></span> muertes (<span class="year"></span>) </p>')
+                        .append('<p><strong>' + d.properties.NAME_2 + ' (<span class="year"></span>)</strong></p>')
+                        .append('<p><span class="departmentDeathCount"></span> muertes</p>')
+                        .append('<p><span class="provinceDeathCount"></span> en la provincia</p>');
 
                     return {
                         class: "departmentTooltip",
@@ -246,10 +267,13 @@
                         content: content.html(),
                         displacement: [0, 15],
                         updateContent: function() {
-                            $(".departmentTooltip").find(".deathCount").text(
+                            $(".departmentTooltip").find(".departmentDeathCount").text(
                                 getDeathCount(d.properties.ID_2, filterPieCharts.doAggregation(function(d) {
                                     return d.department;
                                 }, "departamento", true))
+                            );
+                            $(".departmentTooltip").find(".provinceDeathCount").text(
+                            app.deathsData[8].values[d.properties.ID_1-1].values[app.selection.year-2006].values[0].nac_deaths
                             );
                             $(".departmentTooltip").find(".year").text(app.selection.year);
                         }
@@ -289,6 +313,7 @@
                     })
 
             }
+            svg.classed("loading", false);
         });
     }
 })()

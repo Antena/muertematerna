@@ -182,13 +182,13 @@
                             var rate = app.ratesData[8].values[id-1].values[app.selection.year-2006].values.toFixed(1);
 
                             content.append('<div class="province-bar" style="width: ' + (rate * 10) + 'px"></div>');
-                            content.append('<p>RMM: <span class="provinceRate">' + rate + '</span></p>');
+                            content.append('<p>RMM provincial: <span class="provinceRate">' + rate + '</span></p>');
                             content.append('<br/>');
                             // National rate
                             var nationalRate = app.nationalRates.filter(function(rate) { return rate.year == app.selection.year})[0].rate.toFixed(1);
 
                             content.append('<div class="national-bar" style="width: ' + (nationalRate * 10) + 'px"></div>');
-                            content.append('<p>RMM: <span class="nationalRate">' + nationalRate + '</span></p>');
+                            content.append('<p>RMM nacional: <span class="nationalRate">' + nationalRate + '</span></p>');
                             content.append('<br/>');
 
                             //total deaths
@@ -235,6 +235,7 @@
                     d3choropleth.colorize("provinces", d3choropleth.currentColorGorup, function() {
                         return self.quartile(this.properties.ID_1);
                     });
+                    $("#map").removeClass("loading");
                 },
                 update: function() {
                     //update cause
