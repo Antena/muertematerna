@@ -4,13 +4,14 @@
 
     app = {};
 
+    //becareful with the order of this array
     app.causesArray = [
         { key:'aborto_razon', color:'#a8251d', colorGroup:'Reds', type:'direct', text:'Embarazo terminado en aborto',codmuer:[{from:0,to:7}] },
         { key:'hipert_razon', color:'#bf66b1', colorGroup:'PuRd', type:'direct', text:'Trastornos hipertensivos' ,codmuer:[{from:10,to:16}]},
         { key:'placenta_razon', color:'#486fb7', colorGroup:'Blues', type:'direct', text:'Trastornos de placenta y hemorragias',codmuer:[{from:44,to:46}] },
+        { key:'otras_directas_razon', color:'#6151a5', colorGroup:'Purples', type:'direct', text:'Otras causas directas',codmuer:[{from:20,to:29},{from:30,to:43},{from:47,to:48},{from:60,to:69},{from:70,to:71},{from:73,to:75},{from:95,to:95}] },
         { key:'hemorragias_razon', color:'#e6a827', colorGroup:'YlOrRd', type:'direct', text:'Hemorragia postparto',codmuer:[{from:72,to:72}]},
         { key:'sepsis_razon', color:'#b74c00', colorGroup:'Oranges', type:'direct', text:'Sepsis',codmuer:[{from:85,to:92}] },
-        { key:'otras_directas_razon', color:'#6151a5', colorGroup:'Purples', type:'direct', text:'Otras causas directas',codmuer:[{from:20,to:29},{from:30,to:43},{from:47,to:48},{from:60,to:69},{from:70,to:71},{from:73,to:75},{from:95,to:95}] },
         { key:'vih_razon', color:'#ad5000', colorGroup:'YlOrBr', type:'indirect', text:'Enfermedad por VIH', codmuer:[{from:200,to:224}]},
         { key:'otras_ind_razon', color:'#789b41', colorGroup:'Greens', type:'indirect', text:'Otras causas indirectas', codmuer:[{from:98,to:99}] }
     ];
@@ -204,7 +205,7 @@
                                 },
                                 displacement: [5, 0],
                                 updateContent: function() {
-                                    var causeIndex = getCauseIndex();
+                                    var causeIndex =  getCauseIndex();
                                     if(causeIndex==null) {
                                         causeIndex = 8;
                                     }
