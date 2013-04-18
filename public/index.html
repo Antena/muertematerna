@@ -92,9 +92,6 @@
         <h5 style="min-height: 40px"><abbr data-glossary-key="rmm" data-placement="bottom">RMM</abbr> por provincia <span id="map-title-suffix"></span></h5>
         <a href="#" id="zoomout" style="font-size: 11px" class="pull-right">Volver al mapa del país</a>
         <div id="map" class="loading"></div>
-        <div class="map-control pull-left">
-            <input type="checkbox" id="toggleMedicalCenters"/> Mostrar maternidades
-        </div>
     </div>
     <div class="span4">
         <div class="sidebar">
@@ -292,20 +289,6 @@
 <script src="assets/data/glossary.js"></script>
 <script>
     $(window).load(function () {
-        // Medical centers checkbox toggle
-        $("#toggleMedicalCenters").change(function() {
-            var checked = $(this).attr("checked") || false;
-            if (checked) {
-                d3.selectAll(".circle")
-                        .transition()
-                        .attr("r", function(d) { return d.r });
-            } else {
-                d3.selectAll(".circle")
-                        .transition()
-                        .attr("r", 0);
-            }
-        });
-
         // Messages
         $("#messages .message")
                 .hover(function() {
