@@ -2,7 +2,7 @@
     glossary = {};
 
     var terms = [
-        { key: "rmm", title: "Razón de Muerte Materna", content: "The maternal mortality rate (MMR) is the annual number of female deaths per 100,000 live births from any cause related to or aggravated by pregnancy or its management (excluding accidental or incidental causes). The MMR includes deaths during pregnancy, childbirth, or within 42 days of termination of pregnancy, irrespective of the duration and site of the pregnancy, for a specified year." }
+        { key: "rmm", title: "Razón de Muerte Materna", content: "La Razón de Mortalidad Materna se define como el número de muertes maternas en una población dividida por el número de nacidos vivos. Indica el riesgo de muerte materna en relación con el número de nacimientos (World Health Organization, 2007)." }
     ];
 
     glossary.getTitle = function(key) {
