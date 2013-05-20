@@ -9,13 +9,16 @@
     var threshold;
 
     provinceMap.init = function() {
-        this.drawLegend();
+
         this.initFilter();
+
 
         d3.select("#province-map").append("svg")
             .attr("id", "provinceMapCanvas")
             .attr("width", width)
             .attr("height", height)
+
+        this.drawLegend();
     }
 
     provinceMap.initFilter = function() {
