@@ -95,7 +95,9 @@
         app.drawChartTitles();
         filterPieCharts.drawPieCharts();
         if (app.selection.province != null) {
+            var year=app.selection.year;
             provinceMap.update();
+            $(".province-tgf").text(app.selection.province.fertilityRate[year]);
         }
     }
 

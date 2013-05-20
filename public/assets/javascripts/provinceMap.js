@@ -207,6 +207,8 @@
 
         // Sidebar title
         $(".id-provinceName").text(province.key);
+        var year = app.selection.year;
+        $(".province-tgf").text(province.fertilityRate[year]);
 
         // The filtered data
         var departmentData = filterPieCharts.doAggregation(function(d) {
