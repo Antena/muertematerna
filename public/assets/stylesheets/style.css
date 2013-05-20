@@ -389,17 +389,18 @@
     margin-top: 70px;
     margin-bottom: 70px;
     border-top: 1px solid #e5e5e5;
-    background-color: #f5f5f5;
+    background-color: #333333;
+    color: #999;
 }
 
 .footer a.download {
-    color: #333;
+    color: #999;
     font-weight: bolder;
 }
 
 .footer a.download:hover {
     text-decoration: none;
-    color: #000;
+    color: white;
 }
 
 /***********************************************************************************************************************
@@ -448,7 +449,6 @@ abbr {
     bottom: 0px;
     width: 100%;
     background: #333333;
-    border-top: solid 2px #e5e5e5;
 }
 
 .affix .container {
