@@ -1,8 +1,7 @@
 (function() {
     provinceMap = {};
 
-    var map, path, projection, zoom;
-    var zoomScale, zoomTranslate, initalScale;
+    var map, path, projection, zoom, initalScale;
     var width=280, height=300;
     var colorGorup = "Blues";
     var legend;
@@ -226,8 +225,6 @@
 
             var departments = topojson.object(theProvince, theProvince.objects.departments);
             initalScale = province.departments.scale;
-            zoomScale = initalScale;
-            zoomTranslate = [width / 2, height / 2];
             projection = d3.geo.mercator()
                 .scale(province.departments.scale)
                 .center(province.departments.center)
@@ -240,8 +237,7 @@
                 .scaleExtent([-Infinity, Infinity])
                 .scale(projection.scale())
                 .on("zoom", function() {
-                    var scaleAmount = zoomScale + d3.event.scale - province.departments.scale;
-                    projection.translate(d3.event.translate).scale(scaleAmount);
+                    projection.translate(d3.event.translate).scale(d3.event.scale);
                     map.selectAll(".department.zoomable").attr("d", path);
                     map.selectAll(".place").attr("transform", function(d) { return "translate(" + projection(d.coordinates) + ")"; });
                 });
@@ -327,39 +323,32 @@
     }
 
     provinceMap.zoomIn = function() {
-        zoomScale = projection.scale() * 1.5;
-        zoom.scale(zoomScale);
-        projection.scale(zoomScale);
+        var scale = zoom.scale() * 1.5
+        zoom.scale(scale);
+        projection.scale(scale);
+
         map.selectAll(".department.zoomable").attr("d", path);
         map.selectAll(".place").attr("transform", function(d) { return "translate(" + projection(d.coordinates) + ")"; });
     }
 
     provinceMap.zoomOut = function() {
-        zoomScale = projection.scale() / 1.5;
-        projection.scale(zoomScale);
+        var scale = zoom.scale() / 1.5
+        zoom.scale(scale);
+        projection.scale(scale);
+
         map.selectAll(".department.zoomable").attr("d", path);
         map.selectAll(".place").attr("transform", function(d) { return "translate(" + projection(d.coordinates) + ")"; });
     }
 
     provinceMap.zoomReset = function() {
-        zoomScale = initalScale;
-        zoom.scale(initalScale);
-        zoom.translate([width/2, height/2]);
-        projection.scale(initalScale).translate([width/2, height/2]);
+        var scale = initalScale;
+        var transalte = [width / 2, height / 2];
+        zoom.scale(scale);
+        zoom.translate(transalte);
+        projection.scale(scale).translate(transalte);
+
         map.selectAll(".department.zoomable").attr("d", path);
         map.selectAll(".place").attr("transform", function(d) { return "translate(" + projection(d.coordinates) + ")"; });
     }
 
-    function dblclick() {
-        var p = d3.mouse(this),
-            translate = zoom.translate(),
-            scale0 = zoom.scale(),
-            scale1 = Math.pow(2, d3.event.sourceEvent.shiftKey
-                ? Math.ceil(Math.log(scale0 * 2) / Math.LN2) - 1
-                : Math.floor(Math.log(scale0 / 2) / Math.LN2) + 1);
-        zoom.scale(scale1).translate([
-            p[0] - (p[0] - translate[0]) / scale0 * scale1,
-            p[1] - (p[1] - translate[1]) / scale0 * scale1
-        ]);
-    }
 })()
