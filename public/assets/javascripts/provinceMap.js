@@ -2,6 +2,7 @@
     provinceMap = {};
 
     var map, path, projection, zoom;
+    var zoomScale, zoomTranslate, initalScale;
     var width=280, height=300;
     var colorGorup = "Blues";
     var legend;
@@ -11,7 +12,6 @@
     provinceMap.init = function() {
 
         this.initFilter();
-
 
         d3.select("#province-map").append("svg")
             .attr("id", "provinceMapCanvas")
@@ -225,6 +225,9 @@
             }
 
             var departments = topojson.object(theProvince, theProvince.objects.departments);
+            initalScale = province.departments.scale;
+            zoomScale = initalScale;
+            zoomTranslate = [width / 2, height / 2];
             projection = d3.geo.mercator()
                 .scale(province.departments.scale)
                 .center(province.departments.center)
@@ -232,12 +235,13 @@
             path = d3.geo.path()
                 .projection(projection);
 
-            var zoom = d3.behavior.zoom()
+            zoom = d3.behavior.zoom()
                 .translate(projection.translate())
-                .scaleExtent([height, Infinity])
+                .scaleExtent([-Infinity, Infinity])
                 .scale(projection.scale())
                 .on("zoom", function() {
-                    projection.translate(d3.event.translate).scale(d3.event.scale)
+                    var scaleAmount = zoomScale + d3.event.scale - province.departments.scale;
+                    projection.translate(d3.event.translate).scale(scaleAmount);
                     map.selectAll(".department.zoomable").attr("d", path);
                     map.selectAll(".place").attr("transform", function(d) { return "translate(" + projection(d.coordinates) + ")"; });
                 });
@@ -320,5 +324,42 @@
             }
             svg.classed("loading", false);
         });
+    }
+
+    provinceMap.zoomIn = function() {
+        zoomScale = projection.scale() * 1.5;
+        zoom.scale(zoomScale);
+        projection.scale(zoomScale);
+        map.selectAll(".department.zoomable").attr("d", path);
+        map.selectAll(".place").attr("transform", function(d) { return "translate(" + projection(d.coordinates) + ")"; });
+    }
+
+    provinceMap.zoomOut = function() {
+        zoomScale = projection.scale() / 1.5;
+        projection.scale(zoomScale);
+        map.selectAll(".department.zoomable").attr("d", path);
+        map.selectAll(".place").attr("transform", function(d) { return "translate(" + projection(d.coordinates) + ")"; });
+    }
+
+    provinceMap.zoomReset = function() {
+        zoomScale = initalScale;
+        zoom.scale(initalScale);
+        zoom.translate([width/2, height/2]);
+        projection.scale(initalScale).translate([width/2, height/2]);
+        map.selectAll(".department.zoomable").attr("d", path);
+        map.selectAll(".place").attr("transform", function(d) { return "translate(" + projection(d.coordinates) + ")"; });
+    }
+
+    function dblclick() {
+        var p = d3.mouse(this),
+            translate = zoom.translate(),
+            scale0 = zoom.scale(),
+            scale1 = Math.pow(2, d3.event.sourceEvent.shiftKey
+                ? Math.ceil(Math.log(scale0 * 2) / Math.LN2) - 1
+                : Math.floor(Math.log(scale0 / 2) / Math.LN2) + 1);
+        zoom.scale(scale1).translate([
+            p[0] - (p[0] - translate[0]) / scale0 * scale1,
+            p[1] - (p[1] - translate[1]) / scale0 * scale1
+        ]);
     }
 })()

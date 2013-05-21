@@ -141,11 +141,11 @@
                     </li>
                 </ul>
                 <div id="province-map">
-                    <!--<div class="btn-group">-->
-                        <!--<a class="btn btn-small" href="#"><i class="icon-zoom-in"></i></a>-->
-                        <!--<a class="btn btn-small" href="#"><i class="icon-zoom-out"></i></a>-->
-                        <!--<a class="btn btn-small" href="#"><i class="icon-screenshot"></i></a>-->
-                    <!--</div>-->
+                    <div class="btn-group">
+                    <a class="btn btn-small provinceMapZoom" href="#" data-zoom="in"><i class="icon-zoom-in"></i></a>
+                    <a class="btn btn-small provinceMapZoom" href="#" data-zoom="out"><i class="icon-zoom-out"></i></a>
+                    <a class="btn btn-small provinceMapZoom" href="#" data-zoom="reset"><i class="icon-screenshot"></i></a>
+                </div>
                 </div>
                 <div id="province-map-filter">
                     <a class="legend-title" data-toggle="collapse" data-target="#medical-centers-filter"><i class="icon-filter"></i> Filtrar maternidades según su cumplimiento de las CONE</a>
@@ -453,6 +453,20 @@
         });
 
         $("#selection_year").text(app.selection.year);
+
+        // Province map controls
+        $(".provinceMapZoom").click(function(event) {
+            event.preventDefault();
+            var zoomType = $(this).attr("data-zoom");
+
+            if (zoomType == "in") {
+                provinceMap.zoomIn();
+            } else if (zoomType == "out") {
+                provinceMap.zoomOut();
+            } else {
+                provinceMap.zoomReset();
+            }
+        })
 
         // Context charts
         contextCharts.odm();
