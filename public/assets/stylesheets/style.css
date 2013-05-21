@@ -154,7 +154,7 @@
  **********************************************************************************************************************/
 .legend-title {
     font-size: 11px;
-    color: #999;
+    color: #333;
     text-transform: uppercase;
     font-weight: bold;
     line-height: 13px;
@@ -334,7 +334,6 @@
 }
 
 #province-map-filter {
-    height: 155px;
     padding: 0px 5px;
 }
 
@@ -350,6 +349,10 @@
 #province-map-filter label {
     font-size: 11px;
     margin-bottom: 0px;
+}
+
+#medical-centers-filter {
+    padding: 4px;
 }
 
 

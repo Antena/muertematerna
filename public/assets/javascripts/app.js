@@ -95,9 +95,12 @@
         app.drawChartTitles();
         filterPieCharts.drawPieCharts();
         if (app.selection.province != null) {
-            var year=app.selection.year;
+            var year = app.selection.year;
             provinceMap.update();
-            $(".province-tgf").text(app.selection.province.fertilityRate[year]);
+            $("#province-tgf").text(app.selection.province.fertilityRate[year]);
+            $("#province-rmm").text(app.ratesData[8].values[app.selection.province.value-1].values[year-2006].values.toFixed(1));
+            $("#province-deaths").text(app.deathsData[8].values[app.selection.province.value-1].values[year-2006].values[0].nac_deaths);
+            $(".province-year").text(year)
         }
     }
 
@@ -299,7 +302,7 @@
 
         app.quartile = function(provinceId) {
             var yearIndex = app.selection.year-2006;
-            var ratesIndex = app.getRatesIndex();       //TODO(gb): optimize: this shouldn't be called on every quartile call
+            var ratesIndex = app.getRatesIndex();
             var rate = app.ratesData[ratesIndex].values[provinceId-1].values[yearIndex].values;
 
             for (var i=0; i<app.quartiles.length; i++) {
