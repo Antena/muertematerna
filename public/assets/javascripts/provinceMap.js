@@ -304,8 +304,10 @@
                         return !compliesCone;
                     })
                     .tooltip(function(d,i) {
+                        console.log(d.properties);
+                        var partosStr =d.properties.Partos==999999?"sin datos de":d.properties.Partos;
                         var content = $("<div></div>")
-                            .append("<p>\u271A " + d.properties.Establecimiento_nombre + "</p>");
+                            .append("<p>\u271A " + d.properties.Establecimiento_nombre + "<br>( " + partosStr + " partos )" + "</p>");
                         var gravity = d.coordinates[0] < province.departments.center[0] ? "left" : "right";
                         var displacement = gravity == "left" ? [-5,0] : [5,0];
                         return {
