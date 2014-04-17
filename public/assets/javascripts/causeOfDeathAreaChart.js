@@ -10,7 +10,8 @@
         {key: 2008,  y: 0.05, y0: 3.9385},
         {key: 2009,  y: 0.05, y0: 5.4740},
         {key: 2010,  y: 0.05, y0: 4.3375},
-        {key: 2011,  y: 0.05, y0: 4.0}]
+        {key: 2011,  y: 0.05, y0: 4.0},
+        {key: 2012,  y: 0.05, y0: 3.5}]
     }];
 
     causeOfDeathAreaChart = {
@@ -125,7 +126,7 @@
             $("#causesByYear").removeClass("loading");
         }
 
-        x.domain([2006, 2011]);
+        x.domain([2006, 2012]);
 
         y.domain([0, getMax(layers)]);
 

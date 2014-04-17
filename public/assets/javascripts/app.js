@@ -27,7 +27,8 @@
         { year: 2008, rate: 4.0 },
         { year: 2009, rate: 5.5 },
         { year: 2010, rate: 4.4 },
-        { year: 2011, rate: 4.0 }
+        { year: 2011, rate: 4.0 },
+        { year: 2012, rate: 3.5 }
     ];
 
     app.quartiles = [];
@@ -35,7 +36,7 @@
     app.selection = {
         cause : null,
         province : null,
-        year : 2011
+        year : 2012
     };
 
 
@@ -125,7 +126,7 @@
             $('#slider').slider({
                 value : 2011,
                 min : 2006,
-                max : 2011,
+                max : 2012,
                 step : 1,
                 slide : function(event, ui) {
                     app.setYear(ui.value);
