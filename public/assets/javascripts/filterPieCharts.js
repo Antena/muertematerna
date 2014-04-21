@@ -9,7 +9,7 @@
         r = 70,                            //radius
         color = d3.scale.category20c();     //builtin range of colors
 
-    d3.csv("/assets/data/result-merge2012.csv", function (data) {
+    d3.csv("/assets/data/muertes-maternas.csv", function (data) {
         data.forEach(function (d) {
             revisedData.push({
                 'anio': d['anio'],
