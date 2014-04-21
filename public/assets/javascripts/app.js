@@ -124,7 +124,7 @@
 
             // Year slider
             $('#slider').slider({
-                value : 2011,
+                value : 2012,
                 min : 2006,
                 max : 2012,
                 step : 1,
