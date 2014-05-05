@@ -75,7 +75,7 @@
 
             // Path ODM
             var pathODM = [
-                { year: parseDate("2011"), rmm: 4.0 },
+                { year: parseDate("2012"), rmm: 3.5 },
                 { year: parseDate("2015"), rmm: 1.3 }
             ];
 
@@ -136,8 +136,8 @@
 
             // Projection 2015
             var projection2015 = [
-                { year: parseDate("2011"), rmm: 4.0 },
-                { year: parseDate("2015"), rmm: 4.26 }
+                { year: parseDate("2012"), rmm: 3.5 },
+                { year: parseDate("2015"), rmm: 4.04 }
             ];
 
             svg.append("path")
