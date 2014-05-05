@@ -296,7 +296,7 @@
                     .classed("danger", function(d) {
                         var compliesCone = true;
                         coneTypes.map(function(type) {
-                            if ((d.properties[type] == false)) {
+                            if (!(d.properties[type] == true)) {
                                 compliesCone = false;
                             }
                         });
