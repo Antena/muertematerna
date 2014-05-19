@@ -299,38 +299,38 @@
             }
 
             svg.append('svg:line')
-                .attr('x1', -12)
-                .attr('y1', 166)
-                .attr('x2', -12)
-                .attr('y2', 131)
+                .attr('x1', 10)
+                .attr('y1', 163)
+                .attr('x2', 10)
+                .attr('y2', 137)
                 .attr('stroke', 'black');
 
             svg.append('svg:line')
-                .attr('x1', -57)
-                .attr('y1', 118)
-                .attr('x2', -75)
-                .attr('y2', 154)
+                .attr('x1', -37)
+                .attr('y1', 135)
+                .attr('x2', -55)
+                .attr('y2', 169)
                 .attr('stroke', 'black');
 
             svg.append('svg:line')
-                .attr('x1', -75)
-                .attr('y1', 154)
-                .attr('x2', -85)
-                .attr('y2', 154)
+                .attr('x1', -55)
+                .attr('y1', 169)
+                .attr('x2', -65)
+                .attr('y2', 169)
                 .attr('stroke', 'black');
 
             svg.append('svg:line')
-                .attr('x1', -74)
-                .attr('y1', 113)
-                .attr('x2', -81)
-                .attr('y2', 123)
+                .attr('x1', -45)
+                .attr('y1', 126)
+                .attr('x2', -50)
+                .attr('y2', 136)
                 .attr('stroke', 'black');
 
             svg.append('svg:line')
-                .attr('x1', -81)
-                .attr('y1', 123)
-                .attr('x2', -181)
-                .attr('y2', 123)
+                .attr('x1', -50)
+                .attr('y1', 136)
+                .attr('x2', -151)
+                .attr('y2', 136)
                 .attr('stroke', 'black');
         });
     }
