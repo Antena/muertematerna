@@ -298,12 +298,12 @@
                 )
             }
 
-            svg.append('svg:line')
+            /*svg.append('svg:line')
                 .attr('x1', 10)
                 .attr('y1', 163)
                 .attr('x2', 10)
                 .attr('y2', 137)
-                .attr('stroke', 'black');
+                .attr('stroke', 'black');*/
 
             svg.append('svg:line')
                 .attr('x1', -37)
@@ -329,7 +329,7 @@
             svg.append('svg:line')
                 .attr('x1', -50)
                 .attr('y1', 136)
-                .attr('x2', -151)
+                .attr('x2', -90)
                 .attr('y2', 136)
                 .attr('stroke', 'black');
         });
