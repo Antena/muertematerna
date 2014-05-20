@@ -283,28 +283,227 @@
                 .attr("d", arc)
                 .style("fill", function(d) { return color(d.data.causa); });
 
-            for (var i=0; i<data.length; i++) {
-                var cause = data[i];
-                $("#causes-piechart").append(
-                    $(
-                        '<div class="arc-label">' +
-                            cause.causa + '<br/>' +
-                            '<strong>' + cause.share + '%</strong>' +
-                            '</div>'
-                    )
-                        .css("left", cause.xpos + "px")
-                        .css("top", cause.ypos + "px")
-                        .css("text-align", cause.textalign)
-                )
-            }
+            //add pie chart labels
 
-            /*svg.append('svg:line')
-                .attr('x1', 10)
-                .attr('y1', 163)
-                .attr('x2', 10)
-                .attr('y2', 137)
-                .attr('stroke', 'black');*/
+            var text=svg.append("svg:text")
+                    .attr("x", "-200px")
+                    .attr("dx", 0)
+                    .attr("y", "-100px")
+                    .attr("dy", 0)
+                    .attr("text-anchor", "left")
+                    .text(null);
 
+                    text.append("tspan")
+                            .attr("x", "-200px")
+                            .attr("y", "-100px")
+                            .attr("dy","0em")
+                            .text('Otras causas');
+                    text
+                            .append('tspan')
+                            .attr("x", "-200px")
+                            .attr("y", "-100px")
+                            .attr('dy',"1.1" + "em")
+                            .text('obstétricas indirectas')
+
+                    text
+                            .append('tspan')
+                            .attr('text-anchor','right')
+                            .attr("x", "-200px")
+                            .attr("y", "-100px")
+                            .attr('dy',"2.2" + "em")
+                            .attr('font-weight',"bold")
+                            .text("29.2%");
+
+                var text=svg.append("svg:text")
+                    .attr("x", "-200px")
+                    .attr("dx", 0)
+                    .attr("y", "75px")
+                    .attr("dy", 0)
+                    .attr("text-anchor", "left")
+                    .text(null);
+
+                text.append("tspan")
+                            .attr("x", "-200px")
+                            .attr("y", "75px")
+                            .attr("dy","0em")
+                            .text('Otras causas');
+                    text
+                            .append('tspan')
+                            .attr("x", "-200px")
+                            .attr("y", "75px")
+                            .attr('dy',"1.1" + "em")
+                            .text('obstétricas directas')
+
+                    text
+                            .append('tspan')
+                            .attr('text-anchor','right')
+                            .attr("x", "-200px")
+                            .attr("y", "75px")
+                            .attr('dy',"2.2" + "em")
+                            .attr('font-weight',"bold")
+                            .text('15.3%');
+
+                    var text=svg.append("svg:text")
+                    .attr("x", "-200px")
+                    .attr("dx", 0)
+                    .attr("y", "75px")
+                    .attr("dy", 0)
+                    .attr("text-anchor", "left")
+                    .text(null);
+
+                text.append("tspan")
+                            .attr("x", "-185px")
+                            .attr("y", "140px")
+                            .attr("dy","0em")
+                            .text('Enfermedad por VIH');
+                    text
+                            .append('tspan')
+                            .attr("x", "-185px")
+                            .attr("y", "140px")
+                            .attr('dy',"1.1" + "em")
+                            .attr('font-weight',"bold")
+                            .text('0.6%')
+
+                var text=svg.append("svg:text")
+                    .attr("x", "-200px")
+                    .attr("dx", 0)
+                    .attr("y", "75px")
+                    .attr("dy", 0)
+                    .attr("text-anchor", "left")
+                    .text(null);
+
+                text.append("tspan")
+                            .attr("x", "-150px")
+                            .attr("y", "172px")
+                            .attr("dy","0em")
+                            .text('Placenta previa y');
+                    text
+                            .append('tspan')
+                            .attr("x", "-150px")
+                            .attr("y", "172px")
+                            .attr('dy',"1.1" + "em")
+                            .text('hemorragia anteparto')
+
+                    text
+                            .append('tspan')
+                            .attr("x", "-150px")
+                            .attr("y", "172px")
+                            .attr('dy',"2.2" + "em")
+                            .attr('font-weight',"bold")
+                            .text('2.9%')
+
+
+                var text=svg.append("svg:text")
+                    .attr("x", "12px")
+                    .attr("dx", 0)
+                    .attr("y", "160px")
+                    .attr("dy", 0)
+                    .attr("text-anchor", "left")
+                    .text(null);
+
+                text.append("tspan")
+                            .attr("x", "12px")
+                            .attr("y", "160px")
+                            .attr("dy","0em")
+                            .text('Hemorragia postparto');
+                    text.append('tspan')
+                            .attr("x", "12px")
+                            .attr("y", "160px")
+                            .attr('dy',"1.1" + "em")
+                            .attr('font-weight',"bold")
+                            .text('6.8%')
+
+
+                var text=svg.append("svg:text")
+                    .attr("x", "12px")
+                    .attr("dx", 0)
+                    .attr("y", "160px")
+                    .attr("dy", 0)
+                    .attr("text-anchor", "left")
+                    .text(null);
+
+                text.append("tspan")
+                            .attr("x", "100px")
+                            .attr("y", "100px")
+                            .attr("dy","0em")
+                            .text('Sepsis y otras');
+
+                text.append('tspan')
+                            .attr("x", "100px")
+                            .attr("y", "100px")
+                            .attr('dy',"1.1" + "em")
+                            .text('complicaciones del')
+
+                text.append('tspan')
+                            .attr("x", "100px")
+                            .attr("y", "100px")
+                            .attr('dy',"2.2" + "em")
+                            .text('puerperio')
+
+                text.append('tspan')
+                            .attr("x", "100px")
+                            .attr("y", "100px")
+                            .attr('dy',"3.3" + "em")
+                            .attr('font-weight',"bold")
+                            .text('12.0%')
+
+                var text=svg.append("svg:text")
+                    .attr("x", "12px")
+                    .attr("dx", 0)
+                    .attr("y", "160px")
+                    .attr("dy", 0)
+                    .attr("text-anchor", "left")
+
+                    .text(null);
+
+                text.append("tspan")
+                            .attr("x", "140px")
+                            .attr("y", "5px")
+                            .attr("dy","0em")
+                            .text('Trastornos');
+
+                text.append('tspan')
+                            .attr("x", "140px")
+                            .attr("y", "5px")
+                            .attr('dy',"1.1" + "em")
+                            .text('hipertensivos')
+
+                text.append('tspan')
+                            .attr("x", "140px")
+                            .attr("y", "5px")
+                            .attr('dy',"2.2" + "em")
+                            .attr('font-weight',"bold")
+                            .text('13.1%')
+
+
+                var text=svg.append("svg:text")
+                    .attr("x", "12px")
+                    .attr("dx", 0)
+                    .attr("y", "160px")
+                    .attr("dy", 0)
+                    .attr("text-anchor", "left")
+                    .text(null);
+
+                text.append("tspan")
+                            .attr("x", "120px")
+                            .attr("y", "-100px")
+                            .attr("dy","0em")
+                            .text('Embarazo terminado');
+
+                text.append('tspan')
+                            .attr("x", "120px")
+                            .attr("y", "-100px")
+                            .attr('dy',"1.1" + "em")
+                            .text('en aborto')
+
+                text.append('tspan')
+                            .attr("x", "120px")
+                            .attr("y", "-100px")
+                            .attr('dy',"2.2" + "em")
+                            .attr('font-weight',"bold")
+                            .text('20.2%')
+
+            //add suporting lines
             svg.append('svg:line')
                 .attr('x1', -37)
                 .attr('y1', 135)
@@ -332,6 +531,48 @@
                 .attr('x2', -90)
                 .attr('y2', 136)
                 .attr('stroke', 'black');
+
+                //end of pie chart labels
         });
     }
+    contextCharts.wrap=function wrap(text) {
+                    text.each(function() {
+                        var text = d3.select(this),
+                            words = text.text().split(/\s+/).reverse(),
+                            word,
+                            line = [],
+                            lineNumber = 0,
+                            lineHeight = 1.1, // ems
+                            y = text.attr("y"),
+                            x = text.attr("x"),
+                            dy = parseFloat(text.attr("dy")),
+                            dx = parseFloat(text.attr("dx")),
+                            tspan = text.text(null).append("tspan")
+                                .attr("x", x)
+                                .attr("y", y)
+                                .attr("dy", dy + "em");
+
+                        text.attr("lines", 3);
+                        console.log("asd");
+                        var width=50;
+                        console.log(words);
+                        while (word = words.pop()) {
+                            line.push(word);
+                            tspan.text(line.join(" "));
+                            console.log(tspan.node().getComputedTextLength());
+                            if (tspan.node().getComputedTextLength() > width) {
+                                console.log('new line');
+                                line.pop();
+                                tspan.text(line.join(" "));
+                                line = [word];
+                                tspan = text.append("tspan")
+                                    .attr("x", x)
+                                    .attr("y", y)
+                                    .attr("dy", ++lineNumber * lineHeight + dy + "em")
+                                    .text(word);
+                            }
+                        }
+                    });
+
+                }
 })()
