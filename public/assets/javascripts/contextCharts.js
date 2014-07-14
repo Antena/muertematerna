@@ -196,7 +196,7 @@
                 return b.rmm - a.rmm;
             })
 
-            x.domain([0, 14]);
+            x.domain([0, 16]);
             y.domain(data.map(function(d) { return d.region; }));
 
             svg.append("g")
